@@ -3,4 +3,4 @@
         url = https://github.com/pybind/pybind11.git
 [submodule "src/bls/contrib/relic"]
         path = src/bls/contrib/relic
-        url = https://github.com/Chia-Network/relic
+        url = https://github.com/Zero-Dynamics/relic
