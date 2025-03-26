@@ -90,6 +90,8 @@
 #include <QVariantMap>
 #include <QWidget>
 
+using namespace boost::placeholders;
+
 static const struct {
     bool error;
     const char *text;

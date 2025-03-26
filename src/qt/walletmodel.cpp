@@ -25,6 +25,8 @@
 #include <QSet>
 #include <QTimer>
 
+using namespace boost::placeholders;
+
 struct StakeRange {
     int64_t Start;
     int64_t End;
