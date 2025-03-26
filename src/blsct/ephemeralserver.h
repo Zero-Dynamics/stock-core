@@ -12,6 +12,7 @@
 
 #include <torcontrol.h>
 #include <util.h>
+#include <set>
 
 using boost::asio::ip::tcp;
 
