@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
-// Copyright (c) 2018-2020 The Navcoin developers
+// Copyright (c) 2018-2020 The Stock developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_MINER_H
-#define NAVCOIN_MINER_H
+#ifndef STOCK_MINER_H
+#define STOCK_MINER_H
 
 #include <primitives/block.h>
 #include <txmempool.h>
@@ -223,11 +223,11 @@ private:
 void IncrementExtraNonce(CBlock* pblock, const CBlockIndex* pindexPrev, unsigned int& nExtraNonce);
 int64_t UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParams, const CBlockIndex* pindexPrev);
 
-// NAVCoin - Mining/Staking thread
+// Stock - Mining/Staking thread
 bool SignBlock(CBlock *pblock, CWallet& wallet, int64_t nFees, std::string sLog);
 /** Check mined proof-of-stake block */
 bool CheckStake(CBlock* pblock, CWallet& wallet, const CChainParams& chainparams);
-void NavcoinStaker(const CChainParams& chainparams);
+void StockStaker(const CChainParams& chainparams);
 
 void SetStaking(bool mode);
 void SetCoinBaseOutputs(std::vector<std::string> v);
@@ -246,4 +246,4 @@ std::vector<std::string> GetForceTransactions();
 std::string GetCoinStakeStrDZeel();
 std::string GetCoinBaseStrDZeel();
 
-#endif // NAVCOIN_MINER_H
+#endif // STOCK_MINER_H

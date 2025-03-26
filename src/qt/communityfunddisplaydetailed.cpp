@@ -161,11 +161,11 @@ void CommunityFundDisplayDetailed::setProposalLabels()
     ui->labelTransactionHash->setText(QString::fromStdString(proposal.txblockhash.ToString()));
     ui->labelVersionNumber->setText(QString::fromStdString(std::to_string(proposal.nVersion)));
     ui->labelVotingCycleNumber->setText(QString::fromStdString(std::to_string(proposal.nVotingCycle)));
-    ui->labelLinkToProposal->setText(QString::fromStdString("https://www.navexplorer.com/dao/proposal/" + proposal.hash.ToString()));
+    ui->labelLinkToProposal->setText(QString::fromStdString("https://www.odynsexplorer.com/dao/proposal/" + proposal.hash.ToString()));
     ui->labelProposalHash->setText(QString::fromStdString(proposal.hash.ToString()));
 
 
-    //set hyperlink for navcommunity proposal view
+    //set hyperlink for odynscommunity proposal view
     ui->labelLinkToProposal->setText("<a href=\"" + ui->labelLinkToProposal->text() + "\">" + ui->labelLinkToProposal->text() + "</a>");
     ui->labelLinkToProposal->setTextInteractionFlags(Qt::TextBrowserInteraction);
     ui->labelLinkToProposal->setOpenExternalLinks(true);

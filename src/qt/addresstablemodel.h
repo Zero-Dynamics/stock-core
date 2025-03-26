@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_QT_ADDRESSTABLEMODEL_H
-#define NAVCOIN_QT_ADDRESSTABLEMODEL_H
+#ifndef STOCK_QT_ADDRESSTABLEMODEL_H
+#define STOCK_QT_ADDRESSTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include <QStringList>
@@ -26,7 +26,7 @@ public:
 
     enum ColumnIndex {
         Label = 0,   /**< User specified label */
-        Address = 1  /**< Navcoin address */
+        Address = 1  /**< Stock address */
     };
 
     enum RoleIndex {
@@ -94,4 +94,4 @@ public Q_SLOTS:
     friend class AddressTablePriv;
 };
 
-#endif // NAVCOIN_QT_ADDRESSTABLEMODEL_H
+#endif // STOCK_QT_ADDRESSTABLEMODEL_H

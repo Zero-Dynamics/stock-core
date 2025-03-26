@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_SCRIPT_STANDARD_H
-#define NAVCOIN_SCRIPT_STANDARD_H
+#ifndef STOCK_SCRIPT_STANDARD_H
+#define STOCK_SCRIPT_STANDARD_H
 
 #include <blsct/key.h>
 #include <script/interpreter.h>
@@ -87,7 +87,7 @@ public:
  *  * CScriptID: TX_SCRIPTHASH destination
  *  * Pair of two CKeyID: TX_COLDSTAKING destination
  *  * Pair of one CKeyID and one pair of two CKeyID: TX_COLDSTAKING_V2 destination
- *  A CTxDestination is the internal data type encoded in a CNavcoinAddress
+ *  A CTxDestination is the internal data type encoded in a CStockAddress
  */
 typedef boost::variant<CNoDestination, CKeyID, CScriptID, std::pair<CKeyID, CKeyID>, blsctDoublePublicKey, std::pair<CKeyID, std::pair<CKeyID, CKeyID>>, CScript> CTxDestination;
 
@@ -102,4 +102,4 @@ CScript GetScriptForRawPubKey(const CPubKey& pubkey);
 CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
 CScript GetScriptForWitness(const CScript& redeemscript);
 
-#endif // NAVCOIN_SCRIPT_STANDARD_H
+#endif // STOCK_SCRIPT_STANDARD_H

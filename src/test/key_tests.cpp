@@ -9,7 +9,7 @@
 #include <uint256.h>
 #include <util.h>
 #include <utilstrencodings.h>
-#include <test/test_navcoin.h>
+#include <test/test_stock.h>
 
 #include <string>
 #include <vector>
@@ -20,10 +20,10 @@ static const std::string strSecret1     ("PHSecPt927qh8bVhLhv4Rr66JMUYWRcaQfsdPn
 static const std::string strSecret2     ("PEc7Ctgscq6fJCCBAsmi9NQr2W2dLfpraVJgYqSEhacGP4YwqaDF");
 //static const std::string strSecret1C    ("Kwr371tjA9u2rFSMZjTNun2PXXP3WPZu2afRHTcta6KxEUdm1vEw");
 //static const std::string strSecret2C    ("L3Hq7a8FEQwJkW1M2GNKDW28546Vp5miewcCzSqUD9kCAXrJdS3g");
-static const CNavcoinAddress addr1 ("NfWVKf7BxmvNCm8e82eegeKeHyFM2Dy2Nv");
-static const CNavcoinAddress addr2 ("NMxJRcqfcgfQvzhKy42zHVSzTfrnS2HLQo");
-//static const CNavcoinAddress addr1C("1NoJrossxPBKfCHuJXT4HadJrXRE9Fxiqs");
-//static const CNavcoinAddress addr2C("1CRj2HyM1CXWzHAXLQtiGLyggNT9WQqsDs");
+static const CStockAddress addr1 ("NfWVKf7BxmvNCm8e82eegeKeHyFM2Dy2Nv");
+static const CStockAddress addr2 ("NMxJRcqfcgfQvzhKy42zHVSzTfrnS2HLQo");
+//static const CStockAddress addr1C("1NoJrossxPBKfCHuJXT4HadJrXRE9Fxiqs");
+//static const CStockAddress addr2C("1CRj2HyM1CXWzHAXLQtiGLyggNT9WQqsDs");
 
 
 static const std::string strAddressBad("1HV9Lc3sNHZxwj4Zk6fB38tEmBryq2cBiF");
@@ -44,14 +44,14 @@ void dumpKeyInfo(uint256 privkey)
     {
         bool fCompressed = nCompressed == 1;
         printf("  * %s:\n", fCompressed ? "compressed" : "uncompressed");
-        CNavcoinSecret bsecret;
+        CStockSecret bsecret;
         bsecret.SetSecret(secret, fCompressed);
         printf("    * secret (base58): %s\n", bsecret.ToString().c_str());
         CKey key;
         key.SetSecret(secret, fCompressed);
         vector<unsigned char> vchPubKey = key.GetPubKey();
         printf("    * pubkey (hex): %s\n", HexStr(vchPubKey).c_str());
-        printf("    * address (base58): %s\n", CNavcoinAddress(vchPubKey).ToString().c_str());
+        printf("    * address (base58): %s\n", CStockAddress(vchPubKey).ToString().c_str());
     }
 }
 #endif
@@ -61,7 +61,7 @@ BOOST_FIXTURE_TEST_SUITE(key_tests, BasicTestingSetup)
 
 BOOST_AUTO_TEST_CASE(key_test1)
 {
-    CNavcoinSecret bsecret1, bsecret2, bsecret1C, bsecret2C, baddress1;
+    CStockSecret bsecret1, bsecret2, bsecret1C, bsecret2C, baddress1;
 
 
     BOOST_CHECK( bsecret1.SetString (strSecret1));

@@ -1,9 +1,9 @@
-# Navcoin v4.7.3 Release Notes
+# Stock v4.7.3 Release Notes
 
 ## Anti Header Spam v2
 
-<[Pull Request 656](https://github.com/navcoin/navcoin-core/pull/656)>
-<[Commit 5f11875](https://github.com/navcoin/navcoin-core/commit/5f118753a1900241e9cf8ea38281e4fe75cfeae8)>
+<[Pull Request 656](https://github.com/stock/stock-core/pull/656)>
+<[Commit 5f11875](https://github.com/stock/stock-core/commit/5f118753a1900241e9cf8ea38281e4fe75cfeae8)>
 
 Introduces a new anti header spam system which improves the previous implementation and addresses the art-of-bug reports.
 
@@ -19,7 +19,7 @@ Features:
 
 #### Considerations
 
-- The maximum size of the `points` list by default is 4,000. With a block time of 30 seconds, Navcoin sees an average of 2,880 blocks per day. A maximum value of 4000 is roughly one and a half times more than the count of blocks a peer needs to be behind the chain tip to be in Initial Block Download mode. When on IBD, the header spam filter is turned off. This ensures that normal synchronisation is not affected by this filter.
+- The maximum size of the `points` list by default is 4,000. With a block time of 30 seconds, Stock sees an average of 2,880 blocks per day. A maximum value of 4000 is roughly one and a half times more than the count of blocks a peer needs to be behind the chain tip to be in Initial Block Download mode. When on IBD, the header spam filter is turned off. This ensures that normal synchronisation is not affected by this filter.
 - An attacker would be able to exhaust 32 bytes from the hash inserted in the `points` list + 181 bytes from the `CBlockIndex` inserted in `mapBlockIndex` for every invalid header/block before being banned. The `points` list is cleared when the attacker is banned, but those headers are not removed from `mapBlockIndex` or the hard disk in the current implementation. The size of CBlockIndex has been measured with:
 ```c++
     CBlockIndex* pindex = new CBlockIndex();
@@ -30,5 +30,5 @@ Features:
 ```
 - The default maximum value means that a single malicious peer with a unique IP can exhaust at max `3,999*213=831 kilobytes` without being banned or `4,000*181=707 kilobytes` being banned.
 
-For additional information about new features, check [https://navcoin.org/en/notices/](https://navcoin.org/en/notices/) 
+For additional information about new features, check [https://stock.org/en/notices/](https://stock.org/en/notices/) 
 

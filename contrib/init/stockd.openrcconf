@@ -1,0 +1,33 @@
+# /etc/conf.d/stockd: config file for /etc/init.d/stockd
+
+# Config file location
+#STOCKD_CONFIGFILE="/etc/stock/stock.conf"
+
+# What directory to write pidfile to?  (created and owned by $STOCKD_USER)
+#STOCKD_PIDDIR="/var/run/stockd"
+
+# What filename to give the pidfile
+#STOCKD_PIDFILE="${STOCKD_PIDDIR}/stockd.pid"
+
+# Where to write stockd data (be mindful that the blockchain is large)
+#STOCKD_DATADIR="/var/lib/stockd"
+
+# User and group to own stockd process
+#STOCKD_USER="stock"
+#STOCKD_GROUP="stock"
+
+# Path to stockd executable
+#STOCKD_BIN="/usr/bin/stockd"
+
+# Nice value to run stockd under
+#STOCKD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+STOCKD_OPTS="-disablewallet"
+
+# The timeout in seconds OpenRC will wait for stockd to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+STOCKD_SIGTERM_TIMEOUT=60

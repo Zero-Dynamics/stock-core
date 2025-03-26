@@ -7,10 +7,10 @@
 # Test merkleblock fetch/validation
 #
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
-class MerkleBlockTest(NavcoinTestFramework):
+class MerkleBlockTest(StockTestFramework):
 
     def __init__(self):
         super().__init__()
@@ -42,7 +42,7 @@ class MerkleBlockTest(NavcoinTestFramework):
         assert_equal(self.nodes[2].getbalance(), 0)
 
         node0utxos = self.nodes[0].listunspent(1, 104)
-        # We generated 105 blocks so we are excluding the first block which contains 59 mill~ NAV
+        # We generated 105 blocks so we are excluding the first block which contains 59 mill~ 0DYNS
 
         tx1 = self.nodes[0].createrawtransaction([node0utxos.pop()], {self.nodes[1].getnewaddress(): 49.99})
         txid1 = self.nodes[0].sendrawtransaction(self.nodes[0].signrawtransaction(tx1)["hex"])

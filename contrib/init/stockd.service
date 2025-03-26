@@ -1,0 +1,22 @@
+[Unit]
+Description=Stock's distributed currency daemon
+After=network.target
+
+[Service]
+User=stock
+Group=stock
+
+Type=forking
+PIDFile=/var/lib/stockd/stockd.pid
+ExecStart=/usr/bin/stockd -daemon -pid=/var/lib/stockd/stockd.pid \
+-conf=/etc/stock/stock.conf -datadir=/var/lib/stockd -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

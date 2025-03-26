@@ -282,7 +282,7 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
             "    \"connected\" : true|false,          (boolean) If connected\n"
             "    \"addresses\" : [                    (list of objects) Only when connected = true\n"
             "       {\n"
-            "         \"address\" : \"192.168.0.201:5556\",  (string) The navcoin server IP and port we're connected to\n"
+            "         \"address\" : \"192.168.0.201:5556\",  (string) The stock server IP and port we're connected to\n"
             "         \"connected\" : \"outbound\"           (string) connection, inbound or outbound\n"
             "       }\n"
             "     ]\n"
@@ -633,7 +633,7 @@ UniValue getstakesubsidy(const UniValue& params, bool fHelp)
         ssData >> tx;
     }
     catch (std::exception &e) {
-        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "NAV decode failed");
+        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "0DYNS decode failed");
     }
 
     uint64_t nCoinAge;

@@ -194,7 +194,7 @@
      <item>
       <widget class="QPushButton" name="swapButton">
        <property name="text">
-        <string>Swap NAV/xNAV</string>
+        <string>Swap 0DYNS/x0DYNS</string>
        </property>
       </widget>
      </item>

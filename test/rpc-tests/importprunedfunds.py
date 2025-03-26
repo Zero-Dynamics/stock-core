@@ -3,11 +3,11 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 import decimal
 
-class ImportPrunedFundsTest(NavcoinTestFramework):
+class ImportPrunedFundsTest(StockTestFramework):
 
     def __init__(self):
         super().__init__()

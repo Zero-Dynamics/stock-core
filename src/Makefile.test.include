@@ -1,13 +1,13 @@
-TESTS += test/test_navcoin
-bin_PROGRAMS += test/test_navcoin
+TESTS += test/test_stock
+bin_PROGRAMS += test/test_stock
 TEST_SRCDIR = test
-TEST_BINARY=test/test_navcoin$(EXEEXT)
+TEST_BINARY=test/test_stock$(EXEEXT)
 
 
 EXTRA_DIST += \
 	test/bctest.py \
-	test/navcoin-util-test.py \
-	test/data/navcoin-util-test.json \
+	test/stock-util-test.py \
+	test/data/stock-util-test.json \
 	test/data/blanktx.hex \
 	test/data/tt-delin1-out.hex \
 	test/data/tt-delout1-out.hex \
@@ -35,7 +35,7 @@ RAW_TEST_FILES =
 GENERATED_TEST_FILES = $(JSON_TEST_FILES:.json=.json.h) $(RAW_TEST_FILES:.raw=.raw.h)
 
 
-NAVCOIN_TESTS =\
+STOCK_TESTS =\
   test/blsct_tests.cpp \
   test/blsct_wallet.cpp \
   test/bulletproofsrangeproof_tests.cpp \
@@ -76,14 +76,14 @@ NAVCOIN_TESTS =\
   test/sigopcount_tests.cpp \
   test/skiplist_tests.cpp \
   test/streams_tests.cpp \
-  test/test_navcoin.cpp \
-  test/test_navcoin.h \
+  test/test_stock.cpp \
+  test/test_stock.h \
   test/testutil.cpp \
   test/testutil.h \
   test/timedata_tests.cpp \
   test/univalue_tests.cpp
 
-#NAVCOIN_TESTS =\
+#STOCK_TESTS =\
 #  test/arith_uint256_tests.cpp \
 #  test/scriptnum10.h \
 #  test/addrman_tests.cpp \
@@ -129,8 +129,8 @@ NAVCOIN_TESTS =\
 #  test/sigopcount_tests.cpp \
 #  test/skiplist_tests.cpp \
 #  test/streams_tests.cpp \
-#  test/test_navcoin.cpp \
-#  test/test_navcoin.h \
+#  test/test_stock.cpp \
+#  test/test_stock.h \
 #  test/testutil.cpp \
 #  test/testutil.h \
 #  test/timedata_tests.cpp \
@@ -142,7 +142,7 @@ NAVCOIN_TESTS =\
 #  test/util_tests.cpp
 
 if ENABLE_WALLET
-NAVCOIN_TESTS += \
+STOCK_TESTS += \
   wallet/test/wallet_test_fixture.cpp \
   wallet/test/wallet_test_fixture.h
 #  wallet/test/accounting_tests.cpp \
@@ -151,23 +151,23 @@ NAVCOIN_TESTS += \
 #  wallet/test/rpc_wallet_tests.cpp
 endif
 
-test_test_navcoin_SOURCES = \
-                            $(NAVCOIN_TESTS) \
+test_test_stock_SOURCES = \
+                            $(STOCK_TESTS) \
                             $(JSON_TEST_FILES) \
                             $(RAW_TEST_FILES)
 
-test_test_navcoin_CPPFLAGS = \
+test_test_stock_CPPFLAGS = \
                              $(AM_CPPFLAGS) \
-                             $(NAVCOIN_INCLUDES) \
+                             $(STOCK_INCLUDES) \
                              -I$(builddir)/test/ \
                              $(TESTDEFS)
 
-test_test_navcoin_LDADD = \
-                          $(LIBNAVCOIN_SERVER) \
-                          $(LIBNAVCOIN_CLI) \
-                          $(LIBNAVCOIN_COMMON) \
-                          $(LIBNAVCOIN_UTIL) \
-                          $(LIBNAVCOIN_CONSENSUS) \
+test_test_stock_LDADD = \
+                          $(LIBSTOCK_SERVER) \
+                          $(LIBSTOCK_CLI) \
+                          $(LIBSTOCK_COMMON) \
+                          $(LIBSTOCK_UTIL) \
+                          $(LIBSTOCK_CONSENSUS) \
                           $(LIBUNIVALUE) \
                           $(LIBLEVELDB) \
                           $(LIBMEMENV) \
@@ -175,15 +175,15 @@ test_test_navcoin_LDADD = \
                           $(BOOST_UNIT_TEST_FRAMEWORK_LIB) \
                           $(LIBSECP256K1)
 
-test_test_navcoin_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+test_test_stock_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
 if ENABLE_WALLET
-test_test_navcoin_LDADD += $(LIBNAVCOIN_WALLET)
+test_test_stock_LDADD += $(LIBSTOCK_WALLET)
 endif
 
-test_test_navcoin_LDADD += \
-                           $(LIBNAVCOIN_CRYPTO) \
-                           $(LIBNAVCOIN_CONSENSUS) \
+test_test_stock_LDADD += \
+                           $(LIBSTOCK_CRYPTO) \
+                           $(LIBSTOCK_CONSENSUS) \
                            $(LIBBLS) \
                            $(LIBMCLBN) \
                            $(LIBMCL) \
@@ -195,44 +195,44 @@ test_test_navcoin_LDADD += \
                            $(CURL_LIBS) \
                            $(CRYPTO_LIBS) \
                            $(MINIUPNPC_LIBS) \
-                           $(LIBNAVCOIN_ZMQ) \
+                           $(LIBSTOCK_ZMQ) \
                            $(EVENT_LIBS) \
                            $(EVENT_PTHREADS_LIBS) \
                            $(LIBCAP_LIBS) \
                            $(LIBSECCOMP_LIBS)
 
-test_test_navcoin_LDFLAGS = \
+test_test_stock_LDFLAGS = \
                             $(RELDFLAGS) \
                             $(AM_LDFLAGS) \
                             $(LIBTOOL_APP_LDFLAGS) \
                             -static
 
 if ENABLE_ZMQ
-test_test_navcoin_LDADD += $(ZMQ_LIBS)
+test_test_stock_LDADD += $(ZMQ_LIBS)
 endif
 
-nodist_test_test_navcoin_SOURCES = $(GENERATED_TEST_FILES)
+nodist_test_test_stock_SOURCES = $(GENERATED_TEST_FILES)
 
-$(NAVCOIN_TESTS): $(GENERATED_TEST_FILES)
+$(STOCK_TESTS): $(GENERATED_TEST_FILES)
 
-CLEAN_NAVCOIN_TEST = test/*.gcda test/*.gcno $(GENERATED_TEST_FILES)
+CLEAN_STOCK_TEST = test/*.gcda test/*.gcno $(GENERATED_TEST_FILES)
 
-CLEANFILES += $(CLEAN_NAVCOIN_TEST)
+CLEANFILES += $(CLEAN_STOCK_TEST)
 
 # This file is problematic for out-of-tree builds if it exists.
 CLEANFILES += test/buildenv.pyc
 
-navcoin_test: $(TEST_BINARY)
+stock_test: $(TEST_BINARY)
 
-navcoin_test_check: $(TEST_BINARY) FORCE
+stock_test_check: $(TEST_BINARY) FORCE
 	$(MAKE) check-TESTS TESTS=$^
 
-navcoin_test_clean : FORCE
-	rm -f $(CLEAN_NAVCOIN_TEST) $(test_test_navcoin_OBJECTS) $(TEST_BINARY)
+stock_test_clean : FORCE
+	rm -f $(CLEAN_STOCK_TEST) $(test_test_stock_OBJECTS) $(TEST_BINARY)
 
 check-local:
-	@echo "Running test/navcoin-util-test.py..."
-	$(AM_V_at)srcdir=$(srcdir) PYTHONPATH=$(builddir)/test $(PYTHON) $(srcdir)/test/navcoin-util-test.py
+	@echo "Running test/stock-util-test.py..."
+	$(AM_V_at)srcdir=$(srcdir) PYTHONPATH=$(builddir)/test $(PYTHON) $(srcdir)/test/stock-util-test.py
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C secp256k1 check
 if EMBEDDED_UNIVALUE
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C univalue check

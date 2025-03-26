@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_DBWRAPPER_H
-#define NAVCOIN_DBWRAPPER_H
+#ifndef STOCK_DBWRAPPER_H
+#define STOCK_DBWRAPPER_H
 
 #include <fs.h>
 #include <clientversion.h>
@@ -283,5 +283,5 @@ public:
     bool IsEmpty();
 };
 
-#endif // NAVCOIN_DBWRAPPER_H
+#endif // STOCK_DBWRAPPER_H
 

@@ -7,10 +7,10 @@
 # Test InvalidateBlock code
 #
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
-class InvalidateTest(NavcoinTestFramework):
+class InvalidateTest(StockTestFramework):
     
         
     def __init__(self):

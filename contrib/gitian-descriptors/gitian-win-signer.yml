@@ -1,5 +1,5 @@
 ---
-name: "navcoin-win-signer"
+name: "stock-win-signer"
 distro: "ubuntu"
 suites:
 - "bionic"
@@ -12,11 +12,11 @@ packages:
 - "libtool"
 - "pkg-config"
 remotes:
-- "url": "https://github.com/navcoin-core/navcoin-detached-sigs.git"
+- "url": "https://github.com/stock-core/stock-detached-sigs.git"
   "dir": "signature"
 files:
 - "osslsigncode-2.0.0.tar.gz"
-- "navcoin-win-unsigned.tar.gz"
+- "stock-win-unsigned.tar.gz"
 - "signature-win.tar.gz"
 script: |
   set -e -o pipefail
@@ -31,7 +31,7 @@ script: |
   echo "5a60e0a4b3e0b4d655317b2f12a810211c50242138322b16e7e01c6fbb89d92f  osslsigncode-2.0.tar.gz" | sha256sum -c
 
   mkdir -p ${UNSIGNED_DIR}
-  tar -C ${UNSIGNED_DIR} -xf navcoin-win-unsigned.tar.gz
+  tar -C ${UNSIGNED_DIR} -xf stock-win-unsigned.tar.gz
 
   tar xf osslsigncode-2.0.tar.gz
   cd osslsigncode-2.0

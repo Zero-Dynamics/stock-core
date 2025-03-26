@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_SYNC_H
-#define NAVCOIN_SYNC_H
+#ifndef STOCK_SYNC_H
+#define STOCK_SYNC_H
 
 #include <threadsafety.h>
 
@@ -286,4 +286,4 @@ public:
     }
 };
 
-#endif // NAVCOIN_SYNC_H
+#endif // STOCK_SYNC_H

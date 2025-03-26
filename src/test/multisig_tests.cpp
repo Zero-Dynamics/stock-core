@@ -11,7 +11,7 @@
 #include <script/sign.h>
 #include <script/ismine.h>
 #include <uint256.h>
-#include <test/test_navcoin.h>
+#include <test/test_stock.h>
 
 #include <boost/test/unit_test.hpp>
 

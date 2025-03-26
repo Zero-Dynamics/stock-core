@@ -6,7 +6,7 @@
 #include <ui_sendcoinsdialog.h>
 
 #include <qt/addresstablemodel.h>
-#include <qt/navcoinunits.h>
+#include <qt/stockunits.h>
 #include <qt/clientmodel.h>
 #include <qt/coincontroldialog.h>
 #include <qt/guiutil.h>
@@ -179,7 +179,7 @@ void SendCoinsDialog::on_sendButton_clicked()
         if (!IsBLSCTEnabled(chainActive.Tip(),Params().GetConsensus()))
         {
             QMessageBox::warning(this, tr("Not available"),
-                    "xNAV is not active yet!");
+                    "x0DYNS is not active yet!");
             return;
         }
 
@@ -246,7 +246,7 @@ void SendCoinsDialog::on_sendButton_clicked()
 
     // process prepareStatus and on error generate message shown to user
     processSendCoinsReturn(prepareStatus,
-        NavcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), currentTransaction.getTransactionFee(), fPrivate));
+        StockUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), currentTransaction.getTransactionFee(), fPrivate));
 
     if(prepareStatus.status != WalletModel::OK) {
         fNewRecipientAllowed = true;
@@ -254,7 +254,7 @@ void SendCoinsDialog::on_sendButton_clicked()
     }
 
     if (currentTransaction.fSpendsColdStaking && (!fCoinControl ||
-        (fCoinControl && !CNavcoinAddress(CoinControlDialog::coinControl->destChange).IsColdStakingAddress(Params()))))
+        (fCoinControl && !CStockAddress(CoinControlDialog::coinControl->destChange).IsColdStakingAddress(Params()))))
     {
         SendConfirmationDialog confirmationDialog(tr("Confirm send coins"),
             tr("This transaction will spend coins stored in a cold staking address.<br>You did not set any cold staking address as custom change destination, so those coins won't be locked anymore by the cold staking smart contract.<br><br>Do you still want to send this transaction?"), SEND_CONFIRM_DELAY, this);
@@ -277,7 +277,7 @@ void SendCoinsDialog::on_sendButton_clicked()
     const SendCoinsRecipient &rcp = currentTransaction.recipients.first();
     {
         // generate bold amount string
-        QString amount = "<b>" + NavcoinUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), nTotalAmount - (rcp.fSubtractFeeFromAmount ? txFee : 0) , false, NavcoinUnits::SeparatorStyle::separatorStandard, false, rcp.isanon);
+        QString amount = "<b>" + StockUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), nTotalAmount - (rcp.fSubtractFeeFromAmount ? txFee : 0) , false, StockUnits::SeparatorStyle::separatorStandard, false, rcp.isanon);
         amount.append("</b>");
         // generate monospace address string
         QString splitAddr = rcp.address;
@@ -311,7 +311,7 @@ void SendCoinsDialog::on_sendButton_clicked()
         {
             // append fee string if a fee is required
             questionString.append("<hr /><span style='color:#aa0000;'>");
-            questionString.append(NavcoinUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), txFee, false, NavcoinUnits::SeparatorStyle::separatorStandard, false, rcp.isanon));
+            questionString.append(StockUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), txFee, false, StockUnits::SeparatorStyle::separatorStandard, false, rcp.isanon));
             questionString.append("</span> ");
             questionString.append(tr("added as transaction fee"));
 
@@ -325,16 +325,16 @@ void SendCoinsDialog::on_sendButton_clicked()
     CAmount totalAmount = nTotalAmount + (rcp.fSubtractFeeFromAmount ? 0 : txFee);
     QStringList alternativeUnits;
 
-    // Check if we have selected a display unit that is not NAV
-    if (model->getOptionsModel()->getDisplayUnit() != NavcoinUnits::NAV)
-        alternativeUnits.append(NavcoinUnits::formatHtmlWithUnit(NavcoinUnits::NAV, totalAmount));
+    // Check if we have selected a display unit that is not 0DYNS
+    if (model->getOptionsModel()->getDisplayUnit() != StockUnits::ODYNS)
+        alternativeUnits.append(StockUnits::formatHtmlWithUnit(StockUnits::ODYNS, totalAmount));
 
     // Check if we have selected a display unit that is not BTC
-    if (model->getOptionsModel()->getDisplayUnit() != NavcoinUnits::BTC)
-        alternativeUnits.append(NavcoinUnits::formatHtmlWithUnit(NavcoinUnits::BTC, totalAmount));
+    if (model->getOptionsModel()->getDisplayUnit() != StockUnits::BTC)
+        alternativeUnits.append(StockUnits::formatHtmlWithUnit(StockUnits::BTC, totalAmount));
 
     questionString.append(tr("Total Amount %1")
-        .arg(NavcoinUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), totalAmount)));
+        .arg(StockUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), totalAmount)));
     questionString.append(QString("<span style='font-size:10pt;font-weight:normal;'><br />(=%2)</span>")
         .arg(alternativeUnits.join(" " + tr("or") + " ")));
 
@@ -591,7 +591,7 @@ void SendCoinsDialog::processSendCoinsReturn(const WalletModel::SendCoinsReturn 
         msgParams.second = CClientUIInterface::MSG_ERROR;
         break;
     case WalletModel::AbsurdFee:
-        msgParams.first = tr("A fee higher than %1 is considered an absurdly high fee.").arg(NavcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), maxTxFee));
+        msgParams.first = tr("A fee higher than %1 is considered an absurdly high fee.").arg(StockUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), maxTxFee));
         break;
     case WalletModel::PaymentRequestExpired:
         msgParams.first = tr("Payment request expired.");
@@ -703,7 +703,7 @@ void SendCoinsDialog::coinControlChangeEdited(const QString& text)
     CoinControlDialog::coinControl->destChange = CNoDestination();
     ui->labelCoinControlChangeLabel->setStyleSheet("QLabel{color:red;}");
 
-    CNavcoinAddress addr = CNavcoinAddress(text.toStdString());
+    CStockAddress addr = CStockAddress(text.toStdString());
 
     if (text.isEmpty()) // Nothing entered
     {
@@ -715,7 +715,7 @@ void SendCoinsDialog::coinControlChangeEdited(const QString& text)
 
     if (!addr.IsValid()) // Invalid address
     {
-        ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Navcoin change address"));
+        ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Stock change address"));
 
         // Give up!
         return;

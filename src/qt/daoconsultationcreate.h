@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2020 The Navcoin Core developers
+// Copyright (c) 2019-2020 The Stock Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,7 +7,7 @@
 
 #include "consensus/dao.h"
 #include "main.h"
-#include "navcoinlistwidget.h"
+#include "stocklistwidget.h"
 #include "walletmodel.h"
 
 #include <base58.h>
@@ -43,7 +43,7 @@ private:
     QLabel* minLbl;
     QLabel* maxLbl;
     QLabel *warningLbl;
-    NavcoinListWidget* listWidget;
+    StockListWidget* listWidget;
     QCheckBox* moreAnswersBox;
 
     int cpos;

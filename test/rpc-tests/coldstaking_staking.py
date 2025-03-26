@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018 The Navcoin Core developers
+# Copyright (c) 2018 The Stock Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
 #import time
 
-class ColdStakingStaking(NavcoinTestFramework):
+class ColdStakingStaking(StockTestFramework):
     """Tests spending and staking to/from a staking wallet."""
 
     def __init__(self):
@@ -69,7 +69,7 @@ class ColdStakingStaking(NavcoinTestFramework):
         # Check wallet weight roughly equals wallet balance
         assert(round(staking_weight_before / 100000000.0, -5) == round(balance_before, -5))
 
-        # Send funds to the cold staking address (leave some NAV for fees)
+        # Send funds to the cold staking address (leave some 0DYNS for fees)
         self.nodes[0].sendtoaddress(coldstaking_address_staking, balance_before - 1)
         self.nodes[0].generate(1)
         self.sync_all()

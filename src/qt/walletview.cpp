@@ -11,7 +11,7 @@
 #include <qt/daopage.h>
 #include <qt/getaddresstoreceive.h>
 #include <qt/guiutil.h>
-#include <qt/navcoingui.h>
+#include <qt/stockgui.h>
 #include <qt/optionsdialog.h>
 #include <qt/optionsmodel.h>
 #include <qt/overviewpage.h>
@@ -103,7 +103,7 @@ WalletView::~WalletView()
 {
 }
 
-void WalletView::setNavcoinGUI(NavcoinGUI *gui)
+void WalletView::setStockGUI(StockGUI *gui)
 {
     if (gui)
     {
@@ -190,8 +190,8 @@ void WalletView::GenerateBLSCT()
     if(!walletModel)
         return;
 
-    QMessageBox::information(this, tr("Generation of xNAV keys"),
-        tr("In order to generate your xNAV keys, you will be asked to unlock your wallet"));
+    QMessageBox::information(this, tr("Generation of x0DYNS keys"),
+        tr("In order to generate your x0DYNS keys, you will be asked to unlock your wallet"));
 
     bool fShouldLockAfter = false;
 
@@ -207,13 +207,13 @@ void WalletView::GenerateBLSCT()
 
     if (!walletModel->GenerateBLSCT())
     {
-        QMessageBox::information(this, tr("Generation of xNAV keys"),
-            tr("xNAV keys could not be generated."));
+        QMessageBox::information(this, tr("Generation of x0DYNS keys"),
+            tr("x0DYNS keys could not be generated."));
     }
     else
     {
-        QMessageBox::information(this, tr("Generation of xNAV keys"),
-            tr("xNAV keys have been generated."));
+        QMessageBox::information(this, tr("Generation of x0DYNS keys"),
+            tr("x0DYNS keys have been generated."));
     }
 
     if (fShouldLockAfter)
@@ -431,7 +431,7 @@ void WalletView::exportMasterPrivateKeyAction()
          CExtKey masterKey;
          masterKey.SetMaster(key.begin(), key.size());
 
-         CNavcoinExtKey b58extkey;
+         CStockExtKey b58extkey;
          b58extkey.SetKey(masterKey);
 
          QMessageBox::information(this, tr("Show Master Private Key"),
@@ -514,7 +514,7 @@ void WalletView::importPrivateKey()
         return;
       }
 
-      CNavcoinSecret vchSecret;
+      CStockSecret vchSecret;
       bool fGood = vchSecret.SetString(privKey.toStdString());
 
       if (!fGood)
@@ -557,7 +557,7 @@ void WalletView::importPrivateKey()
         }
 
         QMessageBox::information(0, tr(PACKAGE_NAME),
-            tr("Navcoin needs to scan the chain... Please, wait."));
+            tr("Stock needs to scan the chain... Please, wait."));
 
         // whenever a key is imported, we need to scan the whole chain
         pwalletMain->nTimeFirstKey = 1; // 0 would be considered 'no value'

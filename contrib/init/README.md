@@ -1,11 +1,11 @@
 Sample configuration files for:
 
-SystemD: navcoind.service
-Upstart: navcoind.conf
-OpenRC:  navcoind.openrc
-         navcoind.openrcconf
-CentOS:  navcoind.init
-OS X:    org.navcoin.navcoind.plist
+SystemD: stockd.service
+Upstart: stockd.conf
+OpenRC:  stockd.openrc
+         stockd.openrcconf
+CentOS:  stockd.init
+OS X:    org.stock.stockd.plist
 
 have been made available to assist packagers in creating node packages here.
 

@@ -6,8 +6,8 @@
 /**
  * Utilities for converting data from/to strings.
  */
-#ifndef NAVCOIN_UTILSTRENCODINGS_H
-#define NAVCOIN_UTILSTRENCODINGS_H
+#ifndef STOCK_UTILSTRENCODINGS_H
+#define STOCK_UTILSTRENCODINGS_H
 
 #include <stdint.h>
 #include <string>
@@ -145,4 +145,4 @@ bool ParseFixedPoint(const std::string &val, int decimals, int64_t *amount_out);
 std::string join(const std::vector<std::string>& words, const std::string &separator = ", ", const std::string &concluder = "");
 
 
-#endif // NAVCOIN_UTILSTRENCODINGS_H
+#endif // STOCK_UTILSTRENCODINGS_H

@@ -549,13 +549,13 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
         {
             std::string strAddress;
             ssKey >> strAddress;
-            ssValue >> pwallet->mapAddressBook[CNavcoinAddress(strAddress).Get()].name;
+            ssValue >> pwallet->mapAddressBook[CStockAddress(strAddress).Get()].name;
         }
         else if (strType == "purpose")
         {
             std::string strAddress;
             ssKey >> strAddress;
-            ssValue >> pwallet->mapAddressBook[CNavcoinAddress(strAddress).Get()].purpose;
+            ssValue >> pwallet->mapAddressBook[CStockAddress(strAddress).Get()].purpose;
         }
         else if (strType == "privatename")
         {
@@ -947,7 +947,7 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
             ssKey >> strAddress;
             ssKey >> strKey;
             ssValue >> strValue;
-            if (!pwallet->LoadDestData(CNavcoinAddress(strAddress).Get(), strKey, strValue))
+            if (!pwallet->LoadDestData(CStockAddress(strAddress).Get(), strKey, strValue))
             {
                 strErr = "Error reading wallet database: LoadDestData failed";
                 return false;
@@ -1208,7 +1208,7 @@ DBErrors CWalletDB::ZapWalletTx(CWallet* pwallet, vector<CWalletTx>& vWtx)
 void ThreadFlushWalletDB(const std::string& strFile)
 {
     // Make this thread recognisable as the wallet flushing thread
-    RenameThread("navcoin-wallet");
+    RenameThread("stock-wallet");
 
     static bool fOneThread;
     if (fOneThread)

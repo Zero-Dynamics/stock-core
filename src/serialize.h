@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_SERIALIZE_H
-#define NAVCOIN_SERIALIZE_H
+#ifndef STOCK_SERIALIZE_H
+#define STOCK_SERIALIZE_H
 
 #include <compat/endian.h>
 
@@ -1048,4 +1048,4 @@ public:
     }
 };
 
-#endif // NAVCOIN_SERIALIZE_H
+#endif // STOCK_SERIALIZE_H

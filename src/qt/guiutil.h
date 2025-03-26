@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_QT_GUIUTIL_H
-#define NAVCOIN_QT_GUIUTIL_H
+#ifndef STOCK_QT_GUIUTIL_H
+#define STOCK_QT_GUIUTIL_H
 
 #include <fs.h>
 #include <amount.h>
@@ -31,7 +31,7 @@ class QUrl;
 class QWidget;
 QT_END_NAMESPACE
 
-/** Utility functions used by the Navcoin Qt UI.
+/** Utility functions used by the Stock Qt UI.
  */
 namespace GUIUtil
 {
@@ -49,10 +49,10 @@ namespace GUIUtil
     void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent);
     void setupAmountWidget(QLineEdit *widget, QWidget *parent);
 
-    // Parse "navcoin:" URI into recipient object, return true on successful parsing
-    bool parseNavcoinURI(const QUrl &uri, SendCoinsRecipient *out);
-    bool parseNavcoinURI(QString uri, SendCoinsRecipient *out);
-    QString formatNavcoinURI(const SendCoinsRecipient &info);
+    // Parse "stock:" URI into recipient object, return true on successful parsing
+    bool parseStockURI(const QUrl &uri, SendCoinsRecipient *out);
+    bool parseStockURI(QString uri, SendCoinsRecipient *out);
+    QString formatStockURI(const SendCoinsRecipient &info);
 
     // Returns true if given address+amount meets "dust" definition
     bool isDust(const QString& address, const CAmount& amount);
@@ -120,7 +120,7 @@ namespace GUIUtil
     void openDebugLogfile();
 
     // Open the config file
-    void openNavcoinConf();
+    void openStockConf();
 
     // Replace invalid default fonts with known good ones
     void SubstituteFonts(const QString& language);
@@ -241,4 +241,4 @@ namespace GUIUtil
 
 } // namespace GUIUtil
 
-#endif // NAVCOIN_QT_GUIUTIL_H
+#endif // STOCK_QT_GUIUTIL_H

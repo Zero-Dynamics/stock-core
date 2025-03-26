@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018 The Navcoin Core developers
+# Copyright (c) 2018 The Stock Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.cfund_util import *
 
 import time
 import http.client
 import urllib.parse
 
-class DaoStateConsistency(NavcoinTestFramework):
+class DaoStateConsistency(StockTestFramework):
     """Tests the consistency of the dao state between different nodes with reorganizations."""
 
     def __init__(self):

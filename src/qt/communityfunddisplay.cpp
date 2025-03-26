@@ -58,9 +58,9 @@ void CommunityFundDisplay::refresh()
     ui->title->setText(QString::fromStdString(proposal.strDZeel));
     ui->labelStatus->setText(QString::fromStdString(proposal.GetState(pindexBestHeader->GetBlockTime(), view)));
 
-    std::string nav_amount;
-    nav_amount = wallet->formatDisplayAmount(proposal.nAmount);
-    ui->labelRequested->setText(QString::fromStdString(nav_amount));
+    std::string odyns_amount;
+    odyns_amount = wallet->formatDisplayAmount(proposal.nAmount);
+    ui->labelRequested->setText(QString::fromStdString(odyns_amount));
 
     uint64_t proptime = 0;
     CBlockIndex* pblockindex = proposal.GetLastStateBlockIndex();

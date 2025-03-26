@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_SCRIPT_SIGN_H
-#define NAVCOIN_SCRIPT_SIGN_H
+#ifndef STOCK_SCRIPT_SIGN_H
+#define STOCK_SCRIPT_SIGN_H
 
 #include <script/interpreter.h>
 
@@ -81,4 +81,4 @@ SignatureData CombineSignatures(const CScript& scriptPubKey, const BaseSignature
 SignatureData DataFromTransaction(const CMutableTransaction& tx, unsigned int nIn);
 void UpdateTransaction(CMutableTransaction& tx, unsigned int nIn, const SignatureData& data);
 
-#endif // NAVCOIN_SCRIPT_SIGN_H
+#endif // STOCK_SCRIPT_SIGN_H

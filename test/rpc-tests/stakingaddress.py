@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019 The Navcoin Core developers
+# Copyright (c) 2019 The Stock Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.staticr_util import *
 
-class StakingAddressTest(NavcoinTestFramework):
+class StakingAddressTest(StockTestFramework):
     """Tests staking to another address using -stakingaddress option."""
 
     def __init__(self):

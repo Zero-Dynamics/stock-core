@@ -1,4 +1,4 @@
-// Copyright (c) 2020 The Navcoin developers
+// Copyright (c) 2020 The Stock developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,8 +6,8 @@
 // inspired by https://github.com/b-g-goodell/research-lab/blob/master/source-code/StringCT-java/src/how/monero/hodl/bulletproof/Bulletproof.java
 // and https://github.com/monero-project/monero/blob/master/src/ringct/bulletproofs.cc
 
-#ifndef NAVCOIN_BLSCT_BULLETPROOFS_H
-#define NAVCOIN_BLSCT_BULLETPROOFS_H
+#ifndef STOCK_BLSCT_BULLETPROOFS_H
+#define STOCK_BLSCT_BULLETPROOFS_H
 
 #ifdef _WIN32
 /* Avoid redefinition warning. */
@@ -215,4 +215,4 @@ struct RangeproofEncodedData
 
 bool VerifyBulletproof(const std::vector<std::pair<int, BulletproofsRangeproof>>& proofs, std::vector<RangeproofEncodedData>& data, const std::vector<bls::G1Element>& nonces, const bool &fOnlyRecover = false, const TokenId& tokenId=TokenId());
 
-#endif // NAVCOIN_BLSCT_BULLETPROOFS_H
+#endif // STOCK_BLSCT_BULLETPROOFS_H

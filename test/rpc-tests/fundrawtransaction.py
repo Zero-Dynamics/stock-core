@@ -3,7 +3,7 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
 
@@ -14,7 +14,7 @@ def get_unspent(listunspent, amount):
     raise AssertionError('Could not find unspent with amount={}'.format(amount))
 
 
-class RawTransactionsTest(NavcoinTestFramework):
+class RawTransactionsTest(StockTestFramework):
 
     def __init__(self):
         super().__init__()
@@ -201,9 +201,9 @@ class RawTransactionsTest(NavcoinTestFramework):
 
         try:
             self.nodes[2].fundrawtransaction(rawtx, {'changeAddress': 'foobar'})
-            raise AssertionError("Accepted invalid navcoin address")
+            raise AssertionError("Accepted invalid stock address")
         except JSONRPCException as e:
-            assert("changeAddress must be a valid navcoin address" in e.error['message'])
+            assert("changeAddress must be a valid stock address" in e.error['message'])
 
 
         ############################################################
@@ -444,7 +444,7 @@ class RawTransactionsTest(NavcoinTestFramework):
         mSigObj = self.nodes[2].addmultisigaddress(2, [addr1Obj['pubkey'], addr2Obj['pubkey']])
 
 
-        # send 1.2 NAV to msig addr
+        # send 1.2 0DYNS to msig addr
         txId = self.nodes[0].sendtoaddress(mSigObj, 1.2)
         self.sync_all()
         self.nodes[1].generate(1)
@@ -470,7 +470,7 @@ class RawTransactionsTest(NavcoinTestFramework):
         self.nodes[1].encryptwallet("test")
         self.nodes.pop(1)
         stop_nodes(self.nodes)
-        wait_navcoinds()
+        wait_stockds()
 
         self.nodes = start_nodes(self.num_nodes, self.options.tmpdir)
         # This test is not meant to test fee estimation and we'd like

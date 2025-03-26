@@ -218,7 +218,7 @@
                  <enum>Qt::ActionsContextMenu</enum>
                 </property>
                 <property name="text">
-                 <string notr="true">0.00 NAV</string>
+                 <string notr="true">0.00 0DYNS</string>
                 </property>
                 <property name="textInteractionFlags">
                  <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -300,7 +300,7 @@
                  <enum>Qt::ActionsContextMenu</enum>
                 </property>
                 <property name="text">
-                 <string notr="true">0.00 NAV</string>
+                 <string notr="true">0.00 0DYNS</string>
                 </property>
                 <property name="textInteractionFlags">
                  <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -382,7 +382,7 @@
                  <enum>Qt::ActionsContextMenu</enum>
                 </property>
                 <property name="text">
-                 <string notr="true">0.00 NAV</string>
+                 <string notr="true">0.00 0DYNS</string>
                 </property>
                 <property name="textInteractionFlags">
                  <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -412,7 +412,7 @@
                  <enum>Qt::ActionsContextMenu</enum>
                 </property>
                 <property name="text">
-                 <string notr="true">0.00 NAV</string>
+                 <string notr="true">0.00 0DYNS</string>
                 </property>
                 <property name="textInteractionFlags">
                  <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -590,7 +590,7 @@
           <string>S&amp;end</string>
          </property>
          <property name="icon">
-          <iconset resource="../navcoin.qrc">
+          <iconset resource="../stock.qrc">
            <normaloff>:/icons/send</normaloff>:/icons/send</iconset>
          </property>
          <property name="autoDefault">
@@ -637,7 +637,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../navcoin.qrc"/>
+  <include location="../stock.qrc"/>
  </resources>
  <connections/>
 </ui>

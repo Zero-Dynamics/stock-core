@@ -1,8 +1,8 @@
-# Navcoin v6.0 Release Notes
+# Stock v6.0 Release Notes
 
 ## blsCT: Boneh–Lynn–Shacham Confidential Transactions
 
-<[Pull Request 743](https://github.com/navcoin/navcoin-core/pull/743)>
+<[Pull Request 743](https://github.com/stock/stock-core/pull/743)>
 
 This PR proposes a consensus change signaled by version bit 10 to signal the activation of the blsCT protocol in the mainnet starting on February 1, 2021.
 
@@ -10,7 +10,7 @@ Read more details about blsCT in [doc.nav.community](https://doc.nav.community/b
 
 ## [DAO] Exclude inactive stakers from votings
 
-<[Pull Request 745](https://github.com/navcoin/navcoin-core/pull/745)>
+<[Pull Request 745](https://github.com/stock/stock-core/pull/745)>
 
 This PR proposes a consensus change signaled by version bit 12 starting on February 1, 2021 to allow excluding stakers from the DAO votings.
 
@@ -22,84 +22,84 @@ Blocks are labeled to be excluded by activating the right-most bit of their nOnc
 
 ## Add support for wallet database encryption
 
-<[Pull Request 717](https://github.com/navcoin/navcoin-core/pull/717)>
+<[Pull Request 717](https://github.com/stock/stock-core/pull/717)>
 
-This PR introduces wallet transaction data encryption and updates LevelDB to the version 5.8. Wallets created or upgraded with Navcoin Core 6.0 are not compatible with previous versions of Navcoin Core.
+This PR introduces wallet transaction data encryption and updates LevelDB to the version 5.8. Wallets created or upgraded with Stock Core 6.0 are not compatible with previous versions of Stock Core.
 
 ## Binary notarization for MacOS
 
-<[Pull Request 767](https://github.com/navcoin/navcoin-core/pull/757)>
+<[Pull Request 767](https://github.com/stock/stock-core/pull/757)>
 
 MacOS binaries are now notarized and do not show a warning for unidentified developer.
 
 ## [TEST] Fixed qa/rpc-tests/cfunddb-statehash.py
 
-<[Pull Request 715](https://github.com/navcoin/navcoin-core/pull/715)>
+<[Pull Request 715](https://github.com/stock/stock-core/pull/715)>
 
 ## [RPC] getaddressbalance returns staked value 
 
-<[Pull Request 723](https://github.com/navcoin/navcoin-core/pull/723)>
+<[Pull Request 723](https://github.com/stock/stock-core/pull/723)>
 
 ## [RPC] Address history index
  
-<[Pull Request 724](https://github.com/navcoin/navcoin-core/pull/724)>
+<[Pull Request 724](https://github.com/stock/stock-core/pull/724)>
 
 ## [DAO][GUI] Updated links to navexplorer dao pages 
 
-<[Pull Request 725](https://github.com/navcoin/navcoin-core/pull/725)>
+<[Pull Request 725](https://github.com/stock/stock-core/pull/725)>
 
 ## [GUI] Disabled DAO notification if not staking
 
-<[Pull Request 726](https://github.com/navcoin/navcoin-core/pull/726)>
+<[Pull Request 726](https://github.com/stock/stock-core/pull/726)>
 
 ## [RPC] Correctly label isstakable in the validateaddress help response
 
-<[Pull Request 727](https://github.com/navcoin/navcoin-core/pull/727)>
+<[Pull Request 727](https://github.com/stock/stock-core/pull/727)>
 
 ## [GUI] Add voting address to the cold staking wizard
 
-<[Pull Request 728](https://github.com/navcoin/navcoin-core/pull/728)>
+<[Pull Request 728](https://github.com/stock/stock-core/pull/728)>
 
 ## [WALLET] Fix -wallet issue #729
 
-<[Pull Request 730](https://github.com/navcoin/navcoin-core/pull/730)>
+<[Pull Request 730](https://github.com/stock/stock-core/pull/730)>
 
 ## [INDEX] Index cold staking UTXOs by spending address
 
-<[Pull Request 731](https://github.com/navcoin/navcoin-core/pull/731)>
+<[Pull Request 731](https://github.com/stock/stock-core/pull/731)>
 
 ## [RPC] getaddresshistory counts balance for whole history even when range
 
-<[Pull Request 732](https://github.com/navcoin/navcoin-core/pull/732)>
+<[Pull Request 732](https://github.com/stock/stock-core/pull/732)>
 
 ## [GUI] Update getaddresstoreceive.cpp
 
-<[Pull Request 733](https://github.com/navcoin/navcoin-core/pull/733)>
+<[Pull Request 733](https://github.com/stock/stock-core/pull/733)>
 
 ## [CLEAN] Remove declaration of undefined function
 
-<[Pull Request 734](https://github.com/navcoin/navcoin-core/pull/734)>
+<[Pull Request 734](https://github.com/stock/stock-core/pull/734)>
 
 ## [RPC] Fix for getaddresshistory balance of multiple addresses
 
-<[Pull Request 735](https://github.com/navcoin/navcoin-core/pull/735)>
+<[Pull Request 735](https://github.com/stock/stock-core/pull/735)>
 
 ## Update httpserver.cpp header
 
-<[Pull Request 740](https://github.com/navcoin/navcoin-core/pull/740)>
+<[Pull Request 740](https://github.com/stock/stock-core/pull/740)>
 
 ## Add 0x2830 address to team list addresses
 
-<[Pull Request 744](https://github.com/navcoin/navcoin-core/pull/744)>
+<[Pull Request 744](https://github.com/stock/stock-core/pull/744)>
 
-## Added tilde (~) support to the datadir param for navcoin
+## Added tilde (~) support to the datadir param for stock
 
-<[Pull Request 751](https://github.com/navcoin/navcoin-core/pull/751)>
+<[Pull Request 751](https://github.com/stock/stock-core/pull/751)>
 
 ## Fixed the missing transaction size in send coins dialog 
 
-<[Pull Request 752](https://github.com/navcoin/navcoin-core/pull/752)>
+<[Pull Request 752](https://github.com/stock/stock-core/pull/752)>
 
 ## Update blsct key generation warning message
 
-<[Pull Request 753](https://github.com/navcoin/navcoin-core/pull/753)>
+<[Pull Request 753](https://github.com/stock/stock-core/pull/753)>

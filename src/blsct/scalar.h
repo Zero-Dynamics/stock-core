@@ -1,4 +1,4 @@
-// Copyright (c) 2020 The Navcoin developers
+// Copyright (c) 2020 The Stock developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,8 +6,8 @@
 // inspired by https://github.com/b-g-goodell/research-lab/blob/master/source-code/StringCT-java/src/how/monero/hodl/bulletproof/Bulletproof.java
 // and https://github.com/monero-project/monero/blob/master/src/ringct/bulletproofs.cc
 
-#ifndef NAVCOIN_BLSCT_SCALAR_H
-#define NAVCOIN_BLSCT_SCALAR_H
+#ifndef STOCK_BLSCT_SCALAR_H
+#define STOCK_BLSCT_SCALAR_H
 
 #ifdef _WIN32
 /* Avoid redefinition warning. */
@@ -103,4 +103,4 @@ public:
 
 uint256 HashG1Element(bls::G1Element g1, uint64_t n);
 
-#endif // NAVCOIN_BLSCT_SCALAR_H
+#endif // STOCK_BLSCT_SCALAR_H

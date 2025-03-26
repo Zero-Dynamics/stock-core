@@ -1,8 +1,8 @@
-# Navcoin v7.0.0 Release Notes
+# Stock v7.0.0 Release Notes
 
-## xNAV upgrades for Navcoin Core 7.0.0
+## xNAV upgrades for Stock Core 7.0.0
 
-<[Pull Request 862](https://github.com/navcoin/navcoin-core/pull/862)>
+<[Pull Request 862](https://github.com/stock/stock-core/pull/862)>
 
 This Pull Request introduces various consensus changes related to xNAV signalled by version bit 33. As we did run out of version bits for updates, this PR also introduces a patch to use the nBits field of the block header to signal for version bits greater than 32.
 
@@ -34,9 +34,9 @@ For example, the amount of an output is never assigned space when the output is 
 
 This Pull Request introduces Confidential Tokens. They are disabled initially in Mainnet,  but allowing its late activation when the network decides to, through a consensus change vote without the need of a hard fork. Testnet, Devnet and Regnet will have it activated as to allow testing of the new feature.
 
-Built on top of the same cryptographic protocol which makes xNAV possible, we are adding the possibility to mint confidential tokens on the Navcoin blockchain. Transactions of those tokens will veil the details of their sender, receiver and amount transferred.
+Built on top of the same cryptographic protocol which makes xNAV possible, we are adding the possibility to mint confidential tokens on the Stock blockchain. Transactions of those tokens will veil the details of their sender, receiver and amount transferred.
 
-nAssets can represent arbitrary tokens created by users of the Navcoin network as well as stablecoins with their value pegged and backed by different underlying assets, while benefiting from the privacy-preserving properties of blsCT.
+nAssets can represent arbitrary tokens created by users of the Stock network as well as stablecoins with their value pegged and backed by different underlying assets, while benefiting from the privacy-preserving properties of blsCT.
 
 ### RPC Commands
 
@@ -92,9 +92,9 @@ xNAV is used to paid the transaction fees.
 
 ## dotNAV
 
-<[Pull Request 877](https://github.com/navcoin/navcoin-core/pull/877)>
+<[Pull Request 877](https://github.com/stock/stock-core/pull/877)>
 
-This Pull Request introduces the consensus changed needed for a naming system dubbed dotNAV secured by Navcoin's blockchain and signalled for activation with version bit 34 (using block header's nonce).
+This Pull Request introduces the consensus changed needed for a naming system dubbed dotNAV secured by Stock's blockchain and signalled for activation with version bit 34 (using block header's nonce).
 
 Names are only allowed with the suffix `.nav` and to have a maximum length of 64 characters. Only allowed characters are alphanumeric and `-`, and the first character can't be a `-`.
 
@@ -127,7 +127,7 @@ Names can be resolved through the RPC command `resolvename name`
 
 ## DAO protocol upgrade
 
-<[Pull Request 856](https://github.com/navcoin/navcoin-core/pull/856)>
+<[Pull Request 856](https://github.com/stock/stock-core/pull/856)>
 
 This PR proposes changes in the DAO voting system signalled by version bit 11.
 
@@ -165,7 +165,7 @@ Additional values can be proposed with `proposeanswer`:
 
 ## [RPC] gettransactionkeys
 
-<[Pull Request 850](https://github.com/navcoin/navcoin-core/pull/850)>
+<[Pull Request 850](https://github.com/stock/stock-core/pull/850)>
 
 This PR adds a new RPC command to show a transaction input and output keys when combined with txindex.
 
@@ -205,7 +205,7 @@ Example output:
 
 ## Protocol change: Burn Fees
 
-<[Pull Request 855](https://github.com/navcoin/navcoin-core/pull/855)>
+<[Pull Request 855](https://github.com/stock/stock-core/pull/855)>
 
  This PR introduces a consensus change proposal signalled by version bit 9.
 
@@ -213,58 +213,58 @@ If the change gets approved, stakers would not get the transactions fees of thei
 
 ## Reset testnet
 
-<[Pull Request 870](https://github.com/navcoin/navcoin-core/pull/870)>
+<[Pull Request 870](https://github.com/stock/stock-core/pull/870)>
 
 ## Update coin control legacy code
 
-<[Pull Request 847](https://github.com/navcoin/navcoin-core/pull/847)>
+<[Pull Request 847](https://github.com/stock/stock-core/pull/847)>
 
 ## build,boost: update download url
 
-<[Pull Request 851](https://github.com/navcoin/navcoin-core/pull/851)>
+<[Pull Request 851](https://github.com/stock/stock-core/pull/851)>
 
 ## fix mutex detection when building bdb on macOS
 
-<[Pull Request 852](https://github.com/navcoin/navcoin-core/pull/852)>
+<[Pull Request 852](https://github.com/stock/stock-core/pull/852)>
 
 This PR fixes a bug to prevent the use of NAV outputs together with recently swapped coins from XNAV to NAV as per an issue reported in Discord by mxaddict.
 
 ## Removed program_options dependency from boost
 
-<[Pull Request 858](https://github.com/navcoin/navcoin-core/pull/858)>
+<[Pull Request 858](https://github.com/stock/stock-core/pull/858)>
 
 ## Updated the configure.ac python version requirement to match upstream changes
 
-<[Pull Request 859](https://github.com/navcoin/navcoin-core/pull/859)>
+<[Pull Request 859](https://github.com/stock/stock-core/pull/859)>
 
 ## Replaced boost::function with std::function calls 
 
-<[Pull Request 860](https://github.com/navcoin/navcoin-core/pull/860)>
+<[Pull Request 860](https://github.com/stock/stock-core/pull/860)>
 
 ## Replaced boost::filesystem with fs:: from upstream code changes
 
-<[Pull Request 863](https://github.com/navcoin/navcoin-core/pull/863)>
+<[Pull Request 863](https://github.com/stock/stock-core/pull/863)>
 
 ## Remove using namespace std; usage 
 
-<[Pull Request 864](https://github.com/navcoin/navcoin-core/pull/864)>
+<[Pull Request 864](https://github.com/stock/stock-core/pull/864)>
 
 ## Removed the use of PAIRTYPE 
 
-<[Pull Request 865](https://github.com/navcoin/navcoin-core/pull/865)>
+<[Pull Request 865](https://github.com/stock/stock-core/pull/865)>
 
 ## Updated the build aux pthread file
 
-<[Pull Request 866](https://github.com/navcoin/navcoin-core/pull/866)>
+<[Pull Request 866](https://github.com/stock/stock-core/pull/866)>
 
 ## Add asm support in configure.ac and updated crc32c based on upstream changes
 
-<[Pull Request 867](https://github.com/navcoin/navcoin-core/pull/867)>
+<[Pull Request 867](https://github.com/stock/stock-core/pull/867)>
 
 ## Update stressor for super dao and combined consensus changes
 
-<[Pull Request 868](https://github.com/navcoin/navcoin-core/pull/868)>
+<[Pull Request 868](https://github.com/stock/stock-core/pull/868)>
 
 ## Updated univalue based on upstream changes
 
-<[Pull Request 869](https://github.com/navcoin/navcoin-core/pull/869)>
+<[Pull Request 869](https://github.com/stock/stock-core/pull/869)>

@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_TOKENUTXOS_H
-#define NAVCOIN_TOKENUTXOS_H
+#ifndef STOCK_TOKENUTXOS_H
+#define STOCK_TOKENUTXOS_H
 
 #include <uint256.h>
 
@@ -111,4 +111,4 @@ typedef std::pair<uint64_t, TokenUtxoValue> TokenUtxoEntry;
 typedef std::vector<TokenUtxoEntry> TokenUtxoValues;
 typedef std::map<uint256, TokenUtxoValues> TokenUtxoMap;
 
-#endif // NAVCOIN_TOKENUTXOS_H
+#endif // STOCK_TOKENUTXOS_H

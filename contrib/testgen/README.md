@@ -1,6 +1,6 @@
 ### TestGen ###
 
-Utilities to generate test vectors for the data-driven Navcoin tests.
+Utilities to generate test vectors for the data-driven Stock tests.
 
 Usage: 
 

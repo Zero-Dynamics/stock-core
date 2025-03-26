@@ -78,7 +78,7 @@ void ScriptPubKeyToJSON(const CScript& scriptPubKey, UniValue& out, bool fInclud
     {
         UniValue a(UniValue::VARR);
         for(const CTxDestination& addr: addresses)
-            a.push_back(CNavcoinAddress(addr).ToString());
+            a.push_back(CStockAddress(addr).ToString());
         out.pushKV("addresses", a);
     }
 }
@@ -118,9 +118,9 @@ void TxToJSONExpanded(const CTransaction& tx, const uint256 hashBlock, UniValue&
                 in.pushKV("value", ValueFromAmount(spentInfo.satoshis));
                 in.pushKV("valueSat", spentInfo.satoshis);
                 if (spentInfo.addressType == 1) {
-                    in.pushKV("address", CNavcoinAddress(CKeyID(spentInfo.addressHash)).ToString());
+                    in.pushKV("address", CStockAddress(CKeyID(spentInfo.addressHash)).ToString());
                 } else if (spentInfo.addressType == 2)  {
-                    in.pushKV("address", CNavcoinAddress(CScriptID(spentInfo.addressHash)).ToString());
+                    in.pushKV("address", CStockAddress(CScriptID(spentInfo.addressHash)).ToString());
                 }
             }
 
@@ -368,7 +368,7 @@ UniValue getrawtransaction(const UniValue& params, bool fHelp)
             "         \"reqSigs\" : n,            (numeric) The required sigs\n"
             "         \"type\" : \"pubkeyhash\",  (string) The type, eg 'pubkeyhash'\n"
             "         \"addresses\" : [           (json array of string)\n"
-            "           \"navcoinaddress\"        (string) navcoin address\n"
+            "           \"stockaddress\"        (string) stock address\n"
             "           ,...\n"
             "         ]\n"
             "       }\n"
@@ -704,7 +704,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
             "     ]\n"
             "2. \"outputs\"             (string, required) a json object with outputs\n"
             "    {\n"
-            "      \"address\": x.xxx   (numeric or string, required) The key is the navcoin address, the numeric value (can be string) is the " + CURRENCY_UNIT + " amount\n"
+            "      \"address\": x.xxx   (numeric or string, required) The key is the stock address, the numeric value (can be string) is the " + CURRENCY_UNIT + " amount\n"
             "      \"data\": x.xxx,     (string, required) The key is hex encoded data, the numeric value (can be string) is the " + CURRENCY_UNIT + " amount\n"
             "      ...\n"
             "    }\n"
@@ -782,10 +782,10 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
         rawTx.vin.push_back(in);
     }
 
-    std::set<CNavcoinAddress> setAddress;
+    std::set<CStockAddress> setAddress;
     std::vector<std::string> addrList = sendTo.getKeys();
     for(const std::string& name_: addrList) {
-        CNavcoinAddress address(name_);
+        CStockAddress address(name_);
         if (address.IsValid()) {
             if (setAddress.count(address))
                 throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid parameter, duplicated address: ")+name_);
@@ -855,7 +855,7 @@ UniValue decoderawtransaction(const UniValue& params, bool fHelp)
             "         \"reqSigs\" : n,            (numeric) The required sigs\n"
             "         \"type\" : \"pubkeyhash\",  (string) The type, eg 'pubkeyhash'\n"
             "         \"addresses\" : [           (json array of string)\n"
-            "           \"12tvKAXCxZjSmdNbao16dKXC8tRWfcF5oc\"   (string) navcoin address\n"
+            "           \"12tvKAXCxZjSmdNbao16dKXC8tRWfcF5oc\"   (string) stock address\n"
             "           ,...\n"
             "         ]\n"
             "       }\n"
@@ -899,7 +899,7 @@ UniValue decodescript(const UniValue& params, bool fHelp)
             "  \"type\":\"type\", (string) The output type\n"
             "  \"reqSigs\": n,    (numeric) The required signatures\n"
             "  \"addresses\": [   (json array of string)\n"
-            "     \"address\"     (string) navcoin address\n"
+            "     \"address\"     (string) stock address\n"
             "     ,...\n"
             "  ],\n"
             "  \"p2sh\",\"address\" (string) script address\n"
@@ -921,7 +921,7 @@ UniValue decodescript(const UniValue& params, bool fHelp)
     }
     ScriptPubKeyToJSON(script, r, false);
 
-    r.pushKV("p2sh", CNavcoinAddress(CScriptID(script)).ToString());
+    r.pushKV("p2sh", CStockAddress(CScriptID(script)).ToString());
     return r;
 }
 
@@ -1051,7 +1051,7 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
         UniValue keys = params[2].get_array();
         for (unsigned int idx = 0; idx < keys.size(); idx++) {
             UniValue k = keys[idx];
-            CNavcoinSecret vchSecret;
+            CStockSecret vchSecret;
             bool fGood = vchSecret.SetString(k.get_str());
             if (!fGood)
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid private key");

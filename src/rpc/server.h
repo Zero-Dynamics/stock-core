@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_RPCSERVER_H
-#define NAVCOIN_RPCSERVER_H
+#ifndef STOCK_RPCSERVER_H
+#define STOCK_RPCSERVER_H
 
 #include <amount.h>
 #include <rpc/protocol.h>
@@ -133,7 +133,7 @@ public:
 };
 
 /**
- * Navcoin RPC command dispatcher.
+ * Stock RPC command dispatcher.
  */
 class CRPCTable
 {
@@ -194,4 +194,4 @@ void InterruptRPC();
 void StopRPC();
 std::string JSONRPCExecBatch(const UniValue& vReq);
 
-#endif // NAVCOIN_RPCSERVER_H
+#endif // STOCK_RPCSERVER_H
