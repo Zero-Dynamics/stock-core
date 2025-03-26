@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2020 The Navcoin Core developers
+// Copyright (c) 2019-2020 The Stock Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -42,7 +42,7 @@ DaoProposeAnswer::DaoProposeAnswer(QWidget *parent, CConsultation consultation, 
     layout->addWidget(answerInput);
     layout->addWidget(warningLbl);
     layout->addSpacing(15);
-    layout->addWidget(new QLabel(tr("By submitting the answer a contribution of %1 NAV to the Community Fund will occur from your wallet.").arg(fee)));
+    layout->addWidget(new QLabel(tr("By submitting the answer a contribution of %1 0DYNS to the Community Fund will occur from your wallet.").arg(fee)));
     layout->addWidget(bottomBox);
     layout->addSpacing(15);
 
@@ -68,7 +68,7 @@ void DaoProposeAnswer::onPropose()
     LOCK2(cs_main, pwalletMain->cs_wallet);
     CStateViewCache view(pcoinsTip);
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     CWalletTx wtx;
     bool fSubtractFeeFromAmount = false;
@@ -112,17 +112,17 @@ void DaoProposeAnswer::onPropose()
 
     if (curBalance <= GetConsensusParameter(Consensus::CONSENSUS_PARAM_CONSULTATION_ANSWER_MIN_FEE, view)) {
         QMessageBox msgBox(this);
-        std::string str = tr("You require at least %1 NAV mature and available to propose an answer.\n").arg(QString::fromStdString(fee)).toStdString();
+        std::string str = tr("You require at least %1 0DYNS mature and available to propose an answer.\n").arg(QString::fromStdString(fee)).toStdString();
         msgBox.setText(tr(str.c_str()));
         msgBox.addButton(tr("Ok"), QMessageBox::AcceptRole);
         msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setWindowTitle("Insufficient NAV");
+        msgBox.setWindowTitle("Insufficient 0DYNS");
         msgBox.exec();
         return;
     }
 
     QMessageBox::StandardButton btnRetVal = QMessageBox::question(this, tr("Fee"),
-                                                                  tr("Proposing a new answer requires to pay a fee of %1 NAV.").arg(QString::fromStdString(fee)) + "<br><br>" + tr("Do you want to proceed?"),
+                                                                  tr("Proposing a new answer requires to pay a fee of %1 0DYNS.").arg(QString::fromStdString(fee)) + "<br><br>" + tr("Do you want to proceed?"),
                                                                   QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
 
     if(btnRetVal == QMessageBox::Cancel)

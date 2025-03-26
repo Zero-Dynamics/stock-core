@@ -32,7 +32,7 @@
 ### Need to configure this!!
 
 ### Path to binaries
-navpath=../src
+stockpath=../src
 
 ### How many voting cycles to run the stresser
 cycles=40
@@ -156,8 +156,8 @@ function copy_array {
 }
 
 
-function nav_cli {
-	$navpath/navcoin-cli -datadir=${array_data[$1]} -rpcport=${array_rpc_port[$1]} -devnet $2 2> /dev/null
+function stock_cli {
+	$stockpath/stock-cli -datadir=${array_data[$1]} -rpcport=${array_rpc_port[$1]} -devnet $2 2> /dev/null
 }
 
 function terminate {
@@ -168,8 +168,8 @@ function terminate {
 		for i in $(seq 0 1 $( bc <<< "$node_count-1") );
 		do
 			folder_name=$(echo "${array_data[$i]}" | cut -c 10-)
-			nav_cli $i listproposals > ${array_data[$i]}/devnet/listproposals.out
-			nav_cli $i listconsultations > ${array_data[$i]}/devnet/listconsultations.out
+			stock_cli $i listproposals > ${array_data[$i]}/devnet/listproposals.out
+			stock_cli $i listconsultations > ${array_data[$i]}/devnet/listconsultations.out
 			cp ${array_data[$i]}/devnet/debug.log $fail_logs_D/debug-out-node$i-$folder_name
 			cp ${array_data[$i]}/devnet/listproposals.out $fail_logs_D/listproposals.out-node$i-$folder_name
 			cp ${array_data[$i]}/devnet/listconsultations.out $fail_logs_D/listconsultations.out-node$i-$folder_name
@@ -178,23 +178,23 @@ function terminate {
 	fi
 	for i in ${array_active_nodes[@]};
 	do
-		nav_cli $i stop
+		stock_cli $i stop
 	done
 	echo "Stopping all nodes..."
 	sleep 30
 	echo Done
-	killall -9 navcoind
+	killall -9 stockd
 	exit $1
 }
 
 function connect_nodes {
-	nav_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) add"
-	nav_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) onetry"
+	stock_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) add"
+	stock_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) onetry"
 }
 
 function disconnect_nodes {
-	nav_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) remove"
-	nav_cli "$1" "disconnectnode 127.0.0.1:$( bc <<< 10000+$2 )"
+	stock_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) remove"
+	stock_cli "$1" "disconnectnode 127.0.0.1:$( bc <<< 10000+$2 )"
 }
 
 
@@ -246,7 +246,7 @@ function check_connection {
 	for i in ${!array[@]};
 	do
 		local connection_pair=(${array[$i]})
-		check=$(nav_cli ${connection_pair[0]} getpeerinfo | grep "\"addr\": \"127.0.0.1:$( bc <<< "10000+${connection_pair[1]}" )\"")
+		check=$(stock_cli ${connection_pair[0]} getpeerinfo | grep "\"addr\": \"127.0.0.1:$( bc <<< "10000+${connection_pair[1]}" )\"")
 		if [ -z "$check" ];
 		then
 			echo "Node ${connection_pair[0]} failed to connect to node ${connection_pair[1]}"
@@ -449,12 +449,12 @@ function start_random_stopped_nodes {
 				echo skipping starting node $i
 			fi
 		done
-		echo Waiting 30 seconds for navcoind...
+		echo Waiting 30 seconds for stockd...
 		sleep 30
 		for j in ${!local_array[@]};
 		do
 			connect_node_to_network $j
-			echo "Nodes $j balance: $(nav_cli $j getbalance) tNAV"
+			echo "Nodes $j balance: $(stock_cli $j getbalance) t0DYNS"
 		done
 	fi
 	echo Currently active nodes are: ${array_active_nodes[@]} inactive ones are: ${array_stopped_nodes[@]}
@@ -504,9 +504,9 @@ function wait_until_sync {
 	wait_until_sync_done=0
 	for i in ${local_array[@]};
 	do
-		local_array_best_hash[$i]=$(nav_cli $i getbestblockhash)
+		local_array_best_hash[$i]=$(stock_cli $i getbestblockhash)
 #		echo best block hash of node $i:
-#		echo "$(nav_cli $i getbestblockhash)"
+#		echo "$(stock_cli $i getbestblockhash)"
 	done
 	if [ $(printf "%s\n" "${local_array_best_hash[@]}" | LC_CTYPE=C sort -z -u | uniq | grep -n -c .) -gt 1 ];
 	then
@@ -516,8 +516,8 @@ function wait_until_sync {
 		sleep 1
 		shuffle_array "${local_array[@]}"
 		node=${shuffled_array[0]}
-		$(nav_cli $node "generate 1")
-		echo now on blcok $(nav_cli $node "getblockcount")
+		$(stock_cli $node "generate 1")
+		echo now on blcok $(stock_cli $node "getblockcount")
 		if [ "$network_split_started" == 1 ];
 		then
 			for wusi in $(seq 0 1 $( bc <<< "$network_count-1" ));
@@ -544,7 +544,7 @@ function assert_state {
 	local local_array_statehash=()
 	for i in ${local_array[@]};
 	do
-		local_array_statehash[$i]=$(nav_cli $i getcfunddbstatehash)
+		local_array_statehash[$i]=$(stock_cli $i getcfunddbstatehash)
 	done
 	if [ $(printf "%s\n" "${local_array_statehash[@]}" | LC_CTYPE=C sort -z -u | uniq | grep -n -c .) -gt 1  ];
 	then
@@ -575,7 +575,7 @@ function random_transactions {
 		shuffle_array "${array_stressing_nodes[@]}"
 		node_send=${shuffled_array[0]}
 		node_receive=${shuffled_array[1]}
-		out=$(nav_cli ${array_stressing_nodes[$node_send]} "sendtoaddress ${array_address[$node_receive]} $transaction_amount")
+		out=$(stock_cli ${array_stressing_nodes[$node_send]} "sendtoaddress ${array_address[$node_receive]} $transaction_amount")
 	fi
 }
 
@@ -593,15 +593,15 @@ function dice_proposal {
         		random_sentence=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-_\$\?" < /dev/urandom | head -c 10)
         		amount=$(bc <<< "$RANDOM % 1000")
         		deadline=$(bc <<< "$RANDOM % 1000000")
-        		address=$(nav_cli ${array_stressing_nodes[$node]} getnewaddress)
-        		out=$(nav_cli ${array_stressing_nodes[$node]} "createproposal $address $amount $deadline \"$random_sentence\"")
+        		address=$(stock_cli ${array_stressing_nodes[$node]} getnewaddress)
+        		out=$(stock_cli ${array_stressing_nodes[$node]} "createproposal $address $amount $deadline \"$random_sentence\"")
 		else
 
         		random_sentence=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-_\$\?" < /dev/urandom | head -c 10)
         		amount=$(bc <<< "$RANDOM % 1000")
         		deadline=$(bc <<< "$RANDOM % 1000000")
-        		address=$(nav_cli ${array_stressing_nodes[$node]} getnewaddress)
-        		out=$(nav_cli ${array_stressing_nodes[$node]} "createproposal $address $amount $deadline \"$random_sentence\" 50 false $address true")
+        		address=$(stock_cli ${array_stressing_nodes[$node]} getnewaddress)
+        		out=$(stock_cli ${array_stressing_nodes[$node]} "createproposal $address $amount $deadline \"$random_sentence\" 50 false $address true")
         	fi
 	fi
 
@@ -611,11 +611,11 @@ function dice_proposal {
 
 	if [ $dice -lt $chances_create_payment_request ];
 	then
-		proposals=$(nav_cli ${array_stressing_nodes[$node]} "listproposals mine"|jq -r ".[]|.hash"|tr "\n" " ")
+		proposals=$(stock_cli ${array_stressing_nodes[$node]} "listproposals mine"|jq -r ".[]|.hash"|tr "\n" " ")
 		array_proposals=($proposals)
 		for p in ${array_proposals[@]}
 		do
-			proposal=$(nav_cli $node "getproposal $p")
+			proposal=$(stock_cli $node "getproposal $p")
 			address=$(echo $proposal|jq -r .paymentAddress)
 			status=$(echo $proposal|jq -r .status)
 			if [[ "$status" == "accepted" ]];
@@ -626,7 +626,7 @@ function dice_proposal {
 				then
 					hash=$(echo $proposal|jq -r .hash)
 					requestAmount=$(bc <<< "$RANDOM % $maxAmount")
-					out=$(nav_cli ${array_stressing_nodes[$node]} "createpaymentrequest $hash $requestAmount \"$random_sentence\"")
+					out=$(stock_cli ${array_stressing_nodes[$node]} "createpaymentrequest $hash $requestAmount \"$random_sentence\"")
 				fi
 			fi
 		done
@@ -643,7 +643,7 @@ function dice_consultation {
 	then
 		random_sentence=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-_\$\?" < /dev/urandom | head -c 10)
 		random_max_answer=$( shuf -i 2-10 -n 1 )
-		out=$(nav_cli ${array_stressing_nodes[$node]} "createconsultation $random_sentence $random_max_answer")
+		out=$(stock_cli ${array_stressing_nodes[$node]} "createconsultation $random_sentence $random_max_answer")
 	fi
 
 	dice=$(bc <<< "$RANDOM % 100")
@@ -666,7 +666,7 @@ function dice_consultation {
 			array_random_answer[$i]=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-_\$\?" < /dev/urandom | head -c 10)
 		done
 		consultation_answer=$(join_by '","' ${array_random_answer[@]})
-		out=$(nav_cli ${array_stressing_nodes[$node]} "createconsultationwithanswers $random_sentence [\"$consultation_answer\"] $random_max_answer $bool_user_propose_new_answer")
+		out=$(stock_cli ${array_stressing_nodes[$node]} "createconsultationwithanswers $random_sentence [\"$consultation_answer\"] $random_max_answer $bool_user_propose_new_answer")
 	fi
 
 	dice=$(bc <<< "$RANDOM % 100")
@@ -678,7 +678,7 @@ function dice_consultation {
 		random_sentence=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-_\$\?" < /dev/urandom | head -c 10)
 		random_upper_limit=$RANDOM
 		random_lower_limit=$( shuf -i 0-$random_upper_limit -n 1)
-		out=$(nav_cli ${array_stressing_nodes[$node]} "createconsultation $random_sentence $random_lower_limit $random_upper_limit true")
+		out=$(stock_cli ${array_stressing_nodes[$node]} "createconsultation $random_sentence $random_lower_limit $random_upper_limit true")
 	fi
 
 
@@ -708,7 +708,7 @@ function dice_consultation {
 			*)
 				;;
 		esac
-		out=$(nav_cli ${array_stressing_nodes[$node]} "proposeconsensuschange $consensus $value")
+		out=$(stock_cli ${array_stressing_nodes[$node]} "proposeconsensuschange $consensus $value")
 #		echo "Proposing changing consensus ${consensus_parameter_name[$consensus]} from ${consensusparameter_new[$consensus]} to $value"
 	fi
 
@@ -744,7 +744,7 @@ function dice_consultation {
 			changing_consensus_value=$(join_by ',' ${array_changing_consensus_value[@]})
 		done
 #		echo "changing consensus $changing_consensus with values $changing_consensus_value"
-		out=$(nav_cli ${array_stressing_nodes[$node]} "proposecombinedconsensuschange [$changing_consensus] [$changing_consensus_value]")
+		out=$(stock_cli ${array_stressing_nodes[$node]} "proposecombinedconsensuschange [$changing_consensus] [$changing_consensus_value]")
 #		echo "out = $out"
 #		echo "Proposing changing consensus ${consensus_parameter_name[$consensus]} from ${consensusparameter_new[$consensus]} to $value"
 	fi
@@ -755,10 +755,10 @@ function dice_consultation {
 
 	if [ $dice -lt $chances_add_answer_consultation ];
 	then
-		consultations=($(nav_cli ${array_stressing_nodes[$node]} "listconsultations"|jq -r ".[]|.hash"|tr "\n" " "))
+		consultations=($(stock_cli ${array_stressing_nodes[$node]} "listconsultations"|jq -r ".[]|.hash"|tr "\n" " "))
 		for c in ${consultations[@]}
 		do
-			consultation=$(nav_cli $node "getconsultation $c")
+			consultation=$(stock_cli $node "getconsultation $c")
 			hash=$(echo $consultation|jq -r .hash)
 			status=$(echo $consultation|jq -r .status)
 			version=$(echo $consultation | jq -r .version)
@@ -791,7 +791,7 @@ function dice_consultation {
 								*)
 									;;
 							esac
-							out=$(nav_cli ${array_stressing_nodes[$node]} "proposeanswer $hash $consensus $value")
+							out=$(stock_cli ${array_stressing_nodes[$node]} "proposeanswer $hash $consensus $value")
 #							echo Adding $value as a new answer to $question
 							match_found=1
 						fi
@@ -803,7 +803,7 @@ function dice_consultation {
 				elif [[ "$version" == 21 ]];
 				then
 					random_sentence=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-_\$\?" < /dev/urandom | head -c 10)
-					out=$(nav_cli ${array_stressing_nodes[$node]} "proposeanswer $hash \"$random_sentence\"")
+					out=$(stock_cli ${array_stressing_nodes[$node]} "proposeanswer $hash \"$random_sentence\"")
 				fi
 			fi
 		done
@@ -816,28 +816,28 @@ function voter_dice_proposal {
 	shuffle_array "${array_stressing_nodes[@]}"
 	node=${shuffled_array[0]}
 	node=$(bc <<< "$RANDOM % $stressing_node_count")
-	proposals=($(nav_cli ${array_stressing_nodes[$node]} proposalvotelist|jq -r ".null[]|.hash"))
+	proposals=($(stock_cli ${array_stressing_nodes[$node]} proposalvotelist|jq -r ".null[]|.hash"))
 	for i in ${proposals[@]};
 	do
 		dice=$(bc <<< "$RANDOM % 2")
 		if [ $dice -eq 1 ];
 		then
-			out=$(nav_cli ${array_stressing_nodes[$node]} "proposalvote $i yes")
+			out=$(stock_cli ${array_stressing_nodes[$node]} "proposalvote $i yes")
 		else
-			out=$(nav_cli ${array_stressing_nodes[$node]} "proposalvote $i no")
+			out=$(stock_cli ${array_stressing_nodes[$node]} "proposalvote $i no")
 		fi
 	done
 
-	prequests=($(nav_cli ${array_stressing_nodes[$node]} paymentrequestvotelist|jq -r ".null[]|.hash?"))
+	prequests=($(stock_cli ${array_stressing_nodes[$node]} paymentrequestvotelist|jq -r ".null[]|.hash?"))
 
 	for i in ${prequests[@]};
 	do
 		dice=$(bc <<< "$RANDOM % 2")
 		if [ $dice -eq 1 ];
 		then
-			out=$(nav_cli ${array_stressing_nodes[$node]} "paymentrequestvote $i yes")
+			out=$(stock_cli ${array_stressing_nodes[$node]} "paymentrequestvote $i yes")
 		else
-			out=$(nav_cli ${array_stressing_nodes[$node]} "paymentrequestvote $i no")
+			out=$(stock_cli ${array_stressing_nodes[$node]} "paymentrequestvote $i no")
 		fi
 	done
 }
@@ -846,11 +846,11 @@ function voter_dice_consultation {
 
 	shuffle_array "${array_stressing_nodes[@]}"
 	node=${shuffled_array[0]}
-	consultations=($(nav_cli ${array_stressing_nodes[$node]} "listconsultations"|jq -r ".[]|.hash"|tr "\n" " "))
-	all_consultation_answers=($(nav_cli ${array_stressing_nodes[$node]} "listconsultations"|jq -r ".[].answers[]|.hash"|tr "\n" " "))
+	consultations=($(stock_cli ${array_stressing_nodes[$node]} "listconsultations"|jq -r ".[]|.hash"|tr "\n" " "))
+	all_consultation_answers=($(stock_cli ${array_stressing_nodes[$node]} "listconsultations"|jq -r ".[].answers[]|.hash"|tr "\n" " "))
 	for i in ${consultations[@]};
 	do
-		consultation=$(nav_cli $node "getconsultation $i")
+		consultation=$(stock_cli $node "getconsultation $i")
 		version=$(echo $consultation | jq -r .version)
 		status=$(echo $consultation | jq -r .status)
 		if [[ "$status" == "waiting for support" ]] || [[ "$status" == "waiting for support, waiting for having enough supported answers" ]];
@@ -860,9 +860,9 @@ function voter_dice_consultation {
 				dice=$(bc <<< "$RANDOM % 2")
 				if [ $dice -eq 1 ];
 				then
-					out=$(nav_cli ${array_stressing_nodes[$node]} "support $i")
+					out=$(stock_cli ${array_stressing_nodes[$node]} "support $i")
 				else
-					out=$(nav_cli ${array_stressing_nodes[$node]} "support $i false")
+					out=$(stock_cli ${array_stressing_nodes[$node]} "support $i false")
 				fi
 			else
 				for k in ${all_consultation_answers[@]};
@@ -870,9 +870,9 @@ function voter_dice_consultation {
 					dice=$(bc <<< "$RANDOM % 1")
 					if [ $dice -eq 0 ];
 					then
-						out=$(nav_cli ${array_stressing_nodes[$node]} "support $k")
+						out=$(stock_cli ${array_stressing_nodes[$node]} "support $k")
 					else
-						out=$(nav_cli ${array_stressing_nodes[$node]} "support $k false")
+						out=$(stock_cli ${array_stressing_nodes[$node]} "support $k false")
 					fi
 				done
 			fi
@@ -884,16 +884,16 @@ function voter_dice_consultation {
 				dice=$(bc <<< "$RANDOM % 2")
 				if [ $dice -eq 1 ];
 				then
-					out=$(nav_cli ${array_stressing_nodes[$node]} "consultationvote $i $RANDOM")
+					out=$(stock_cli ${array_stressing_nodes[$node]} "consultationvote $i $RANDOM")
 				else
-					out=$(nav_cli ${array_stressing_nodes[$node]} "consultationvote $i abs")
+					out=$(stock_cli ${array_stressing_nodes[$node]} "consultationvote $i abs")
 				fi
 			else
-				out=$(nav_cli ${array_stressing_nodes[$node]} "consultationvote $i remove")
-				consultation_answers=($(nav_cli $node "getconsultation $i"| jq -r ".answers[].hash" | tr "\n" " "))
+				out=$(stock_cli ${array_stressing_nodes[$node]} "consultationvote $i remove")
+				consultation_answers=($(stock_cli $node "getconsultation $i"| jq -r ".answers[].hash" | tr "\n" " "))
 				for k in ${consultation_answers[@]};
 				do
-					out=$(nav_cli ${array_stressing_nodes[$node]} "consultationvote $k remove")
+					out=$(stock_cli ${array_stressing_nodes[$node]} "consultationvote $k remove")
 				done
 
 				if [ "$version" == 29 ] || [ "$version" == 61 ];
@@ -901,23 +901,23 @@ function voter_dice_consultation {
 					dice=$(bc <<< "$RANDOM % 5")
 					if [ $dice -eq 1 ];
 					then
-						out=$(nav_cli ${array_stressing_nodes[$node]} "consultationvote $i abs")
+						out=$(stock_cli ${array_stressing_nodes[$node]} "consultationvote $i abs")
 					else
 						yes_answer=$( bc <<< "$RANDOM % ${#consultation_answers[@]}" )
-						out=$(nav_cli ${array_stressing_nodes[$node]} "consultationvote ${consultation_answers[$yes_answer]} yes")
+						out=$(stock_cli ${array_stressing_nodes[$node]} "consultationvote ${consultation_answers[$yes_answer]} yes")
 					fi
 				else
 					dice=$(bc <<< "$RANDOM % 5")
 					if [ $dice -eq 1 ];
 					then
-						out=$(nav_cli ${array_stressing_nodes[$node]} "consultationvote $i abs")
+						out=$(stock_cli ${array_stressing_nodes[$node]} "consultationvote $i abs")
 					else
 						for k in ${consultation_answers[@]};
 						do
 							dice=$(bc <<< "$RANDOM % 2")
 							if [ $dice -eq 1 ];
 							then
-								out=$(nav_cli ${array_stressing_nodes[$node]} "consultationvote $k yes")
+								out=$(stock_cli ${array_stressing_nodes[$node]} "consultationvote $k yes")
 							fi
 						done
 					fi
@@ -930,7 +930,7 @@ function voter_dice_consultation {
 }
 
 function check_consensus_parameters {
-	consensusparameter_tmp=($(nav_cli $1 getconsensusparameters | tr -d "[],\n"))
+	consensusparameter_tmp=($(stock_cli $1 getconsensusparameters | tr -d "[],\n"))
 	if [ "${#consensusparameter_tmp[@]}" -gt 10 ];
 	then
 		copy_array consensusparameter_tmp consensusparameter_new
@@ -949,7 +949,7 @@ function stress {
 
 	for i in ${array_stressing_nodes[@]};
 	do
-		out=$(nav_cli $i "staking true")
+		out=$(stock_cli $i "staking true")
 	done
 	time=$(bc <<< $(date +%s)+$1)
 	while [ $time -gt $(date +%s) ]
@@ -978,20 +978,20 @@ function stress {
 		sleep $stress_sleep_time
 	done
 	donation=$(bc <<< "$RANDOM % 10000")
-	out=$(nav_cli 0 "donatefund $donation")
+	out=$(stock_cli 0 "donatefund $donation")
 	for i in ${array_stressing_nodes[@]};
 	do
-		out=$(nav_cli $i "staking false")
-		echo "Node $i balance: $(nav_cli $i getbalance) tNAV"
+		out=$(stock_cli $i "staking false")
+		echo "Node $i balance: $(stock_cli $i getbalance) t0DYNS"
 	done
 }
 
 function check_node {
-	blocks=`nav_cli $2 getinfo|jq .blocks`
+	blocks=`stock_cli $2 getinfo|jq .blocks`
 	block_increment=${#array_verifychain_nodes[@]}
 	for i in $(seq $1 $block_increment $blocks);
 	do
-		verifyoutput=`nav_cli $2 verifychain 4 $i`
+		verifyoutput=`stock_cli $2 verifychain 4 $i`
 		if [[ "$verifyoutput" == "false" ]];
 		then
 			verifyoutput+=`echo ' - ' && echo failed at $(grep 'ERROR: VerifyDB()' ${array_data[$2]}/devnet/debug.log |tail -1|sed 's/.*block at \(\d*\)/\1/')`
@@ -1002,7 +1002,7 @@ function check_node {
 		- reconnecting up to $blocks \
 		- verifychain 4 $i -\> $verifyoutput;
 	done
-	verifyoutput=`nav_cli $2 verifychain 4 0`
+	verifyoutput=`stock_cli $2 verifychain 4 0`
 	echo "Node $2 - Doing verifychain 4 0 -> $verifyoutput"
 	echo "node $2 finished"
 }
@@ -1010,7 +1010,7 @@ function check_node {
 function check_cycle {
 	shuffle_array "${array_stressing_nodes[@]}"
 	node=${shuffled_array[0]}
-	blocks=$(nav_cli $node getinfo|jq .blocks)
+	blocks=$(stock_cli $node getinfo|jq .blocks)
 	if [ "$( bc <<< "$blocks - $last_cycle_end_block_height" )" -gt  "$voting_cycle_length" ];
 	then
 		last_cycle_end_block_height=$(echo "$last_cycle_end_block_height+$voting_cycle_length" | bc )
@@ -1051,12 +1051,12 @@ function random_verifychain_check {
 }
 
 function start_node {
-	$(echo $navpath)/navcoind -datadir=${array_data[$1]} -port=${array_p2p_port[$1]} -rpcport=${array_rpc_port[$1]} -devnet -debug=dao -debug=daoextra -debug=statehash -ntpminmeasures=-1 -dandelion=0 -disablesafemode -staking=0 -daemon
-#	gdb -batch -ex "run" -ex "bt" --args $(echo $navpath)/navcoind -datadir=${array_data[$1]} -port=${array_p2p_port[$1]} -rpcport=${array_rpc_port[$1]} -devnet -debug=daoextra -debug=dao -debug=statehash -ntpminmeasures=-1 -dandelion=0 -disablesafemode -staking=0 &
+	$(echo $stockpath)/stockd -datadir=${array_data[$1]} -port=${array_p2p_port[$1]} -rpcport=${array_rpc_port[$1]} -devnet -debug=dao -debug=daoextra -debug=statehash -ntpminmeasures=-1 -dandelion=0 -disablesafemode -staking=0 -daemon
+#	gdb -batch -ex "run" -ex "bt" --args $(echo $stockpath)/stockd -datadir=${array_data[$1]} -port=${array_p2p_port[$1]} -rpcport=${array_rpc_port[$1]} -devnet -debug=daoextra -debug=dao -debug=statehash -ntpminmeasures=-1 -dandelion=0 -disablesafemode -staking=0 &
 }
 
 function stop_node {
-	out=$(nav_cli $1 stop)
+	out=$(stock_cli $1 stop)
 }
 
 ##########################################################Script body
@@ -1069,9 +1069,9 @@ do
 done
 
 echo ''
-echo Waiting 30 seconds for navcoind...
+echo Waiting 30 seconds for stockd...
 
-#Sleep to let navoind boot up, on slower systems the value may need to be much higher
+#Sleep to let stockd boot up, on slower systems the value may need to be much higher
 sleep 30
 
 if [ "$node_count" == 1 ];
@@ -1125,38 +1125,38 @@ else
 	connect_network "${array_topology_node_pairs[@]}"
 fi
 
-out=$(nav_cli 0 "generate 10")
+out=$(stock_cli 0 "generate 10")
 
 #Distribute funds to stressing nodes
 array_address=()
 for n in ${!array_stressing_nodes[@]};
 do
-        array_address[$n]=$(nav_cli ${array_stressing_nodes[$n]} getnewaddress)
+        array_address[$n]=$(stock_cli ${array_stressing_nodes[$n]} getnewaddress)
 done
 for i in {1..50};
 do
 	for j in ${array_address[@]};
 	do
-		out=$(nav_cli 0 "sendtoaddress $j 10000")
+		out=$(stock_cli 0 "sendtoaddress $j 10000")
 	done
-	out=$(nav_cli 0 "generate 1")
+	out=$(stock_cli 0 "generate 1")
 done
 sleep 1
 for n in ${array_stressing_nodes[@]};
 do
-	echo "Node $n balance: $(nav_cli $n getbalance) tNAV"
+	echo "Node $n balance: $(stock_cli $n getbalance) t0DYNS"
 done
 
 #Create blocks to make block count greater than 300
-blocks=$(nav_cli 0 getblockcount)
+blocks=$(stock_cli 0 getblockcount)
 while [ $blocks -lt 300 ];
 do
-	out=$(nav_cli 0 "generate 10")
-	blocks=$(nav_cli 0 getblockcount)
+	out=$(stock_cli 0 "generate 10")
+	blocks=$(stock_cli 0 getblockcount)
 done
-out=$(nav_cli 0 "generate 10")
+out=$(stock_cli 0 "generate 10")
 donation=$(bc <<< "$RANDOM % 10000")
-out=$(nav_cli 0 "donatefund $donation")
+out=$(stock_cli 0 "donatefund $donation")
 
 echo ''
 echo Waiting until all nodes are synced
@@ -1168,19 +1168,19 @@ echo Checking state hashes match
 
 assert_state "${array_active_nodes[@]}"
 
-consensus_parameter_count=$(nav_cli 0 getconsensusparameters | jq length)
+consensus_parameter_count=$(stock_cli 0 getconsensusparameters | jq length)
 for i in $(seq 0 1 $( bc <<< "$consensus_parameter_count - 1" ));
 do
-	eval "consensus_parameter_name[\$i]=\$(nav_cli 0 \"getconsensusparameters true\" | jq -r '.[] | select(.id==$i) | .desc')"
+	eval "consensus_parameter_name[\$i]=\$(stock_cli 0 \"getconsensusparameters true\" | jq -r '.[] | select(.id==$i) | .desc')"
 done
-consensusparameter_old=($(nav_cli 0 getconsensusparameters | tr -d "[],\n"))
+consensusparameter_old=($(stock_cli 0 getconsensusparameters | tr -d "[],\n"))
 consensusparameter_original=("${consensusparameter_old[@]}")
 voting_cycle_length=${consensusparameter_old[0]}
-blocks=$(nav_cli 0 getinfo|jq .blocks)
+blocks=$(stock_cli 0 getinfo|jq .blocks)
 initial_cycle=$(bc <<< $blocks/$voting_cycle_length)
 wait_until_cycle=$(bc <<< "$initial_cycle + $cycles")
 this_cycle=$(bc <<< $blocks/$voting_cycle_length)
-current_block=$(nav_cli 0 getinfo|jq .blocks)
+current_block=$(stock_cli 0 getinfo|jq .blocks)
 last_cycle_end_block_height=$( bc <<< "$blocks - $blocks % $voting_cycle_length" )
 shuffle_array "${array_stressing_nodes[@]}"
 node=${shuffled_array[0]}
@@ -1209,7 +1209,7 @@ while [ $wait_until_cycle -gt $this_cycle ]; do
 
 	if [ "$node_count" == 1 ];
 	then
-		out=$(nav_cli 0 "generate 5")
+		out=$(stock_cli 0 "generate 5")
 	fi
 
 	if [ "$bool_random_verifychain_check" == 1 ];
@@ -1283,7 +1283,7 @@ while [ $wait_until_cycle -gt $this_cycle ]; do
 			array_topology_node_pairs+=("$node_count $node")
 			#echo "array topology node pairs is now ${array_topology_node_pairs[@]}"
 			initialize_node $node_count
-			echo Waiting 30 sec for navcoind...
+			echo Waiting 30 sec for stockd...
 			sleep 30
 			connect_network "${array_topology_node_pairs[@]}"
 			sleep 30
@@ -1311,12 +1311,12 @@ while [ $wait_until_cycle -gt $this_cycle ]; do
 	shuffle_array "${array_stressing_nodes[@]}"
 	node=${shuffled_array[0]}
 	echo Current block: $current_block Current cycle: $this_cycle - $cycles_left cycle\(s\) left to finish.
-	echo Proposals: $(nav_cli $node listproposals|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
-	echo Payment Requests: $(nav_cli $node listproposals|jq -c "[.[].paymentRequests|map({status:.status})]|flatten|group_by(.status)|map({status:.[0].status,count:length})|.[]")
-	echo Super Proposals: $(nav_cli $node listproposals | jq '[.[] | select(.super_proposal == true)] | length')
-	echo Consultations: $(nav_cli $node listconsultations|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
-	echo Consensus Parameter Change Proposed: $(nav_cli $node listconsultations  | jq ".[].version" | grep 29 | wc -l)
-	echo Combined Consensus Parameter Change Proposed: $(nav_cli $node listconsultations  | jq ".[].version" | grep 61 | wc -l)
+	echo Proposals: $(stock_cli $node listproposals|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
+	echo Payment Requests: $(stock_cli $node listproposals|jq -c "[.[].paymentRequests|map({status:.status})]|flatten|group_by(.status)|map({status:.[0].status,count:length})|.[]")
+	echo Super Proposals: $(stock_cli $node listproposals | jq '[.[] | select(.super_proposal == true)] | length')
+	echo Consultations: $(stock_cli $node listconsultations|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
+	echo Consensus Parameter Change Proposed: $(stock_cli $node listconsultations  | jq ".[].version" | grep 29 | wc -l)
+	echo Combined Consensus Parameter Change Proposed: $(stock_cli $node listconsultations  | jq ".[].version" | grep 61 | wc -l)
 	echo Conenesus Parameter Origianl: ${consensusparameter_original[@]}
 	echo Current consensus parameters: ${consensusparameter_new[@]}
 	echo Active nodes: ${array_active_nodes[@]} Inactive nodes: ${array_stopped_nodes[@]}
@@ -1345,7 +1345,7 @@ then
 		echo Starting node $i...
 		start_node $i
 	done
-	echo Waiting 30 sec for navcoind...
+	echo Waiting 30 sec for stockd...
 	sleep 30
 	echo Splitting the network into $network_count sub networks...
 	network_split_started=1
@@ -1405,13 +1405,13 @@ then
 			eval "shuffle_array \"\${array_all_nodes_network$nc[@]}\""
 			node=${shuffled_array[0]}
 			check_consensus_parameters $node
-			blocks=$(nav_cli $node getinfo|jq .blocks)
+			blocks=$(stock_cli $node getinfo|jq .blocks)
 			echo Consensus parameter of network $nc: ${consensusparameter_new[@]} Block height: $blocks
-			echo Proposals: $(nav_cli $node listproposals|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
-			echo Super Proposals: $(nav_cli $node listproposals | jq '[.[] | select(.super_proposal == true)] | length')
-			echo Payment Requests: $(nav_cli $node listproposals|jq -c "[.[].paymentRequests|map({status:.status})]|flatten|group_by(.status)|map({status:.[0].status,count:length})|.[]")
-			echo Consultations: $(nav_cli $node listconsultations|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
-			echo Consensus Parameter Change Proposed: $(nav_cli $node listconsultations  | jq ".[].version" | grep 13 | wc -l)
+			echo Proposals: $(stock_cli $node listproposals|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
+			echo Super Proposals: $(stock_cli $node listproposals | jq '[.[] | select(.super_proposal == true)] | length')
+			echo Payment Requests: $(stock_cli $node listproposals|jq -c "[.[].paymentRequests|map({status:.status})]|flatten|group_by(.status)|map({status:.[0].status,count:length})|.[]")
+			echo Consultations: $(stock_cli $node listconsultations|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
+			echo Consensus Parameter Change Proposed: $(stock_cli $node listconsultations  | jq ".[].version" | grep 13 | wc -l)
 		done
 		cycles_left=$(bc <<< "$wait_until_cycle - $this_cycle")
 		previous_block=$current_block
@@ -1433,31 +1433,31 @@ fi
 
 
 extra_blocks=$(bc <<< "($RANDOM%$extra_blocks_to_stake_randomness)+$extra_blocks_to_stake")
-blocks=$(nav_cli $node getinfo|jq .blocks)
+blocks=$(stock_cli $node getinfo|jq .blocks)
 wait_until=$(bc <<< "$blocks+$extra_blocks")
 echo ''
 echo Stopping stresser. Waiting until $extra_blocks blocks are staked
 for i in ${array_stressing_nodes[@]};
 do
-	out=$(nav_cli $i "staking true")
+	out=$(stock_cli $i "staking true")
 done
 while [ $blocks -lt $wait_until ];
 do
 	sleep 30
-	blocks=$(nav_cli $node getinfo|jq .blocks)
+	blocks=$(stock_cli $node getinfo|jq .blocks)
 	echo $(bc <<< "$wait_until-$blocks") blocks left...
 done
 for i in ${array_stressing_nodes[@]};
 do
-        out=$(nav_cli $i "staking false")
+        out=$(stock_cli $i "staking false")
 done
 echo ''
 echo Waiting until all nodes are synced
 wait_until_sync "${array_active_nodes[@]}"
-echo Ok! Block: $(nav_cli $node getinfo|jq .blocks) Cycle: $(bc <<< $(nav_cli $node getinfo|jq .blocks)/$voting_cycle_length).
-echo Proposals: $(nav_cli $node listproposals|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
-echo Payment Requests: $(nav_cli $node listproposals|jq -c "[.[].paymentRequests|map({status:.status})]|flatten|group_by(.status)|map({status:.[0].status,count:length})|.[]")
-echo Consultations: $(nav_cli $node listconsultations|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
+echo Ok! Block: $(stock_cli $node getinfo|jq .blocks) Cycle: $(bc <<< $(stock_cli $node getinfo|jq .blocks)/$voting_cycle_length).
+echo Proposals: $(stock_cli $node listproposals|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
+echo Payment Requests: $(stock_cli $node listproposals|jq -c "[.[].paymentRequests|map({status:.status})]|flatten|group_by(.status)|map({status:.[0].status,count:length})|.[]")
+echo Consultations: $(stock_cli $node listconsultations|jq -c "map({status:.status})|group_by(.status)|map({status:.[0].status,count:length})|.[]")
 
 
 echo ''
@@ -1475,7 +1475,7 @@ wait
 
 for n in ${array_stressing_nodes[@]};
 do
-        echo "Node $n balance: $(nav_cli $n getbalance) tNAV"
+        echo "Node $n balance: $(stock_cli $n getbalance) t0DYNS"
 done
 
 

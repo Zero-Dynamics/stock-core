@@ -5,10 +5,10 @@
 
 # Test mempool limiting together/eviction with the wallet
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
-class MempoolLimitTest(NavcoinTestFramework):
+class MempoolLimitTest(StockTestFramework):
 
     def setup_network(self):
         self.nodes = []

@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_CONSENSUS_PARAMS_H
-#define NAVCOIN_CONSENSUS_PARAMS_H
+#ifndef STOCK_CONSENSUS_PARAMS_H
+#define STOCK_CONSENSUS_PARAMS_H
 
 #include <amount.h>
 #include <uint256.h>
@@ -38,8 +38,8 @@ enum DeploymentPos
     DEPLOYMENT_EXCLUDE,
     DEPLOYMENT_DAO_SUPER,
     DEPLOYMENT_BURN_FEES,
-    DEPLOYMENT_XNAV_SER,
-    DEPLOYMENT_DOT_NAV,
+    DEPLOYMENT_XSTOCK_SER,
+    DEPLOYMENT_DOT_STOCK,
     MAX_VERSION_BITS_DEPLOYMENTS,
 };
 
@@ -53,21 +53,21 @@ static std::string sDeploymentsDesc[Consensus::MAX_VERSION_BITS_DEPLOYMENTS] = {
     "Starts the accumulation of coins on the Community Fund",
     "Cold Staking",
     "Spread the accumulation of coins on the Community Fund to save on block space",
-    "Increase the contributed amount to the Community Fund to 0.5NAV per block",
+    "Increase the contributed amount to the Community Fund to 0.50DYNS per block",
     "NTP SYNC",
-    "Upgrade to POSv3. Every staked block will have a fixed reward of 2 NAV",
+    "Upgrade to POSv3. Every staked block will have a fixed reward of 2 0DYNS",
     "Reduce the Quorum necessary for the last cycles of the Community Fund votings",
     "Upgrades the Community Fund with a state based cache which will save on block space as votes do not need to be broadcasted every block",
     "Enable DAO Consultations",
     "Enables remote DAO voting from light wallets",
     "Enables the decision over consensus parameters using distributed voting",
     "Allows staking pools to charge a fee",
-    "Activates the privacy protocol blsCT and the private token xNAV",
+    "Activates the privacy protocol blsCT and the private token x0DYNS",
     "Excludes inactive voters from the DAO quorums",
     "Enables Super proposals and allows combined vote of consensus parameters",
     "Burns the transaction fees",
-    "Version 2 of XNAV (private tokens, nfts and optimizations)",
-    "Enables dotNAV"
+    "Version 2 of X0DYNS (private tokens, nfts and optimizations)",
+    "Enables dotSTOCK"
 };
 
 /**
@@ -151,4 +151,4 @@ struct Params {
 };
 } // namespace Consensus
 
-#endif // NAVCOIN_CONSENSUS_PARAMS_H
+#endif // STOCK_CONSENSUS_PARAMS_H

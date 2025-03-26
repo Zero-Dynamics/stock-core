@@ -229,13 +229,13 @@ int CBase58Data::CompareTo(const CBase58Data& b58) const
 
 namespace
 {
-class CNavcoinAddressVisitor : public boost::static_visitor<bool>
+class CStockAddressVisitor : public boost::static_visitor<bool>
 {
 private:
-    CNavcoinAddress* addr;
+    CStockAddress* addr;
 
 public:
-    CNavcoinAddressVisitor(CNavcoinAddress* addrIn) : addr(addrIn) {}
+    CStockAddressVisitor(CStockAddress* addrIn) : addr(addrIn) {}
 
     bool operator()(const CKeyID& id) const { return addr->Set(id); }
     bool operator()(const blsctDoublePublicKey &id) const { return addr->Set(id); }
@@ -247,58 +247,58 @@ public:
 
 } // anon namespace
 
-bool CNavcoinAddress::Set(const CKeyID& id)
+bool CStockAddress::Set(const CKeyID& id)
 {
     SetData(Params().Base58Prefix(CChainParams::PUBKEY_ADDRESS), &id, 20);
     return true;
 }
 
-bool CNavcoinAddress::Set(const CKeyID& id, const CKeyID& id2)
+bool CStockAddress::Set(const CKeyID& id, const CKeyID& id2)
 {
     SetData(Params().Base58Prefix(CChainParams::COLDSTAKING_ADDRESS), &id, 20, &id2, 20);
     return true;
 }
 
-bool CNavcoinAddress::Set(const blsctDoublePublicKey &id)
+bool CStockAddress::Set(const blsctDoublePublicKey &id)
 {
     SetData(Params().Base58Prefix(CChainParams::BLS_PRIVATE_ADDRESS), id.GetVkVch().data(), bls::G1Element::SIZE, id.GetSkVch().data(), bls::G1Element::SIZE);
     return true;
 }
 
-bool CNavcoinAddress::Set(const CKeyID& id, const CKeyID& id2, const CKeyID& id3)
+bool CStockAddress::Set(const CKeyID& id, const CKeyID& id2, const CKeyID& id3)
 {
     SetData(Params().Base58Prefix(CChainParams::COLDSTAKING_ADDRESS_V2), &id, 20, &id2, 20, &id3, 20);
     return true;
 }
 
-bool CNavcoinAddress::Set(const CScriptID& id)
+bool CStockAddress::Set(const CScriptID& id)
 {
     SetData(Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS), &id, 20);
     return true;
 }
 
-bool CNavcoinAddress::Set(const CScript& scriptIn)
+bool CStockAddress::Set(const CScript& scriptIn)
 {
     SetData(Params().Base58Prefix(CChainParams::RAW_SCRIPT_ADDRESS), &scriptIn[0], scriptIn.size());
     return true;
 }
 
-bool CNavcoinAddress::Set(const CTxDestination& dest)
+bool CStockAddress::Set(const CTxDestination& dest)
 {
-    return boost::apply_visitor(CNavcoinAddressVisitor(this), dest);
+    return boost::apply_visitor(CStockAddressVisitor(this), dest);
 }
 
-bool CNavcoinAddress::IsValid() const
+bool CStockAddress::IsValid() const
 {
     return IsValid(Params());
 }
 
-bool CNavcoinAddress::IsPrivateAddress(const CChainParams& params) const
+bool CStockAddress::IsPrivateAddress(const CChainParams& params) const
 {
     return vchVersion == params.Base58Prefix(CChainParams::BLS_PRIVATE_ADDRESS);
 }
 
-bool CNavcoinAddress::GetSpendingAddress(CNavcoinAddress &address) const
+bool CStockAddress::GetSpendingAddress(CStockAddress &address) const
 {
     if(!IsColdStakingAddress(Params()) && !IsColdStakingv2Address(Params()))
         return false;
@@ -308,7 +308,7 @@ bool CNavcoinAddress::GetSpendingAddress(CNavcoinAddress &address) const
     return true;
 }
 
-bool CNavcoinAddress::GetStakingAddress(CNavcoinAddress &address) const
+bool CStockAddress::GetStakingAddress(CStockAddress &address) const
 {
     if(!IsColdStakingAddress(Params()) && !IsColdStakingv2Address(Params()))
         return false;
@@ -318,7 +318,7 @@ bool CNavcoinAddress::GetStakingAddress(CNavcoinAddress &address) const
     return true;
 }
 
-bool CNavcoinAddress::GetVotingAddress(CNavcoinAddress &address) const
+bool CStockAddress::GetVotingAddress(CStockAddress &address) const
 {
     if(!IsColdStakingv2Address(Params()))
         return false;
@@ -328,7 +328,7 @@ bool CNavcoinAddress::GetVotingAddress(CNavcoinAddress &address) const
     return true;
 }
 
-bool CNavcoinAddress::IsValid(const CChainParams& params) const
+bool CStockAddress::IsValid(const CChainParams& params) const
 {
     if (vchVersion == params.Base58Prefix(CChainParams::COLDSTAKING_ADDRESS))
         return vchData.size() == 40;
@@ -346,18 +346,18 @@ bool CNavcoinAddress::IsValid(const CChainParams& params) const
     return fCorrectSize && fKnownVersion;
 }
 
-bool CNavcoinAddress::IsColdStakingAddress(const CChainParams& params) const
+bool CStockAddress::IsColdStakingAddress(const CChainParams& params) const
 {
     return vchVersion == params.Base58Prefix(CChainParams::COLDSTAKING_ADDRESS) && vchData.size() == 40;
 }
 
 
-bool CNavcoinAddress::IsColdStakingv2Address(const CChainParams& params) const
+bool CStockAddress::IsColdStakingv2Address(const CChainParams& params) const
 {
     return vchVersion == params.Base58Prefix(CChainParams::COLDSTAKING_ADDRESS_V2) && vchData.size() == 60;
 }
 
-CTxDestination CNavcoinAddress::Get() const
+CTxDestination CStockAddress::Get() const
 {
     if (!IsValid())
         return CNoDestination();
@@ -405,7 +405,7 @@ CTxDestination CNavcoinAddress::Get() const
         return CNoDestination();
 }
 
-bool CNavcoinAddress::GetIndexKey(uint160& hashBytes, int& type) const
+bool CStockAddress::GetIndexKey(uint160& hashBytes, int& type) const
 {
     if (!IsValid()) {
         return false;
@@ -430,7 +430,7 @@ bool CNavcoinAddress::GetIndexKey(uint160& hashBytes, int& type) const
     return false;
 }
 
-bool CNavcoinAddress::GetKeyID(CKeyID& keyID) const
+bool CStockAddress::GetKeyID(CKeyID& keyID) const
 {
     if (!(IsValid() && vchVersion == Params().Base58Prefix(CChainParams::PUBKEY_ADDRESS)))
         return false;
@@ -440,7 +440,7 @@ bool CNavcoinAddress::GetKeyID(CKeyID& keyID) const
     return true;
 }
 
-bool CNavcoinAddress::GetStakingKeyID(CKeyID& keyID) const
+bool CStockAddress::GetStakingKeyID(CKeyID& keyID) const
 {
     if (!(IsValid() && (vchVersion == Params().Base58Prefix(CChainParams::COLDSTAKING_ADDRESS)
                      || vchVersion == Params().Base58Prefix(CChainParams::COLDSTAKING_ADDRESS_V2))))
@@ -451,7 +451,7 @@ bool CNavcoinAddress::GetStakingKeyID(CKeyID& keyID) const
     return true;
 }
 
-bool CNavcoinAddress::GetSpendingKeyID(CKeyID& keyID) const
+bool CStockAddress::GetSpendingKeyID(CKeyID& keyID) const
 {
     if (!(IsValid() && (vchVersion == Params().Base58Prefix(CChainParams::COLDSTAKING_ADDRESS)
                      || vchVersion == Params().Base58Prefix(CChainParams::COLDSTAKING_ADDRESS_V2))))
@@ -462,7 +462,7 @@ bool CNavcoinAddress::GetSpendingKeyID(CKeyID& keyID) const
     return true;
 }
 
-bool CNavcoinAddress::GetVotingKeyID(CKeyID& keyID) const
+bool CStockAddress::GetVotingKeyID(CKeyID& keyID) const
 {
     if (!(IsValid() && vchVersion == Params().Base58Prefix(CChainParams::COLDSTAKING_ADDRESS_V2)))
         return false;
@@ -472,17 +472,17 @@ bool CNavcoinAddress::GetVotingKeyID(CKeyID& keyID) const
     return true;
 }
 
-bool CNavcoinAddress::IsScript() const
+bool CStockAddress::IsScript() const
 {
     return IsValid() && vchVersion == Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS);
 }
 
-bool CNavcoinAddress::IsRawScript() const
+bool CStockAddress::IsRawScript() const
 {
     return IsValid() && vchVersion == Params().Base58Prefix(CChainParams::RAW_SCRIPT_ADDRESS);
 }
 
-void CNavcoinSecret::SetKey(const CKey& vchSecret)
+void CStockSecret::SetKey(const CKey& vchSecret)
 {
     assert(vchSecret.IsValid());
     SetData(Params().Base58Prefix(CChainParams::SECRET_KEY), vchSecret.begin(), vchSecret.size());
@@ -490,7 +490,7 @@ void CNavcoinSecret::SetKey(const CKey& vchSecret)
         vchData.push_back(1);
 }
 
-CKey CNavcoinSecret::GetKey()
+CKey CStockSecret::GetKey()
 {
     CKey ret;
     assert(vchData.size() >= 32);
@@ -498,7 +498,7 @@ CKey CNavcoinSecret::GetKey()
     return ret;
 }
 
-bool CNavcoinSecret::IsValid() const
+bool CStockSecret::IsValid() const
 {
     if (vchVersion == Params().Base58Prefix(CChainParams::BLS_PRIVATE_ADDRESS))
     {
@@ -523,12 +523,12 @@ bool CNavcoinSecret::IsValid() const
     return fExpectedFormat && fCorrectVersion;
 }
 
-bool CNavcoinSecret::SetString(const char* pszSecret)
+bool CStockSecret::SetString(const char* pszSecret)
 {
     return CBase58Data::SetString(pszSecret) && IsValid();
 }
 
-bool CNavcoinSecret::SetString(const std::string& strSecret)
+bool CStockSecret::SetString(const std::string& strSecret)
 {
     return SetString(strSecret.c_str());
 }

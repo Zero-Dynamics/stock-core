@@ -1,7 +1,7 @@
 Bag Attributes
     friendlyName: alex v
-    localKeyID: 61 6C 65 78 20 76 
-subject=C = Germany, emailAddress = alex@nav.community, CN = alex v
+    localKeyID: 61 6C 65 78 20 76
+subject=C = Germany, emailAddress = alex@stock.community, CN = alex v
 
 issuer=C = GB, O = Ascertia, CN = Ascertia Public CA 1
 

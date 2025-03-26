@@ -53,9 +53,9 @@ void CommunityFundDisplayPaymentRequest::refresh()
     ui->title->setText(QString::fromStdString(prequest.strDZeel));
     ui->labelStatus->setText(QString::fromStdString(prequest.GetState(coins)));
 
-    std::string nav_amount;
-    nav_amount = wallet->formatDisplayAmount(prequest.nAmount);
-    ui->labelRequested->setText(QString::fromStdString(nav_amount));
+    std::string stock_amount;
+    stock_amount = wallet->formatDisplayAmount(prequest.nAmount);
+    ui->labelRequested->setText(QString::fromStdString(stock_amount));
 
     uint64_t proptime = 0;
     CBlockIndex* pblockindex = prequest.GetLastStateBlockIndex();

@@ -2,11 +2,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_COMPAT_ENDIAN_H
-#define NAVCOIN_COMPAT_ENDIAN_H
+#ifndef STOCK_COMPAT_ENDIAN_H
+#define STOCK_COMPAT_ENDIAN_H
 
 #if defined(HAVE_CONFIG_H)
-#include <config/navcoin-config.h>
+#include <config/stock-config.h>
 #endif
 
 #include <compat/byteswap.h>
@@ -238,4 +238,4 @@ inline uint64_t le64toh(uint64_t little_endian_64bits)
 
 #endif // WORDS_BIGENDIAN
 
-#endif // NAVCOIN_COMPAT_ENDIAN_H
+#endif // STOCK_COMPAT_ENDIAN_H

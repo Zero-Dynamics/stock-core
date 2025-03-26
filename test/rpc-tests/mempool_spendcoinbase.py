@@ -13,11 +13,11 @@
 # but less mature coinbase spends are NOT.
 #
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
 # Create one-input, one-output, no-fee transaction:
-class MempoolSpendCoinbaseTest(NavcoinTestFramework):
+class MempoolSpendCoinbaseTest(StockTestFramework):
 
     def __init__(self):
         super().__init__()

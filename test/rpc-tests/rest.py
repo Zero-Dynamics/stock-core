@@ -8,7 +8,7 @@
 #
 
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 from struct import *
 from io import BytesIO
@@ -44,7 +44,7 @@ def http_post_call(host, port, path, requestdata = '', response_object = 0):
 
     return conn.getresponse().read()
 
-class RESTTest (NavcoinTestFramework):
+class RESTTest (StockTestFramework):
     FORMAT_SEPARATOR = "."
 
     def __init__(self):

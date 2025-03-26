@@ -5,10 +5,10 @@
 
 # Exercise the wallet keypool, and interaction with wallet encryption/locking
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
-class KeyPoolTest(NavcoinTestFramework):
+class KeyPoolTest(StockTestFramework):
 
     def run_test(self):
         nodes = self.nodes
@@ -19,7 +19,7 @@ class KeyPoolTest(NavcoinTestFramework):
         
         # Encrypt wallet and wait to terminate
         nodes[0].encryptwallet('test')
-        navcoind_processes[0].wait()
+        stockd_processes[0].wait()
         # Restart node 0
         nodes[0] = start_node(0, self.options.tmpdir)
         # Keep creating keys

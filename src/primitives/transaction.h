@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_PRIMITIVES_TRANSACTION_H
-#define NAVCOIN_PRIMITIVES_TRANSACTION_H
+#ifndef STOCK_PRIMITIVES_TRANSACTION_H
+#define STOCK_PRIMITIVES_TRANSACTION_H
 
 #include <amount.h>
 #include <blsct/bulletproofs.h>
@@ -183,7 +183,7 @@ public:
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
         if (ser_action.ForRead())
         {
-            bool fXNav = false;
+            bool fXStock = false;
             uint64_t nFlags;
             READWRITE(nFlags);
             if (nFlags == ~(uint64_t)0)
@@ -195,7 +195,7 @@ public:
                 BulletproofsRangeproof vbp;
                 READWRITE(vbp);
                 bp = std::shared_ptr<BulletproofsRangeproof>(new BulletproofsRangeproof(vbp));
-                fXNav = true;
+                fXStock = true;
             }
             else if (nFlags & (uint64_t)0x2<<62)
             {
@@ -225,7 +225,7 @@ public:
                     READWRITE(vData);
                 }
 
-                fXNav = true;
+                fXStock = true;
             }
             else
             {
@@ -233,7 +233,7 @@ public:
             }
             READWRITE(*(CScriptBase*)(&scriptPubKey));
 
-            if (fXNav)
+            if (fXStock)
                 cacheHash = SerializeHash(*this);
         }
         else
@@ -779,4 +779,4 @@ struct CMutableTransaction
 /** Compute the weight of a transaction, as defined by BIP 141 */
 int64_t GetTransactionWeight(const CTransaction &tx);
 
-#endif // NAVCOIN_PRIMITIVES_TRANSACTION_H
+#endif // STOCK_PRIMITIVES_TRANSACTION_H

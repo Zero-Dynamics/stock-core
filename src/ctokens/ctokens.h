@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_CTOKENS_H
-#define NAVCOIN_CTOKENS_H
+#ifndef STOCK_CTOKENS_H
+#define STOCK_CTOKENS_H
 
 #include <consensus/programs.h>
 #include <blsct/scalar.h>

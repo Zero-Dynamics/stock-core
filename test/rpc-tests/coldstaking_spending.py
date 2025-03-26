@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018 The Navcoin Core developers
+# Copyright (c) 2018 The Stock Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 import decimal
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.staticr_util import *
 
-class ColdStakingSpending(NavcoinTestFramework):
+class ColdStakingSpending(StockTestFramework):
     """Tests spending and staking to/from a spending wallet."""
     # set up num of nodes
     def __init__(self):
@@ -42,16 +42,16 @@ class ColdStakingSpending(NavcoinTestFramework):
 
         """check wallet balance and staking weight"""
 
-        # get wallet balance and staking weight before sending some navcoin
+        # get wallet balance and staking weight before sending some stock
         balance_before_send = self.nodes[0].getbalance()
         staking_weight_before_send = self.nodes[0].getstakinginfo()["weight"]
         # check wallet staking weight roughly equals wallet balance
         assert_equal(round(staking_weight_before_send / 100000000.0, -5), round(balance_before_send, -5))
 
-        """send navcoin to our coldstaking address, grab balance & staking weight"""
+        """send stock to our coldstaking address, grab balance & staking weight"""
 
-        # send funds to the cold staking address (leave some nav for fees) -- we specifically require
-        # a transaction fee of minimum 0.002884 navcoin due to the complexity of this transaction
+        # send funds to the cold staking address (leave some 0dyns for fees) -- we specifically require
+        # a transaction fee of minimum 0.002884 stock due to the complexity of this transaction
         tx = self.nodes[0].sendtoaddress(coldstaking_address_spending, self.nodes[0].getbalance(), "", "", "", True)
         fee = self.nodes[0].gettransaction(tx)['fee']
         # put transaction in new block & update blockchain
@@ -62,7 +62,7 @@ class ColdStakingSpending(NavcoinTestFramework):
         assert(len(listunspent_txs) > 0)
         # asserts that the number of utxo recieved is only 1:
         assert(len(listunspent_txs) == 1)
-        # asserts if amount recieved is what it should be; ~59814699.99660530 NAV
+        # asserts if amount recieved is what it should be; ~59814699.99660530 0DYNS
         assert_equal(int(listunspent_txs[0]["amount"]), int(59814699))
         # grabs updated wallet balance and staking weight
         balance_post_send_one = self.nodes[0].getbalance()
@@ -78,7 +78,7 @@ class ColdStakingSpending(NavcoinTestFramework):
         """check staking weight now == 0 (we don't hold the staking key)"""
 
         # sent ~all funds to coldstaking address where we do not own the staking key hence our
-        # staking weight will be 0 as our recieved BLOCK_REWARD navcoin isn't mature enough to count towards
+        # staking weight will be 0 as our recieved BLOCK_REWARD stock isn't mature enough to count towards
         # our staking weight
         assert((staking_weight_post_send / 100000000.0) - BLOCK_REWARD <= 1)
 

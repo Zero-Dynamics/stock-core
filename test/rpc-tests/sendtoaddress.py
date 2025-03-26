@@ -4,11 +4,11 @@
 # Tests valid transactions with amounts of different types,
 # Invalid addresses and invalid amounts
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
 
-class SendToAddressTest (NavcoinTestFramework):
+class SendToAddressTest (StockTestFramework):
 
     def __init__(self):
         super().__init__()
@@ -30,7 +30,7 @@ class SendToAddressTest (NavcoinTestFramework):
         self.nodes[0].staking(False)
         self.nodes[1].staking(False)
 
-        # Generate necessary NAV for transactions
+        # Generate necessary 0DYNS for transactions
         print("Mining blocks...")
         slow_gen(self.nodes[0], 1)
         time.sleep(2)
@@ -38,7 +38,7 @@ class SendToAddressTest (NavcoinTestFramework):
         slow_gen(self.nodes[1], 30)
         self.sync_all()
 
-        # Assert correct amount of NAV generated
+        # Assert correct amount of 0DYNS generated
         assert_equal(self.nodes[0].getbalance(), 59800000)
         assert_equal(self.nodes[1].getbalance(), 1250)
 
@@ -61,7 +61,7 @@ class SendToAddressTest (NavcoinTestFramework):
         try:
             txid2 = self.nodes[0].sendtoaddress("n2USJi4FFP9HVgxskVA44rMr8RUgRhvKXm", 5)
         except JSONRPCException as e:
-            if "Invalid Navcoin address" in e.error["message"]:
+            if "Invalid Stock address" in e.error["message"]:
                 exception_assert = True
             # Correct format but non-existant address
         assert(exception_assert)
@@ -69,7 +69,7 @@ class SendToAddressTest (NavcoinTestFramework):
         try:
             txid3 = self.nodes[0].sendtoaddress("", 5)
         except JSONRPCException as e:
-            if "Invalid Navcoin address" in e.error["message"]:
+            if "Invalid Stock address" in e.error["message"]:
                 exception_assert = True
                 # Empty string
         assert(exception_assert)
@@ -89,7 +89,7 @@ class SendToAddressTest (NavcoinTestFramework):
         except JSONRPCException as e:
             if "Insufficient funds" in e.error["message"]:
                 exception_assert = True
-                # Not enought NAV to make transaction
+                # Not enought 0DYNS to make transaction
         assert(exception_assert)
         exception_assert = False
         try:
@@ -97,7 +97,7 @@ class SendToAddressTest (NavcoinTestFramework):
         except JSONRPCException as e:
             if "Error: This transaction requires a transaction fee of at least 0.0001 because of its amount, complexity, or use of recently received funds!" in e.error["message"]:
                 exception_assert = True
-                # Try send entire balance, not enought NAV to pay for fee
+                # Try send entire balance, not enought 0DYNS to pay for fee
         assert(exception_assert)
         exception_assert = False
         try:

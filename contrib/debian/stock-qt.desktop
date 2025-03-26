@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Stock
+Comment=Stock P2P Cryptocurrency
+Comment[fr]=Stock, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Stock, eşten eşe kriptografik sanal para birimi
+Exec=stock-qt %u
+Terminal=false
+Type=Application
+Icon=stock128
+MimeType=x-scheme-handler/stock;
+Categories=Office;Finance;

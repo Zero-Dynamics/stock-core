@@ -3,11 +3,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_COMPAT_H
-#define NAVCOIN_COMPAT_H
+#ifndef STOCK_COMPAT_H
+#define STOCK_COMPAT_H
 
 #if defined(HAVE_CONFIG_H)
-#include <config/navcoin-config.h>
+#include <config/stock-config.h>
 #endif
 
 #ifdef WIN32
@@ -100,4 +100,4 @@ bool static inline IsSelectableSocket(SOCKET s) {
 #define THREAD_PRIORITY_ABOVE_NORMAL    (-2)
 #endif
 
-#endif // NAVCOIN_COMPAT_H
+#endif // STOCK_COMPAT_H

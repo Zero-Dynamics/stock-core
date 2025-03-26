@@ -1,7 +1,7 @@
 Description
 ------------
 
-This directory contains data-driven tests for various aspects of Navcoin.
+This directory contains data-driven tests for various aspects of Stock.
 
 License
 --------

@@ -1,9 +1,9 @@
-// Copyright (c) 2018-2020 The Navcoin Core developers
+// Copyright (c) 2018-2020 The Stock Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_DAO_H
-#define NAVCOIN_DAO_H
+#ifndef STOCK_DAO_H
+#define STOCK_DAO_H
 
 #include "amount.h"
 #include "script/script.h"
@@ -1100,4 +1100,4 @@ public:
     }
 };
 
-#endif // NAVCOIN_DAO_H
+#endif // STOCK_DAO_H

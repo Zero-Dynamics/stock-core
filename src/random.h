@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_RANDOM_H
-#define NAVCOIN_RANDOM_H
+#ifndef STOCK_RANDOM_H
+#define STOCK_RANDOM_H
 
 #include <crypto/chacha20.h>
 #include <uint256.h>
@@ -167,4 +167,4 @@ void RandomShuffle(T& w)
     std::shuffle(w.begin(), w.end(), gen);
 }
 
-#endif // NAVCOIN_RANDOM_H
+#endif // STOCK_RANDOM_H

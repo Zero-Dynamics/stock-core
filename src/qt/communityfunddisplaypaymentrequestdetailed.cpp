@@ -129,7 +129,7 @@ void CommunityFundDisplayPaymentRequestDetailed::setPrequestLabels() const
     ui->labelPrequestProposalHash->setText(QString::fromStdString(prequest.proposalhash.ToString()));
 
     // Link
-    ui->labelPrequestLink->setText(QString::fromStdString("https://www.navexplorer.com/dao/payment-request/" + prequest.hash.ToString()));
+    ui->labelPrequestLink->setText(QString::fromStdString("https://www.stockexplorer.com/dao/payment-request/" + prequest.hash.ToString()));
 
     // Hide ability to vote is the status is expired
     std::string status = ui->labelPrequestStatus->text().toStdString();
@@ -189,7 +189,7 @@ void CommunityFundDisplayPaymentRequestDetailed::setPrequestLabels() const
         }
     }
 
-    //set hyperlink for navcommunity proposal view
+    //set hyperlink for stockcommunity proposal view
     ui->labelPrequestLink->setTextFormat(Qt::RichText);
     ui->labelPrequestLink->setText("<a href=\"" + ui->labelPrequestLink->text() + "\">" + ui->labelPrequestLink->text() + "</a>");
     ui->labelPrequestLink->setTextInteractionFlags(Qt::TextBrowserInteraction);

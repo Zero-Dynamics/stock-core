@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
-// Copyright (c) 2018-2020 The Navcoin developers
+// Copyright (c) 2018-2020 The Stock developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/navcoin-config.h>
+#include <config/stock-config.h>
 #endif
 
 #include <init.h>
@@ -175,7 +175,7 @@ bool ShutdownRequested()
 /**
  * This is a minimally invasive approach to shutdown on LevelDB read errors from the
  * chainstate, while keeping user interface out of the common library, which is shared
- * between navcoind, and navcoin-qt and non-server tools.
+ * between stockd, and stock-qt and non-server tools.
 */
 class CStateViewErrorCatcher : public CStateViewBacked
 {
@@ -245,7 +245,7 @@ void PrepareShutdown()
     /// for example if the data directory was found to be locked.
     /// Be sure that anything that writes files or flushes caches only does this if the respective
     /// module was initialized.
-    RenameThread("navcoin-shutoff");
+    RenameThread("stock-shutoff");
     mempool.AddTransactionsUpdated(1);
     // Changes to mempool should also be made to Dandelion stempool
     stempool.AddTransactionsUpdated(1);
@@ -392,8 +392,8 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-bootstrap=<url>", _("Specifies an URL from where a bootstrapped copy of the blockchain would be downloaded"));
     strUsage += HelpMessageOpt("-checkblocks=<n>", strprintf(_("How many blocks to check at startup (default: %u, 0 = all)"), DEFAULT_CHECKBLOCKS));
     strUsage += HelpMessageOpt("-checklevel=<n>", strprintf(_("How thorough the block verification of -checkblocks is (0-4, default: %u)"), DEFAULT_CHECKLEVEL));
-    strUsage += HelpMessageOpt("-conf=<file>", strprintf(_("Specify configuration file (default: %s)"), NAVCOIN_CONF_FILENAME));
-    if (mode == HMM_NAVCOIND)
+    strUsage += HelpMessageOpt("-conf=<file>", strprintf(_("Specify configuration file (default: %s)"), STOCK_CONF_FILENAME));
+    if (mode == HMM_STOCKD)
     {
 #ifndef WIN32
         strUsage += HelpMessageOpt("-daemon", _("Run in the background as a daemon and accept commands"));
@@ -412,7 +412,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-par=<n>", strprintf(_("Set the number of script verification threads (%u to %d, 0 = auto, <0 = leave that many cores free, default: %d)"),
                                                      -GetNumCores(), MAX_SCRIPTCHECK_THREADS, DEFAULT_SCRIPTCHECK_THREADS));
 #ifndef WIN32
-    strUsage += HelpMessageOpt("-pid=<file>", strprintf(_("Specify pid file (default: %s)"), NAVCOIN_PID_FILENAME));
+    strUsage += HelpMessageOpt("-pid=<file>", strprintf(_("Specify pid file (default: %s)"), STOCK_PID_FILENAME));
 #endif
     strUsage += HelpMessageOpt("-prune=<n>", strprintf(_("Reduce storage requirements by pruning (deleting) old blocks. This mode is incompatible with -txindex and -rescan. "
                                                          "Warning: Reverting this setting requires re-downloading the entire blockchain. "
@@ -517,7 +517,7 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-limitdescendantsize=<n>", strprintf("Do not accept transactions if any ancestor would have more than <n> kilobytes of in-mempool descendants (default: %u).", DEFAULT_DESCENDANT_SIZE_LIMIT));
     }
     std::string debugCategories = "addrman, alert, bench, coindb, db, http, libevent, lock, mempool, mempoolrej, net, proxy, prune, rand, reindex, rpc, selectcoins, tor, zmq"; // Don't translate these and qt below
-    if (mode == HMM_NAVCOIN_QT)
+    if (mode == HMM_STOCK_QT)
         debugCategories += ", qt";
     strUsage += HelpMessageOpt("-debug=<category>", strprintf(_("Output debugging information (default: %u, supplying <category> is optional)"), 0) + ". " +
                                _("If <category> is not supplied or if <category> = 1, output all debugging information.") + _("<category> can be:") + " " + debugCategories + ".");
@@ -597,8 +597,8 @@ std::string HelpMessage(HelpMessageMode mode)
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/navcoin/navcoin-core>";
-    const std::string URL_WEBSITE = "<https://navcoin.org>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/stock/stock-core>";
+    const std::string URL_WEBSITE = "<https://stock.org>";
     // todo: remove urls from translations on next change
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i"), 2009, COPYRIGHT_YEAR) + " ") + "\n" +
             "\n" +
@@ -715,7 +715,7 @@ void CleanupBlockRevFiles()
 void ThreadImport(std::vector<fs::path> vImportFiles)
 {
     const CChainParams& chainparams = Params();
-    RenameThread("navcoin-loadblk");
+    RenameThread("stock-loadblk");
     CImportingNow imp;
 
     // -reindex
@@ -778,7 +778,7 @@ void ThreadImport(std::vector<fs::path> vImportFiles)
 }
 
 /** Sanity checks
- *  Ensure that Navcoin is running in a usable environment with all
+ *  Ensure that Stock is running in a usable environment with all
  *  necessary library support.
  */
 bool InitSanityCheck(void)
@@ -909,7 +909,7 @@ void InitLogging()
     fLogIPs = GetBoolArg("-logips", DEFAULT_LOGIPS);
 
     LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    LogPrintf("Navcoin version %s\n", FormatFullVersion());
+    LogPrintf("Stock version %s\n", FormatFullVersion());
 }
 
 void DownloadBlockchain(std::string url)
@@ -999,7 +999,7 @@ void ttt(std::string d)
     LogPrintf("created %s\n", d);
 }
 
-/** Initialize navcoin.
+/** Initialize stock.
  *  @pre Parameters should be parsed and config file should be read.
  */
 bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler, const std::string& wordlist, const std::string& password)
@@ -1266,7 +1266,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler, const std
 
     std::string strDataDir = GetDataDir().string();
 
-    // Make sure only a single Navcoin process is using the data directory.
+    // Make sure only a single Stock process is using the data directory.
     fs::path pathLockFile = GetDataDir() / ".lock";
     FILE* file = fopen(pathLockFile.string().c_str(), "a"); // empty lock file; created if it doesn't exist.
     if (file) fclose(file);
@@ -1894,7 +1894,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler, const std
     // Generate coins in the background
     SetStaking(GetBoolArg("-staking", true));
     uiInterface.InitMessage(_("Booting staking thread"));
-    threadGroup.create_thread(boost::bind(&NavcoinStaker, boost::cref(chainparams)));
+    threadGroup.create_thread(boost::bind(&StockStaker, boost::cref(chainparams)));
     if (pwalletMain && GetBoolArg("-blsctmix", DEFAULT_MIX))
     {
         uiInterface.InitMessage(_("Booting blsCT threads"));

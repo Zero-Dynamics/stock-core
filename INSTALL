@@ -1,5 +1,5 @@
-Building Navcoin
+Building Stock
 
-See doc/build-*.md for instructions on building navcoind,
+See doc/build-*.md for instructions on building stockd,
 the intended-for-services, no-graphical-interface, reference
-implementation of Navcoin.
+implementation of Stock.

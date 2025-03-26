@@ -1,4 +1,4 @@
-// Copyright (c) 2020 The Navcoin developers
+// Copyright (c) 2020 The Stock developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,7 +16,7 @@
 #include <blsct/bulletproofs.h>
 #include <coins.h>
 #include <consensus/validation.h>
-#include <dotnav/names.h>
+#include <dotstock/names.h>
 #include <primitives/transaction.h>
 #include <random.h>
 #include <schemes.hpp>

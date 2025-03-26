@@ -122,7 +122,7 @@ void CommunityFundPage::refresh(bool all, int proposal)
     ui->labelLockedAmount->setText(QString::fromStdString(locked));
 
     {
-        int64_t spent_nav = 0;
+        int64_t spent_stock = 0;
         CPaymentRequestMap mapPaymentRequests;
 
         if(view.GetAllPaymentRequests(mapPaymentRequests))
@@ -136,12 +136,12 @@ void CommunityFundPage::refresh(bool all, int proposal)
 
                 if(prequest.GetLastState() == DAOFlags::ACCEPTED)
                 {
-                    spent_nav = spent_nav + prequest.nAmount;
+                    spent_stock = spent_stock + prequest.nAmount;
                 }
             }
 
             std::string spent;
-            spent = wallet->formatDisplayAmount(spent_nav);
+            spent = wallet->formatDisplayAmount(spent_stock);
             ui->labelSpentAmount->setText(QString::fromStdString(spent));
         }
     }

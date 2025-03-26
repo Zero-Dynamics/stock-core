@@ -15,7 +15,7 @@ OpenURIDialog::OpenURIDialog(QWidget *parent) :
     ui(new Ui::OpenURIDialog)
 {
     ui->setupUi(this);
-    ui->uriEdit->setPlaceholderText("navcoin:");
+    ui->uriEdit->setPlaceholderText("stock:");
 }
 
 OpenURIDialog::~OpenURIDialog()
@@ -31,7 +31,7 @@ QString OpenURIDialog::getURI()
 void OpenURIDialog::accept()
 {
     SendCoinsRecipient rcp;
-    if(GUIUtil::parseNavcoinURI(getURI(), &rcp))
+    if(GUIUtil::parseStockURI(getURI(), &rcp))
     {
         /* Only accept value URIs */
         QDialog::accept();
@@ -46,5 +46,5 @@ void OpenURIDialog::on_selectFileButton_clicked()
     if(filename.isEmpty())
         return;
     QUrl fileUri = QUrl::fromLocalFile(filename);
-    ui->uriEdit->setText("navcoin:?r=" + QUrl::toPercentEncoding(fileUri.toString()));
+    ui->uriEdit->setText("stock:?r=" + QUrl::toPercentEncoding(fileUri.toString()));
 }

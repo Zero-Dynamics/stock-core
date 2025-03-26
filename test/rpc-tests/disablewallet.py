@@ -7,11 +7,11 @@
 # Exercise API with -disablewallet.
 #
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
 
-class DisableWalletTest (NavcoinTestFramework):
+class DisableWalletTest (StockTestFramework):
 
     def __init__(self):
         super().__init__()
@@ -24,7 +24,7 @@ class DisableWalletTest (NavcoinTestFramework):
         self.sync_all()
 
     def run_test (self):
-        # Check regression: https://github.com/navcoin/navcoin/issues/6963#issuecomment-154548880
+        # Check regression: https://github.com/stock/stock/issues/6963#issuecomment-154548880
         x = self.nodes[0].validateaddress('3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy')
         assert(x['isvalid'] == False)
         x = self.nodes[0].validateaddress('mneYUmWYsuk7kySiURxCi3AGxrAqZxLgPZ')

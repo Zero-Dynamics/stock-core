@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2020 The Navcoin Core developers
+// Copyright (c) 2018-2020 The Stock Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -280,8 +280,8 @@ std::string FormatConsensusParameter(Consensus::ConsensusParamsPos pos, std::str
 {
     std::string ret = str;
 
-    if (Consensus::vConsensusParamsType[pos] == Consensus::TYPE_NAV)
-        ret = FormatMoney(stoll(str)) + " NAV";
+    if (Consensus::vConsensusParamsType[pos] == Consensus::TYPE_STOCK)
+        ret = FormatMoney(stoll(str)) + " 0DYNS";
     else if (Consensus::vConsensusParamsType[pos] == Consensus::TYPE_PERCENT)
     {
         std::ostringstream out;
@@ -317,7 +317,7 @@ std::string RemoveFormatConsensusParameter(Consensus::ConsensusParamsPos pos, st
 
     try
     {
-        if (Consensus::vConsensusParamsType[pos] == Consensus::TYPE_NAV)
+        if (Consensus::vConsensusParamsType[pos] == Consensus::TYPE_STOCK)
             ret = std::to_string((uint64_t)(stof(str) * COIN));
         else if (Consensus::vConsensusParamsType[pos] == Consensus::TYPE_PERCENT)
         {
@@ -2241,7 +2241,7 @@ bool IsValidConsensusParameterProposal(std::vector<Consensus::ConsensusParamsPos
                 return error("%s: Proposed parameter out of range for percentages", __func__);
         }
 
-        if (Consensus::vConsensusParamsType[pos] == Consensus::TYPE_NAV)
+        if (Consensus::vConsensusParamsType[pos] == Consensus::TYPE_STOCK)
         {
             if (val < 0 || val > MAX_MONEY)
                 return error("%s: Proposed parameter out of range for coin amounts", __func__);
@@ -2960,10 +2960,10 @@ bool IsValidPaymentRequest(CTransaction tx, CStateViewCache& coins, uint64_t nMa
         sRandom = find_value(metadata, "r").get_str();
 
     std::string Secret = sRandom + "I kindly ask to withdraw " +
-            std::to_string(nAmount) + "NAV from the proposal " +
+            std::to_string(nAmount) + "0DYNS from the proposal " +
             proposal.hash.ToString() + ". Payment request id: " + strDZeel;
 
-    CNavcoinAddress addr(proposal.GetOwnerAddress());
+    CStockAddress addr(proposal.GetOwnerAddress());
     if (!addr.IsValid())
         return error("%s: Address %s is not valid for payment request %s", __func__, proposal.GetOwnerAddress(), Hash.c_str(), tx.GetHash().ToString());
 
@@ -3132,11 +3132,11 @@ bool IsValidProposal(CTransaction tx, const CStateViewCache& view, uint64_t nMas
     CAmount nContribution = 0;
     int nVersion = find_value(metadata, "v").isNum() ? find_value(metadata, "v").get_int64() : 1;
 
-    CNavcoinAddress oaddress(ownerAddress);
+    CStockAddress oaddress(ownerAddress);
     if (!oaddress.IsValid())
         return error("%s: Wrong address %s for proposal %s", __func__, ownerAddress.c_str(), tx.GetHash().ToString());
 
-    CNavcoinAddress paddress(paymentAddress);
+    CStockAddress paddress(paymentAddress);
     if (!paddress.IsValid())
         return error("%s: Wrong address %s for proposal %s", __func__, paymentAddress.c_str(), tx.GetHash().ToString());
 

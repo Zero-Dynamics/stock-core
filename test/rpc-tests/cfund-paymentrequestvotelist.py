@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018 The Navcoin Core developers
+# Copyright (c) 2018 The Stock Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.cfund_util import *
 
 import time
 
-class CommunityFundPaymentRequestVoteListTest(NavcoinTestFramework):
+class CommunityFundPaymentRequestVoteListTest(StockTestFramework):
     """Tests the paymentrequestvotelist function of the Community fund."""
 
     def __init__(self):

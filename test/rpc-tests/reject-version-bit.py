@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018 The Navcoin Core developers
+# Copyright (c) 2018 The Stock Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,11 +8,11 @@
 #
 
 import time
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 from test_framework.mininode import *
 
-class RejectVersionBitTest(NavcoinTestFramework):
+class RejectVersionBitTest(StockTestFramework):
 
     def setup_chain(self):
         print("Initializing test directory "+self.options.tmpdir)

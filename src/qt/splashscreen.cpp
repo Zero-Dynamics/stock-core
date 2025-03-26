@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/navcoin-config.h>
+#include <config/stock-config.h>
 #endif
 
 #include <qt/splashscreen.h>
@@ -72,7 +72,7 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle) 
     layout->addWidget(versionLabel);
 
     // Load the icon
-    QPixmap icon = QPixmap(":icons/navcoin_full").scaled(logoSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QPixmap icon = QPixmap(":icons/stock_full").scaled(logoSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // Build the new logo
     QLabel* logo = new QLabel();

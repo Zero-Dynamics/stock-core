@@ -29,7 +29,7 @@ StartOptionsMain::StartOptionsMain(QWidget *parent)
     : QDialog(parent), ui(new Ui::StartOptionsMain) {
     ui->setupUi(this);
 
-    this->setWindowTitle(tr("Navcoin Wallet Setup"));
+    this->setWindowTitle(tr("Stock Wallet Setup"));
 
     dictionary dic = string_to_lexicon("english");
     for(unsigned long i=0; i< dic.size() ; i++){
@@ -61,7 +61,7 @@ void StartOptionsMain::on_NewWallet_clicked() {
 
     //Generate mnemonic phrase from fresh entropy
     mnemonic = "";
-    navcoin::GenerateNewMnemonicSeed(mnemonic, "english");
+    stock::GenerateNewMnemonicSeed(mnemonic, "english");
 
     std::stringstream ss(mnemonic);
     std::istream_iterator<std::string> begin(ss);

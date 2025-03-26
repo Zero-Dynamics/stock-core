@@ -118,11 +118,11 @@ UniValue createrawscriptaddress(const UniValue& params, bool fHelp)
     if (fHelp || params.size() != 1)
         throw std::runtime_error(
                 "createrawscriptaddress \"hex script\"\n"
-                "\nReturns the Navcoin address for the specified raw hex script.\n"
+                "\nReturns the Stock address for the specified raw hex script.\n"
                 "\nArguments:\n"
                 "1. \"hex script\"        (string) The hex script to encode in the address.\n"
                 "\nResult:\n"
-                "\"navcoinaddress\"    (string) The  navcoin address\n"
+                "\"stockaddress\"    (string) The  stock address\n"
                 "\nExamples:\n"
                 + HelpExampleCli("createrawscriptaddress", "6ac4c5")
                 );
@@ -141,7 +141,7 @@ UniValue createrawscriptaddress(const UniValue& params, bool fHelp)
     if (strAsm.find("[error]") != std::string::npos || strAsm.find("OP_UNKNOWN") != std::string::npos)
         throw JSONRPCError(RPC_MISC_ERROR, "the script includes invalid or unknown op codes");
 
-    CNavcoinAddress address(script);
+    CStockAddress address(script);
 
     if (!address.IsValid())
         throw JSONRPCError(RPC_MISC_ERROR, "the generated address is not valid");
@@ -218,13 +218,13 @@ UniValue getnewaddress(const UniValue& params, bool fHelp)
     if (fHelp || params.size() > 1)
         throw std::runtime_error(
                 "getnewaddress ( \"account\" )\n"
-                "\nReturns a new Navcoin address for receiving payments.\n"
+                "\nReturns a new Stock address for receiving payments.\n"
                 "If 'account' is specified (DEPRECATED), it is added to the address book \n"
                 "so payments received with the address will be credited to 'account'.\n"
                 "\nArguments:\n"
                 "1. \"account\"        (string, optional) DEPRECATED. The account name for the address to be linked to. If not provided, the default account \"\" is used. It can also be set to the empty string \"\" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.\n"
                 "\nResult:\n"
-                "\"navcoinaddress\"    (string) The new navcoin address\n"
+                "\"stockaddress\"    (string) The new stock address\n"
                 "\nExamples:\n"
                 + HelpExampleCli("getnewaddress", "")
                 + HelpExampleRpc("getnewaddress", "")
@@ -248,7 +248,7 @@ UniValue getnewaddress(const UniValue& params, bool fHelp)
 
     pwalletMain->SetAddressBook(keyID, strAccount, "receive");
 
-    return CNavcoinAddress(keyID).ToString();
+    return CStockAddress(keyID).ToString();
 }
 
 UniValue getcoldstakingaddress(const UniValue& params, bool fHelp)
@@ -259,9 +259,9 @@ UniValue getcoldstakingaddress(const UniValue& params, bool fHelp)
                 "getcoldstakingaddress \"stakingaddress\" \"spendingaddress\" ( \"votingaddress\" )\n"
             "Returns a coldstaking address based on the address inputs\n"
             "Arguments:\n"
-            "1. \"stakingaddress\"  (string, required) The navcoin staking address.\n"
-            "2. \"spendingaddress\" (string, required) The navcoin spending address.\n\n"
-            "3. \"voting\"          (string, optional) The navcoin voting address.\n\n"
+            "1. \"stakingaddress\"  (string, required) The stock staking address.\n"
+            "2. \"spendingaddress\" (string, required) The stock spending address.\n\n"
+            "3. \"voting\"          (string, optional) The stock voting address.\n\n"
             "\nExamples:\n"
             + HelpExampleCli("getcoldstakingaddress", "\"mqyGZvLYfEH27Zk3z6JkwJgB1zpjaEHfiW\" \"mrfjgazyerYxDQHJAPDdUcC3jpmi8WZ2uv\"") +
                 "\nAs a json rpc call\n"
@@ -282,42 +282,42 @@ UniValue getcoldstakingaddress(const UniValue& params, bool fHelp)
                 );
 
 
-    CNavcoinAddress stakingAddress(params[0].get_str());
+    CStockAddress stakingAddress(params[0].get_str());
     CKeyID stakingKeyID;
     if (!stakingAddress.IsValid() || !stakingAddress.GetKeyID(stakingKeyID))
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Staking address is not a valid Navcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Staking address is not a valid Stock address");
 
-    CNavcoinAddress spendingAddress(params[1].get_str());
+    CStockAddress spendingAddress(params[1].get_str());
     CKeyID spendingKeyID;
     if (!spendingAddress.IsValid() || !spendingAddress.GetKeyID(spendingKeyID))
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Spending address is not a valid Navcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Spending address is not a valid Stock address");
 
     spendingAddress.GetKeyID(spendingKeyID);
 
     if (params.size() == 3)
     {
-        CNavcoinAddress votingAddress(params[2].get_str());
+        CStockAddress votingAddress(params[2].get_str());
         CKeyID votingKeyID;
         if (!votingAddress.IsValid() || !votingAddress.GetKeyID(votingKeyID))
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Voting address is not a valid Navcoin address");
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Voting address is not a valid Stock address");
 
         votingAddress.GetKeyID(votingKeyID);
 
-        return CNavcoinAddress(stakingKeyID, spendingKeyID, votingKeyID).ToString();
+        return CStockAddress(stakingKeyID, spendingKeyID, votingKeyID).ToString();
     }
 
-    return CNavcoinAddress(stakingKeyID, spendingKeyID).ToString();
+    return CStockAddress(stakingKeyID, spendingKeyID).ToString();
 }
 
 
-CNavcoinAddress GetAccountAddress(std::string strAccount, bool bForceNew=false)
+CStockAddress GetAccountAddress(std::string strAccount, bool bForceNew=false)
 {
     CPubKey pubKey;
     if (!pwalletMain->GetAccountPubkey(pubKey, strAccount, bForceNew)) {
         throw JSONRPCError(RPC_WALLET_KEYPOOL_RAN_OUT, "Error: Keypool ran out, please call keypoolrefill first");
     }
 
-    return CNavcoinAddress(pubKey.GetID());
+    return CStockAddress(pubKey.GetID());
 }
 
 UniValue getaccountaddress(const UniValue& params, bool fHelp)
@@ -328,11 +328,11 @@ UniValue getaccountaddress(const UniValue& params, bool fHelp)
     if (fHelp || params.size() != 1)
         throw std::runtime_error(
                 "getaccountaddress \"account\"\n"
-                "\nDEPRECATED. Returns the current Navcoin address for receiving payments to this account.\n"
+                "\nDEPRECATED. Returns the current Stock address for receiving payments to this account.\n"
                 "\nArguments:\n"
                 "1. \"account\"       (string, required) The account name for the address. It can also be set to the empty string \"\" to represent the default account. The account does not need to exist, it will be created and a new address created  if there is no account by the given name.\n"
                 "\nResult:\n"
-                "\"navcoinaddress\"   (string) The account navcoin address\n"
+                "\"stockaddress\"   (string) The account stock address\n"
                 "\nExamples:\n"
                 + HelpExampleCli("getaccountaddress", "")
                 + HelpExampleCli("getaccountaddress", "\"\"")
@@ -360,7 +360,7 @@ UniValue getrawchangeaddress(const UniValue& params, bool fHelp)
     if (fHelp || params.size() > 1)
         throw std::runtime_error(
                 "getrawchangeaddress\n"
-                "\nReturns a new Navcoin address, for receiving change.\n"
+                "\nReturns a new Stock address, for receiving change.\n"
                 "This is for use with raw transactions, NOT normal use.\n"
                 "\nResult:\n"
                 "\"address\"    (string) The address\n"
@@ -383,7 +383,7 @@ UniValue getrawchangeaddress(const UniValue& params, bool fHelp)
 
     CKeyID keyID = vchPubKey.GetID();
 
-    return CNavcoinAddress(keyID).ToString();
+    return CStockAddress(keyID).ToString();
 }
 
 
@@ -394,10 +394,10 @@ UniValue setaccount(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw std::runtime_error(
-                "setaccount \"navcoinaddress\" \"account\"\n"
+                "setaccount \"stockaddress\" \"account\"\n"
                 "\nDEPRECATED. Sets the account associated with the given address.\n"
                 "\nArguments:\n"
-                "1. \"navcoinaddress\"  (string, required) The navcoin address to be associated with an account.\n"
+                "1. \"stockaddress\"  (string, required) The stock address to be associated with an account.\n"
                 "2. \"account\"         (string, required) The account to assign the address to.\n"
                 "\nExamples:\n"
                 + HelpExampleCli("setaccount", "\"1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XZ\" \"tabby\"")
@@ -406,9 +406,9 @@ UniValue setaccount(const UniValue& params, bool fHelp)
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
-    CNavcoinAddress address(params[0].get_str());
+    CStockAddress address(params[0].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Navcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Stock address");
 
     std::string strAccount;
     if (params.size() > 1)
@@ -440,10 +440,10 @@ UniValue getaccount(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() != 1)
         throw std::runtime_error(
-                "getaccount \"navcoinaddress\"\n"
+                "getaccount \"stockaddress\"\n"
                 "\nDEPRECATED. Returns the account associated with the given address.\n"
                 "\nArguments:\n"
-                "1. \"navcoinaddress\"  (string, required) The navcoin address for account lookup.\n"
+                "1. \"stockaddress\"  (string, required) The stock address for account lookup.\n"
                 "\nResult:\n"
                 "\"accountname\"        (string) the account address\n"
                 "\nExamples:\n"
@@ -453,9 +453,9 @@ UniValue getaccount(const UniValue& params, bool fHelp)
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
-    CNavcoinAddress address(params[0].get_str());
+    CStockAddress address(params[0].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Navcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Stock address");
 
     std::string strAccount;
     std::map<CTxDestination, CAddressBookData>::iterator mi = pwalletMain->mapAddressBook.find(address.Get());
@@ -478,7 +478,7 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
                 "1. \"account\"  (string, required) The account name.\n"
                 "\nResult:\n"
                 "[                     (json array of string)\n"
-                "  \"navcoinaddress\"  (string) a navcoin address associated with the given account\n"
+                "  \"stockaddress\"  (string) a stock address associated with the given account\n"
                 "  ,...\n"
                 "]\n"
                 "\nExamples:\n"
@@ -492,9 +492,9 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
 
     // Find all addresses that have the given account
     UniValue ret(UniValue::VARR);
-    for(const std::pair<CNavcoinAddress, CAddressBookData>& item: pwalletMain->mapAddressBook)
+    for(const std::pair<CStockAddress, CAddressBookData>& item: pwalletMain->mapAddressBook)
     {
-        const CNavcoinAddress& address = item.first;
+        const CStockAddress& address = item.first;
         const std::string& strName = item.second.name;
         if (strName == strAccount && strName != "blsct receive")
             ret.push_back(address.ToString());
@@ -568,7 +568,7 @@ static void SendMoney(const CTxDestination &address, CAmount nValue, bool fSubtr
 
     CScript CFContributionScript;
 
-    // Parse Navcoin address
+    // Parse Stock address
     CScript scriptPubKey = GetScriptForDestination(address);
 
     if(donate)
@@ -659,11 +659,11 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 2 || params.size() > 6)
         throw std::runtime_error(
-                "sendtoaddress \"navcoinaddress\" amount ( \"comment\" \"comment-to\" \"strdzeel\" subtractfeefromamount )\n"
+                "sendtoaddress \"stockaddress\" amount ( \"comment\" \"comment-to\" \"strdzeel\" subtractfeefromamount )\n"
                 "\nSend an amount to a given address.\n"
                 + HelpRequiringPassphrase() +
                 "\nArguments:\n"
-                "1. \"navcoinaddress\"  (string, required) The navcoin address to send to.\n"
+                "1. \"stockaddress\"  (string, required) The stock address to send to.\n"
                 "2. \"amount\"      (numeric or string, required) The amount in " + CURRENCY_UNIT + " to send. eg 0.1\n"
                                                                                                     "3. \"comment\"     (string, optional) A comment used to store what the transaction is for. \n"
                                                                                                     "                             This is not part of the transaction, just kept in your wallet.\n"
@@ -672,7 +672,7 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp)
                                                                                                     "                             transaction, just kept in your wallet.\n"
                                                                                                     "5. \"strdzeel\"  (string, optional) Attached string metadata \n"
                                                                                                     "6. subtractfeefromamount  (boolean, optional, default=false) The fee will be deducted from the amount being sent.\n"
-                                                                                                    "                             The recipient will receive less navcoins than you enter in the amount field.\n"
+                                                                                                    "                             The recipient will receive less stocks than you enter in the amount field.\n"
                                                                                                     "\nResult:\n"
                                                                                                     "\"transactionid\"  (string) The transaction id.\n"
                                                                                                     "\nExamples:\n"
@@ -705,9 +705,9 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp)
             address_str = addresses.front();
         }
     }
-    CNavcoinAddress address(address_str);
+    CStockAddress address(address_str);
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Navcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Stock address");
 
     // Amount
     CAmount nAmount = AmountFromValue(params[1]);
@@ -743,16 +743,16 @@ UniValue privatesendtoaddress(const UniValue& params, bool fHelp)
 
     if (!IsBLSCTEnabled(chainActive.Tip(),Params().GetConsensus()))
     {
-        return JSONRPCError(RPC_MISC_ERROR, "xNAV is not active yet");
+        return JSONRPCError(RPC_MISC_ERROR, "x0DYNS is not active yet");
     }
 
     if (fHelp || params.size() < 2 || params.size() > 6)
         throw std::runtime_error(
-                "privatesendtoaddress \"navcoinaddress\" amount \"comment\" ( \"comment-to\" \"strdzeel\" subtractfeefromamount )\n"
+                "privatesendtoaddress \"stockaddress\" amount \"comment\" ( \"comment-to\" \"strdzeel\" subtractfeefromamount )\n"
                 "\nSend an amount to a given address using the private balance of coins.\n"
                 + HelpRequiringPassphrase() +
                 "\nArguments:\n"
-                "1. \"navcoinaddress\"  (string, required) The navcoin address to send to.\n"
+                "1. \"stockaddress\"  (string, required) The stock address to send to.\n"
                 "2. \"amount\"      (numeric or string, required) The amount in " + CURRENCY_UNIT + " to send. eg 0.1\n"
                                                                                                     "3. \"comment\"     (string, optional) A comment used to store what the transaction is for. \n"
                                                                                                     "                             This is part of the transaction and will be seen by the receiver. Max 54 chars.\n"
@@ -761,7 +761,7 @@ UniValue privatesendtoaddress(const UniValue& params, bool fHelp)
                                                                                                     "                             transaction, just kept in your wallet.\n"
                                                                                                     "5. \"strdzeel\"            (string, optional) Attached string metadata \n"
                                                                                                     "6. subtractfeefromamount  (boolean, optional, default=false) The fee will be deducted from the amount being sent.\n"
-                                                                                                    "                             The recipient will receive less navcoins than you enter in the amount field.\n"
+                                                                                                    "                             The recipient will receive less stocks than you enter in the amount field.\n"
                                                                                                     "\nResult:\n"
                                                                                                     "\"transactionid\"  (string) The transaction id.\n"
                                                                                                     "\nExamples:\n"
@@ -794,9 +794,9 @@ UniValue privatesendtoaddress(const UniValue& params, bool fHelp)
 
     }
 
-    CNavcoinAddress address(address_str);
+    CStockAddress address(address_str);
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Navcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Stock address");
 
     // Amount
     CAmount nAmount = AmountFromValue(params[1]);
@@ -838,7 +838,7 @@ UniValue privatesendmixtoaddress(const UniValue& params, bool fHelp)
 
     if (!IsBLSCTEnabled(chainActive.Tip(),Params().GetConsensus()))
     {
-        return JSONRPCError(RPC_MISC_ERROR, "xNAV is not active yet");
+        return JSONRPCError(RPC_MISC_ERROR, "x0DYNS is not active yet");
     }
 
     if (!GetBoolArg("-blsctmix", DEFAULT_MIX))
@@ -848,11 +848,11 @@ UniValue privatesendmixtoaddress(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 2 || params.size() > 6)
         throw std::runtime_error(
-                "privatesendmixtoaddress \"navcoinaddress\" amount \"comment\" ( \"comment-to\" \"strdzeel\" subtractfeefromamount )\n"
+                "privatesendmixtoaddress \"stockaddress\" amount \"comment\" ( \"comment-to\" \"strdzeel\" subtractfeefromamount )\n"
                 "\nSend an amount to a given address using the private balance of coins after participating in an aggregation session.\n"
                 + HelpRequiringPassphrase() +
                 "\nArguments:\n"
-                "1. \"navcoinaddress\"  (string, required) The navcoin address to send to.\n"
+                "1. \"stockaddress\"  (string, required) The stock address to send to.\n"
                 "2. \"amount\"      (numeric or string, required) The amount in " + CURRENCY_UNIT + " to send. eg 0.1\n"
                 "3. \"comment\"     (string, optional) A comment used to store what the transaction is for. \n"
                 "                             This is part of the transaction and will be seen by the receiver. Max 54 chars.\n"
@@ -861,7 +861,7 @@ UniValue privatesendmixtoaddress(const UniValue& params, bool fHelp)
                 "                             transaction, just kept in your wallet.\n"
                 "5. \"strdzeel\"            (string, optional) Attached string metadata \n"
                 "6. subtractfeefromamount  (boolean, optional, default=false) The fee will be deducted from the amount being sent.\n"
-                "                             The recipient will receive less navcoins than you enter in the amount field.\n"
+                "                             The recipient will receive less stocks than you enter in the amount field.\n"
                 "\nResult:\n"
                 "\"transactionid\"  (string) The transaction id.\n"
                 "\nExamples:\n"
@@ -894,9 +894,9 @@ UniValue privatesendmixtoaddress(const UniValue& params, bool fHelp)
 
     }
 
-    CNavcoinAddress address(address_str);
+    CStockAddress address(address_str);
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Navcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Stock address");
 
     // Amount
     CAmount nAmount = AmountFromValue(params[1]);
@@ -1001,11 +1001,11 @@ UniValue createproposal(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 4)
         throw std::runtime_error(
-                "createproposal \"navcoinaddress\" \"amount\" duration \"desc\" ( fee dump_raw )\n"
-            "\nCreates a proposal for the community fund. Min fee of " + FormatMoney(GetConsensusParameter(Consensus::CONSENSUS_PARAM_PROPOSAL_MIN_FEE, view)) + "NAV is required.\n"
+                "createproposal \"stockaddress\" \"amount\" duration \"desc\" ( fee dump_raw )\n"
+            "\nCreates a proposal for the community fund. Min fee of " + FormatMoney(GetConsensusParameter(Consensus::CONSENSUS_PARAM_PROPOSAL_MIN_FEE, view)) + "0DYNS is required.\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
-            "1. \"navcoinaddress\"       (string, required) The navcoin address where coins would be sent if proposal is approved.\n"
+            "1. \"stockaddress\"       (string, required) The stock address where coins would be sent if proposal is approved.\n"
             "2. \"amount\"               (numeric or string, required) The amount in " + CURRENCY_UNIT + " to request. eg 0.1\n"
             "3. duration               (numeric, required) Number of seconds the proposal will exist after being accepted.\n"
             "4. \"desc\"                 (string, required) Short description of the proposal.\n"
@@ -1024,7 +1024,7 @@ UniValue createproposal(const UniValue& params, bool fHelp)
     if (!Params().GetConsensus().fDaoClientActivated)
         throw JSONRPCError(RPC_WALLET_ERROR, "This command is temporarily disabled");
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     // Amount
     CAmount nAmount = params.size() == 5 ? AmountFromValue(params[4]) : GetConsensusParameter(Consensus::CONSENSUS_PARAM_PROPOSAL_MIN_FEE, view);
@@ -1040,13 +1040,13 @@ UniValue createproposal(const UniValue& params, bool fHelp)
     std::string paymentAddress = params[0].get_str();
     std::string ownerAddress = params.size() == 7 ? params[6].get_str() : paymentAddress;
 
-    CNavcoinAddress paddress(paymentAddress);
+    CStockAddress paddress(paymentAddress);
     if (!paddress.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Navcoin address for payment");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Stock address for payment");
 
-    CNavcoinAddress oaddress(ownerAddress);
+    CStockAddress oaddress(ownerAddress);
     if (!oaddress.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Navcoin address for the owner");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Stock address for the owner");
 
     CAmount nReqAmount = AmountFromValue(params[1]);
     int64_t nDeadline = params[2].get_int64();
@@ -1123,12 +1123,12 @@ UniValue createtoken(const UniValue& params, bool fHelp)
             "1. \"name\"       (string, required) The name of the token\n"
             "2. max_supply     (numeric, optional) The max supply of the token.\n"
             "\nExamples:\n"
-            + HelpExampleCli("createtoken", "\"BabyNAV\" \"BNAV\" 1000")
+            + HelpExampleCli("createtoken", "\"Baby0DYNS\" \"B0DYNS\" 1000")
                 + HelpExampleCli("createtoken", "\"Wrapped Bitcoin\" \"wBTC\" 21000000")
                 );
 
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     // Amount
     CWalletTx wtx;
@@ -1177,16 +1177,16 @@ UniValue registername(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 1)
         throw std::runtime_error(
             "registername \"name\"\n"
-            "\nRegister a dotNav name.\n"
+            "\nRegister a dotStock name.\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"name\"       (string, required) The name to register\n"
             "\nExamples:\n"
-            + HelpExampleCli("registername", "satoshi.nav")
+            + HelpExampleCli("registername", "satoshi.0dyns")
                 );
 
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     // Amount
     CWalletTx wtx;
@@ -1197,7 +1197,7 @@ UniValue registername(const UniValue& params, bool fHelp)
 
     std::string sName = params[0].get_str();
 
-    if (!DotNav::IsValid(sName))
+    if (!DotStock::IsValid(sName))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid name");
 
     blsctKey sk;
@@ -1207,17 +1207,17 @@ UniValue registername(const UniValue& params, bool fHelp)
     if (!pwalletMain->GetBLSCTSpendKey(sk))
         throw JSONRPCError(RPC_TYPE_ERROR, "Wallet not available");
 
-    blsctKey pk = sk.PrivateChildHash(SerializeHash("name/"+DotNav::GetHashName(sName).ToString()));
+    blsctKey pk = sk.PrivateChildHash(SerializeHash("name/"+DotStock::GetHashName(sName).ToString()));
     bls::G1Element pkg1 = pk.GetG1Element();
 
-    if (view.HaveNameRecord(DotNav::GetHashIdName(sName, pkg1)))
+    if (view.HaveNameRecord(DotStock::GetHashIdName(sName, pkg1)))
         throw JSONRPCError(RPC_TYPE_ERROR, "You already reserved that name, use updatename instead");
-    if (view.HaveNameData(DotNav::GetHashName(sName)))
+    if (view.HaveNameData(DotStock::GetHashName(sName)))
         throw JSONRPCError(RPC_TYPE_ERROR, "That name is already registered");
 
     pwalletMain->AddBLSCTTokenKey(pk);
 
-    SendMoney(address.Get(), 0, fSubtractFeeFromAmount, wtx, true, true, false, 0, DotNav::GetRegisterProgram(sName, pkg1));
+    SendMoney(address.Get(), 0, fSubtractFeeFromAmount, wtx, true, true, false, 0, DotStock::GetRegisterProgram(sName, pkg1));
 
     return wtx.GetHash().GetHex();
 }
@@ -1234,12 +1234,12 @@ UniValue genkeyname(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 1)
         throw std::runtime_error(
             "genkeyname \"name\"\n"
-            "\nGenerates a public key for receiving a dotNav name.\n"
+            "\nGenerates a public key for receiving a dotStock name.\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"name\"       (string, required) The name \n"
             "\nExamples:\n"
-            + HelpExampleCli("genkeyname", "satoshi.nav")
+            + HelpExampleCli("genkeyname", "satoshi.0dyns")
                 );
 
     if (!params[0].isStr() )
@@ -1247,7 +1247,7 @@ UniValue genkeyname(const UniValue& params, bool fHelp)
 
     std::string sName = params[0].get_str();
 
-    if (!DotNav::IsValid(sName))
+    if (!DotStock::IsValid(sName))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid name");
 
     blsctKey sk;
@@ -1257,7 +1257,7 @@ UniValue genkeyname(const UniValue& params, bool fHelp)
     if (!pwalletMain->GetBLSCTSpendKey(sk))
         throw JSONRPCError(RPC_TYPE_ERROR, "Wallet not available");
 
-    blsctKey pk = sk.PrivateChildHash(SerializeHash("name/"+DotNav::GetHashName(sName).ToString()));
+    blsctKey pk = sk.PrivateChildHash(SerializeHash("name/"+DotStock::GetHashName(sName).ToString()));
     bls::G1Element pkg1 = pk.GetG1Element();
 
     pwalletMain->AddBLSCTTokenKey(pk);
@@ -1276,16 +1276,16 @@ UniValue renewname(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 1)
         throw std::runtime_error(
             "renewname \"name\"\n"
-            "\nRenews a dotNav name.\n"
+            "\nRenews a dotStock name.\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"name\"       (string, required) The name to renew\n"
             "\nExamples:\n"
-            + HelpExampleCli("renewname", "satoshi.nav")
+            + HelpExampleCli("renewname", "satoshi.0dyns")
                 );
 
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     // Amount
     CWalletTx wtx;
@@ -1296,15 +1296,15 @@ UniValue renewname(const UniValue& params, bool fHelp)
 
     std::string sName = params[0].get_str();
 
-    if (!DotNav::IsValid(sName))
+    if (!DotStock::IsValid(sName))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid name");
 
-    if (!view.HaveNameData(DotNav::GetHashName(sName)))
+    if (!view.HaveNameData(DotStock::GetHashName(sName)))
         throw JSONRPCError(RPC_TYPE_ERROR, "That name is not registered");
 
-    CAmount fee = GetConsensusParameter(Consensus::CONSENSUS_PARAM_NAVNS_FEE, view);
+    CAmount fee = GetConsensusParameter(Consensus::CONSENSUS_PARAM_STOCKNS_FEE, view);
 
-    SendMoney(address.Get(), fee, fSubtractFeeFromAmount, wtx, true, true, false, 0, DotNav::GetRenewProgram(sName));
+    SendMoney(address.Get(), fee, fSubtractFeeFromAmount, wtx, true, true, false, 0, DotStock::GetRenewProgram(sName));
 
     return wtx.GetHash().GetHex();
 }
@@ -1319,14 +1319,14 @@ UniValue resolvename(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 1)
         throw std::runtime_error(
             "resolvename \"name\"\n"
-            "\nResolves a dotNav name.\n"
+            "\nResolves a dotStock name.\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"name\"       (string, required) The name to resolve\n"
             "2. \"subdomains\" (boolean, optional) Include subdomains\n"
             "\nExamples:\n"
-            + HelpExampleCli("resolvename", "satoshi.nav")
-            + HelpExampleCli("resolvename", "satoshi.nav true")
+            + HelpExampleCli("resolvename", "satoshi.0dyns")
+            + HelpExampleCli("resolvename", "satoshi.0dyns true")
                 );
 
     if (!params[0].isStr())
@@ -1350,23 +1350,23 @@ UniValue resolvename(const UniValue& params, bool fHelp)
         sName = sFullName;
     }
 
-    if (subdomain != "" && !DotNav::IsValidKey(subdomain))
+    if (subdomain != "" && !DotStock::IsValidKey(subdomain))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid sub domain");
 
-    if (!DotNav::IsValid(sName))
+    if (!DotStock::IsValid(sName))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid name");
 
-    if (!view.HaveNameData(DotNav::GetHashName(sName)))
+    if (!view.HaveNameData(DotStock::GetHashName(sName)))
         return ret;
 
     NameDataValues data;
 
-    if (!view.GetNameData(DotNav::GetHashName(sName), data))
+    if (!view.GetNameData(DotStock::GetHashName(sName), data))
     {
         return ret;
     }
 
-    auto mapData = DotNav::Consolidate(data, chainActive.Tip()->nHeight, subdomain);
+    auto mapData = DotStock::Consolidate(data, chainActive.Tip()->nHeight, subdomain);
 
     for (auto &it: mapData) {
         if (it.first.substr(0,1) == "_") {
@@ -1375,7 +1375,7 @@ UniValue resolvename(const UniValue& params, bool fHelp)
     }
 
     if (getSubdomains && subdomain == "") {
-        auto subData = DotNav::ConsolidateSubdomains(data, chainActive.Tip()->nHeight);
+        auto subData = DotStock::ConsolidateSubdomains(data, chainActive.Tip()->nHeight);
         UniValue subUniMain(UniValue::VOBJ);
 
         for (auto &it: subData) {
@@ -1411,18 +1411,18 @@ UniValue updatename(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 3)
         throw std::runtime_error(
             "updatename \"name\" \"key\" \"value\"\n"
-            "\nUpdates a dotNav name.\n"
+            "\nUpdates a dotStock name.\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"name\"       (string, required) The name to update\n"
             "1. \"key\"        (string, required) The parameter to update\n"
             "1. \"value\"      (string, required) The value to set\n"
             "\nExamples:\n"
-            + HelpExampleCli("updatename", "satoshi.nav nav NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ")
+            + HelpExampleCli("updatename", "satoshi.0dyns 0dyns NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ")
                 );
 
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     // Amount
     CWalletTx wtx;
@@ -1444,15 +1444,15 @@ UniValue updatename(const UniValue& params, bool fHelp)
         sName = sFullName;
     }
 
-    if (subdomain != "" && !DotNav::IsValidKey(subdomain))
+    if (subdomain != "" && !DotStock::IsValidKey(subdomain))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid sub domain");
 
-    if (!DotNav::IsValid(sName))
+    if (!DotStock::IsValid(sName))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid name");
 
     std::string sKey = params[1].get_str();
 
-    if (!DotNav::IsValidKey(sKey))
+    if (!DotStock::IsValidKey(sKey))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid key");
 
     std::string sValue = params[2].get_str();
@@ -1464,15 +1464,15 @@ UniValue updatename(const UniValue& params, bool fHelp)
     if (!pwalletMain->GetBLSCTSpendKey(sk))
         throw JSONRPCError(RPC_TYPE_ERROR, "Wallet not available");
 
-    blsctKey pk = sk.PrivateChildHash(SerializeHash("name/"+DotNav::GetHashName(sName).ToString()));
+    blsctKey pk = sk.PrivateChildHash(SerializeHash("name/"+DotStock::GetHashName(sName).ToString()));
     bls::G1Element pkg1 = pk.GetG1Element();
 
-    if (!view.HaveNameRecord(DotNav::GetHashIdName(sName, pkg1)))
+    if (!view.HaveNameRecord(DotStock::GetHashIdName(sName, pkg1)))
         throw JSONRPCError(RPC_TYPE_ERROR, "That name is not registered");
 
     NameRecordValue recordvalue;
 
-    if (!view.GetNameRecord(DotNav::GetHashIdName(sName, pkg1), recordvalue))
+    if (!view.GetNameRecord(DotStock::GetHashIdName(sName, pkg1), recordvalue))
         throw JSONRPCError(RPC_TYPE_ERROR, "Can't get that name");
 
     if (chainActive.Tip()->nHeight-recordvalue.height < 6)
@@ -1483,20 +1483,20 @@ UniValue updatename(const UniValue& params, bool fHelp)
     NameDataValues data;
     uint64_t dataSize = 0;
 
-    if (!view.HaveNameData(DotNav::GetHashName(sName)))
+    if (!view.HaveNameData(DotStock::GetHashName(sName)))
         first = true;
     else {
-        if (!view.GetNameData(DotNav::GetHashName(sName), data))
+        if (!view.GetNameData(DotStock::GetHashName(sName), data))
         {
             throw JSONRPCError(RPC_TYPE_ERROR, "Could not find the name");
         }
-        auto mapData = DotNav::Consolidate(data, chainActive.Tip()->nHeight);
+        auto mapData = DotStock::Consolidate(data, chainActive.Tip()->nHeight);
         if (!mapData.count("_key"))
         {
             first = true;
         } else {
             mapData[sKey] = sValue;
-            dataSize = DotNav::CalculateSize(mapData);
+            dataSize = DotStock::CalculateSize(mapData);
             try {
                 if (bls::G1Element::FromByteVector(ParseHex(mapData["_key"])) != pkg1)
                 {
@@ -1508,9 +1508,9 @@ UniValue updatename(const UniValue& params, bool fHelp)
         }
     }
 
-    uint64_t fee = first ? GetConsensusParameter(Consensus::CONSENSUS_PARAM_NAVNS_FEE, view) : std::floor(dataSize/GetConsensusParameter(Consensus::CONSENSUS_PARAMS_DOTNAV_MAXDATA, view))*GetConsensusParameter(Consensus::CONSENSUS_PARAMS_DOTNAV_FEE_EXTRADATA, view);
+    uint64_t fee = first ? GetConsensusParameter(Consensus::CONSENSUS_PARAM_STOCKNS_FEE, view) : std::floor(dataSize/GetConsensusParameter(Consensus::CONSENSUS_PARAMS_DOTSTOCK_MAXDATA, view))*GetConsensusParameter(Consensus::CONSENSUS_PARAMS_DOTSTOCK_FEE_EXTRADATA, view);
 
-    auto program = first ? DotNav::GetUpdateFirstProgram(sName, pkg1, sKey, sValue, subdomain) : DotNav::GetUpdateProgram(sName, pkg1, sKey, sValue, subdomain);
+    auto program = first ? DotStock::GetUpdateFirstProgram(sName, pkg1, sKey, sValue, subdomain) : DotStock::GetUpdateProgram(sName, pkg1, sKey, sValue, subdomain);
 
     SendMoney(address.Get(), fee, fSubtractFeeFromAmount, wtx, true, true, false, 0, program);
 
@@ -1535,12 +1535,12 @@ UniValue createnft(const UniValue& params, bool fHelp)
             "1. \"scheme\"     (string, required) The scheme for the NFT metadata\n"
             "2. max_supply     (numeric, optional) The max supply of the NFT.\n"
             "\nExamples:\n"
-            + HelpExampleCli("createnft", "\"NAV Artwork\" \"{'resource': 'url'}\" 1000")
+            + HelpExampleCli("createnft", "\"0DYNS Artwork\" \"{'resource': 'url'}\" 1000")
             + HelpExampleCli("createnft", "\"Game Item\" \"{'type': 'string', 'power': 'int'}\" 100")
                 );
 
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     // Amount
     CWalletTx wtx;
@@ -1593,7 +1593,7 @@ UniValue minttoken(const UniValue& params, bool fHelp)
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"tokenid\"     (string, required) The token id\n"
-            "2. \"destination\" (string, required) The xNAV destination addressn"
+            "2. \"destination\" (string, required) The x0DYNS destination addressn"
             "3. amount        (string, required) The amount to mint\n"
             "\nExamples:\n"
             + HelpExampleCli("minttoken", "\"a7be93b41e708d21d6c94920401ca5fd93dffe33d2bc197077e3b4fafcc8fe45eebb359b4c8f6bc15a303cc2971a0c48\" \"xNUNs2vtjr6QDL1NiL8TDHgmbuEo5WcY2K2jQ8ATj9pko8wkJ9RutkFQKBCtn6SsBjy6nK5ftofFyLFnAHAynreQCZjuE7dCWVxCX5DCFB2bjx87KvbqVVRCs3KBzdDre7c5FUy7QLo\" 1000")
@@ -1639,9 +1639,9 @@ UniValue minttoken(const UniValue& params, bool fHelp)
 
     std::string address = params[1].get_str();
 
-    CNavcoinAddress dest(address);
+    CStockAddress dest(address);
     if (!dest.IsValid() || !dest.IsPrivateAddress(Params()))
-        throw JSONRPCError(RPC_TYPE_ERROR, "Destination must be an xNAV address");
+        throw JSONRPCError(RPC_TYPE_ERROR, "Destination must be an x0DYNS address");
 
     // Supply
     CAmount amount = AmountFromValue(params[2]);
@@ -1681,10 +1681,10 @@ UniValue mintnft(const UniValue& params, bool fHelp)
                 "\nArguments:\n"
             "1. \"tokenid\"     (string, required) The token id\n"
             "1. \"nftid\"       (int, required) The ntf id\n"
-            "2. \"destination\" (string, required) The xNAV destination addressn"
+            "2. \"destination\" (string, required) The x0DYNS destination addressn"
             "3. \"metadata\"    (string, required) The nft metadata\n"
             "\nExamples:\n"
-            + HelpExampleCli("mintnft", "\"a7be93b41e708d21d6c94920401ca5fd93dffe33d2bc197077e3b4fafcc8fe45eebb359b4c8f6bc15a303cc2971a0c48\" 1 \"xNUNs2vtjr6QDL1NiL8TDHgmbuEo5WcY2K2jQ8ATj9pko8wkJ9RutkFQKBCtn6SsBjy6nK5ftofFyLFnAHAynreQCZjuE7dCWVxCX5DCFB2bjx87KvbqVVRCs3KBzdDre7c5FUy7QLo\" \"{'resource':'https://navcoin.org/logo.png'}\"")
+            + HelpExampleCli("mintnft", "\"a7be93b41e708d21d6c94920401ca5fd93dffe33d2bc197077e3b4fafcc8fe45eebb359b4c8f6bc15a303cc2971a0c48\" 1 \"xNUNs2vtjr6QDL1NiL8TDHgmbuEo5WcY2K2jQ8ATj9pko8wkJ9RutkFQKBCtn6SsBjy6nK5ftofFyLFnAHAynreQCZjuE7dCWVxCX5DCFB2bjx87KvbqVVRCs3KBzdDre7c5FUy7QLo\" \"{'resource':'https://stock.org/logo.png'}\"")
                 );
 
 
@@ -1729,9 +1729,9 @@ UniValue mintnft(const UniValue& params, bool fHelp)
 
     std::string address = params[2].get_str();
 
-    CNavcoinAddress dest(address);
+    CStockAddress dest(address);
     if (!dest.IsValid() || !dest.IsPrivateAddress(Params()))
-        throw JSONRPCError(RPC_TYPE_ERROR, "Destination must be an xNAV address");
+        throw JSONRPCError(RPC_TYPE_ERROR, "Destination must be an x0DYNS address");
 
     // Supply
     std::string metadata = params[3].get_str();
@@ -1804,9 +1804,9 @@ UniValue burntoken(const UniValue& params, bool fHelp)
 
     std::string address = "xNVLBgqgCpracwFFqCNibevSZ4fTBcgW2wuWdrnhH5iYmTeZ5RRtCYj4wVPatP7R4g7LQ2Mk9m2pgKXckZJDdhcqE1Kv47tqCdX9g8m2oqECqtGWYfgLvnr6MYJ5a3Sz7apgvssuwrV"; //dummy
 
-    CNavcoinAddress dest(address);
+    CStockAddress dest(address);
     if (!dest.IsValid() || !dest.IsPrivateAddress(Params()))
-        throw JSONRPCError(RPC_TYPE_ERROR, "Destination must be an xNAV address");
+        throw JSONRPCError(RPC_TYPE_ERROR, "Destination must be an x0DYNS address");
 
     // Burn amount
     CAmount amount = AmountFromValue(params[1]);
@@ -1845,7 +1845,7 @@ UniValue sendtoken(const UniValue& params, bool fHelp)
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"tokenid\"     (string, required) The token id\n"
-            "2. \"destination\" (string, required) The xNAV destination addressn"
+            "2. \"destination\" (string, required) The x0DYNS destination addressn"
             "3. amount        (string, required) The amount to mint\n"
             "\nExamples:\n"
             + HelpExampleCli("sendtoken", "\"a7be93fd93dffe33d2bc197077e3b4fafcc8fe45eebb359b4c8f6bc15a303cc2971a0c48\" \"xNUNs2vtjr6QDL1NiL8TDHgmbuEo5WcY2K2jQ8ATj9pko8wkJ9RutkFQKBCtn6SsBjy6nK5ftofFyLFnAHAynreQCZjuE7dCWVxCX5DCFB2bjx87KvbqVVRCs3KBzdDre7c5FUy7QLo\" 1000")
@@ -1876,9 +1876,9 @@ UniValue sendtoken(const UniValue& params, bool fHelp)
 
     std::string address = params[1].get_str();
 
-    CNavcoinAddress dest(address);
+    CStockAddress dest(address);
     if (!dest.IsValid() || !dest.IsPrivateAddress(Params()))
-        throw JSONRPCError(RPC_TYPE_ERROR, "Destination must be an xNAV address");
+        throw JSONRPCError(RPC_TYPE_ERROR, "Destination must be an x0DYNS address");
 
     // Supply
     CAmount amount = AmountFromValue(params[2]);
@@ -1908,7 +1908,7 @@ UniValue sendnft(const UniValue& params, bool fHelp)
                 "\nArguments:\n"
             "1. \"tokenid\"     (string, required) The token id\n"
             "2. \"nftid\"       (int, required) The nft id\n"
-            "3. \"destination\" (string, required) The xNAV destination addressn"
+            "3. \"destination\" (string, required) The x0DYNS destination addressn"
             "\nExamples:\n"
             + HelpExampleCli("sendnft", "\"a7be93fd93dffe33d2bc197077e3b4fafcc8fe45eebb359b4c8f6bc15a303cc2971a0c48\" 1 \"xNUNs2vtjr6QDL1NiL8TDHgmbuEo5WcY2K2jQ8ATj9pko8wkJ9RutkFQKBCtn6SsBjy6nK5ftofFyLFnAHAynreQCZjuE7dCWVxCX5DCFB2bjx87KvbqVVRCs3KBzdDre7c5FUy7QLo\"")
                 );
@@ -1943,9 +1943,9 @@ UniValue sendnft(const UniValue& params, bool fHelp)
 
     std::string address = params[2].get_str();
 
-    CNavcoinAddress dest(address);
+    CStockAddress dest(address);
     if (!dest.IsValid() || !dest.IsPrivateAddress(Params()))
-        throw JSONRPCError(RPC_TYPE_ERROR, "Destination must be an xNAV address");
+        throw JSONRPCError(RPC_TYPE_ERROR, "Destination must be an x0DYNS address");
 
     EnsureWalletIsUnlocked();
 
@@ -2005,7 +2005,7 @@ UniValue proposeconsensuschange(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 2 || !params[0].isNum() || !params[1].isNum())
         throw std::runtime_error(
                 "proposeconsensuschange parameter value ( fee dump_raw )\n"
-            "\nCreates a proposal to the DAO for changing a consensus paremeter. Min fee of " + FormatMoney(nMinFee) + "NAV is required.\n"
+            "\nCreates a proposal to the DAO for changing a consensus paremeter. Min fee of " + FormatMoney(nMinFee) + "0DYNS is required.\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. parameter        (numeric, required) The parameter id as specified in the output of the getconsensusparameters rpc command.\n"
@@ -2019,7 +2019,7 @@ UniValue proposeconsensuschange(const UniValue& params, bool fHelp)
             + HelpExampleCli("proposeconsensuschange", "1 10")
                 );
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
 
     // Amount
@@ -2122,7 +2122,7 @@ UniValue proposecombinedconsensuschange(const UniValue& params, bool fHelp)
     if (!IsDaoSuperEnabled(chainActive.Tip(), Params().GetConsensus()))
         throw JSONRPCError(RPC_TYPE_ERROR, "Combined voting is not enabled yet.");
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     UniValue parameters = params[0].get_array();
     UniValue values = params[1].get_array();
@@ -2216,7 +2216,7 @@ UniValue createconsultation(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 1)
         throw std::runtime_error(
                 "createconsultation \"question\" ( min max range fee dump_raw )\n"
-            "\nCreates a consultation for the DAO. Min fee of " + FormatMoney(GetConsensusParameter(Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_FEE, view)) + "NAV is required.\n"
+            "\nCreates a consultation for the DAO. Min fee of " + FormatMoney(GetConsensusParameter(Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_FEE, view)) + "0DYNS is required.\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"question\"       (string, required) The question of the new consultation.\n"
@@ -2229,11 +2229,11 @@ UniValue createconsultation(const UniValue& params, bool fHelp)
             "\"{ hash: consultation_id,\"            (string) The consultation id.\n"
             "\"  strDZeel: string }\"            (string) The attached strdzeel property.\n"
             "\nExamples:\n"
-            + HelpExampleCli("createconsultation", "\"Who should be the CEO of Navcoin? /s\" 1 1")
-                + HelpExampleCli("createconsultation", "\"How much should Navcoin's CEO earn per month? /s\" 1000 5000 true")
+            + HelpExampleCli("createconsultation", "\"Who should be the CEO of Stock? /s\" 1 1")
+                + HelpExampleCli("createconsultation", "\"How much should Stock's CEO earn per month? /s\" 1000 5000 true")
                 );
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     bool fRange = params.size() >= 4 && params[3].isBool() ? params[3].getBool() : false;
 
@@ -2312,7 +2312,7 @@ UniValue createconsultationwithanswers(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 2)
         throw std::runtime_error(
                 "createconsultationwithanswers \"question\" \"[answers]\" ( maxanswers admitsanswerproposals fee dump_raw )\n"
-            "\nCreates a consultation for the DAO. Min fee of " + FormatMoney(GetConsensusParameter(Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_FEE, view)) + "NAV is required.\n"
+            "\nCreates a consultation for the DAO. Min fee of " + FormatMoney(GetConsensusParameter(Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_FEE, view)) + "0DYNS is required.\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"question\"            (string, required) The question of the new consultation.\n"
@@ -2325,10 +2325,10 @@ UniValue createconsultationwithanswers(const UniValue& params, bool fHelp)
             "\"{ hash: consultation_id,\"            (string) The consultation id.\n"
             "\"  strDZeel: string }\"            (string) The attached strdzeel property.\n"
             "\nExamples:\n"
-            + HelpExampleCli("createconsultationwithanswers", "\"Who should be the CEO of Navcoin? /s\" \"[\\\"Craig Wright\\\",\\\"Loomdart\\\"]\"")
+            + HelpExampleCli("createconsultationwithanswers", "\"Who should be the CEO of Stock? /s\" \"[\\\"Craig Wright\\\",\\\"Loomdart\\\"]\"")
                 );
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     bool fRange = false;
     UniValue answers = params[1].get_array();
@@ -2421,7 +2421,7 @@ UniValue createpaymentrequest(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 3)
         throw std::runtime_error(
                 "createpaymentrequest \"hash\" \"amount\" \"id\" ( fee dump_raw )\n"
-            "\nCreates a proposal to withdraw funds from the community fund. Fee: 0.0001 NAV\n"
+            "\nCreates a proposal to withdraw funds from the community fund. Fee: 0.0001 0DYNS\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"hash\"               (string, required) The hash of the proposal from which you want to withdraw funds. It must be approved.\n"
@@ -2449,10 +2449,10 @@ UniValue createpaymentrequest(const UniValue& params, bool fHelp)
     if(proposal.GetLastState() != DAOFlags::ACCEPTED)
         throw JSONRPCError(RPC_TYPE_ERROR, "Proposal has not been accepted.");
 
-    CNavcoinAddress address(proposal.GetOwnerAddress());
+    CStockAddress address(proposal.GetOwnerAddress());
 
     if(!address.IsValid())
-        throw JSONRPCError(RPC_TYPE_ERROR, "Address of the proposal is not a valid Navcoin address.");
+        throw JSONRPCError(RPC_TYPE_ERROR, "Address of the proposal is not a valid Stock address.");
 
     CKeyID keyID;
     if (!address.GetKeyID(keyID))
@@ -2477,7 +2477,7 @@ UniValue createpaymentrequest(const UniValue& params, bool fHelp)
     std::string sRandom = random_string(16);
 
     std::string Secret = sRandom + "I kindly ask to withdraw " +
-            std::to_string(nReqAmount) + "NAV from the proposal " +
+            std::to_string(nReqAmount) + "0DYNS from the proposal " +
             proposal.hash.ToString() + ". Payment request id: " + id;
 
     CHashWriter ss(SER_GETHASH, 0);
@@ -2557,7 +2557,7 @@ UniValue proposeanswer(const UniValue& params, bool fHelp)
     if (fHelp || params.size() < 2)
         throw std::runtime_error(
                 "proposeanswer \"hash\" \"answer\" ( fee dump_raw )\n"
-            "\nProposes an answer for an already existing consultation of the DAO. Min fee of " + FormatMoney(GetConsensusParameter(Consensus::CONSENSUS_PARAM_CONSULTATION_ANSWER_MIN_FEE, view)) + "NAV is required.\n"
+            "\nProposes an answer for an already existing consultation of the DAO. Min fee of " + FormatMoney(GetConsensusParameter(Consensus::CONSENSUS_PARAM_CONSULTATION_ANSWER_MIN_FEE, view)) + "0DYNS is required.\n"
             + HelpRequiringPassphrase() +
                 "\nArguments:\n"
             "1. \"hash\"         (string, required) The hash of the already existing consultation.\n"
@@ -2574,7 +2574,7 @@ UniValue proposeanswer(const UniValue& params, bool fHelp)
                 + HelpExampleCli("proposeanswer", "\"196a4c2115d3c1c1dce1156eb2404ad77f3c5e9f668882c60cb98d638313dbd3\" \"Riccardo Fluffypony\"")
                 );
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     // Amount
     CAmount nAmount = params.size() >= 3 ? AmountFromValue(params[2]) : GetConsensusParameter(Consensus::CONSENSUS_PARAM_CONSULTATION_ANSWER_MIN_FEE, view);
@@ -2679,7 +2679,7 @@ UniValue donatefund(const UniValue& params, bool fHelp)
                 "\nArguments:\n"
                 "1. \"amount\"      (numeric or string, required) The amount in " + CURRENCY_UNIT + " to donate. eg 0.1\n"
                                                                                                     "2. subtractfeefromamount  (boolean, optional, default=false) The fee will be deducted from the amount being sent.\n"
-                                                                                                    "                             The fund will receive less navcoins than you enter in the amount field.\n"
+                                                                                                    "                             The fund will receive less stocks than you enter in the amount field.\n"
                                                                                                     "\nResult:\n"
                                                                                                     "\"transactionid\"  (string) The transaction id.\n"
                                                                                                     "\nExamples:\n"
@@ -2690,7 +2690,7 @@ UniValue donatefund(const UniValue& params, bool fHelp)
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
-    CNavcoinAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
+    CStockAddress address("NQFqqMUD55ZV3PJEJZtaKCsQmjLT6JkjvJ"); // Dummy address
 
     // Amount
     CAmount nAmount = AmountFromValue(params[0]);
@@ -2724,7 +2724,7 @@ UniValue listaddressgroupings(const UniValue& params, bool fHelp)
                 "[\n"
                 "  [\n"
                 "    [\n"
-                "      \"navcoinaddress\",     (string) The navcoin address\n"
+                "      \"stockaddress\",     (string) The stock address\n"
                 "      amount,                 (numeric) The amount in " + CURRENCY_UNIT + "\n"
                                                                                            "      \"account\"             (string, optional) The account (DEPRECATED)\n"
                                                                                            "    ]\n"
@@ -2747,11 +2747,11 @@ UniValue listaddressgroupings(const UniValue& params, bool fHelp)
         for(CTxDestination address: grouping)
         {
             UniValue addressInfo(UniValue::VARR);
-            addressInfo.push_back(CNavcoinAddress(address).ToString());
+            addressInfo.push_back(CStockAddress(address).ToString());
             addressInfo.push_back(ValueFromAmount(balances[address]));
             {
-                if (pwalletMain->mapAddressBook.find(CNavcoinAddress(address).Get()) != pwalletMain->mapAddressBook.end())
-                    addressInfo.push_back(pwalletMain->mapAddressBook.find(CNavcoinAddress(address).Get())->second.name);
+                if (pwalletMain->mapAddressBook.find(CStockAddress(address).Get()) != pwalletMain->mapAddressBook.end())
+                    addressInfo.push_back(pwalletMain->mapAddressBook.find(CStockAddress(address).Get())->second.name);
             }
             jsonGrouping.push_back(addressInfo);
         }
@@ -2767,11 +2767,11 @@ UniValue signmessage(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() != 2)
         throw std::runtime_error(
-                "signmessage \"navcoinaddress\" \"message\"\n"
+                "signmessage \"stockaddress\" \"message\"\n"
                 "\nSign a message with the private key of an address"
                 + HelpRequiringPassphrase() + "\n"
                                               "\nArguments:\n"
-                                              "1. \"navcoinaddress\"  (string, required) The navcoin address to use for the private key.\n"
+                                              "1. \"stockaddress\"  (string, required) The stock address to use for the private key.\n"
                                               "2. \"message\"         (string, required) The message to create a signature of.\n"
                                               "\nResult:\n"
                                               "\"signature\"          (string) The signature of the message encoded in base 64\n"
@@ -2793,7 +2793,7 @@ UniValue signmessage(const UniValue& params, bool fHelp)
     std::string strAddress = params[0].get_str();
     std::string strMessage = params[1].get_str();
 
-    CNavcoinAddress addr(strAddress);
+    CStockAddress addr(strAddress);
     if (!addr.IsValid())
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid address");
 
@@ -2823,10 +2823,10 @@ UniValue getreceivedbyaddress(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw std::runtime_error(
-                "getreceivedbyaddress \"navcoinaddress\" ( minconf )\n"
-                "\nReturns the total amount received by the given navcoinaddress in transactions with at least minconf confirmations.\n"
+                "getreceivedbyaddress \"stockaddress\" ( minconf )\n"
+                "\nReturns the total amount received by the given stockaddress in transactions with at least minconf confirmations.\n"
                 "\nArguments:\n"
-                "1. \"navcoinaddress\"  (string, required) The navcoin address for transactions.\n"
+                "1. \"stockaddress\"  (string, required) The stock address for transactions.\n"
                 "2. minconf             (numeric, optional, default=1) Only include transactions confirmed at least this many times.\n"
                 "\nResult:\n"
                 "amount   (numeric) The total amount in " + CURRENCY_UNIT + " received at this address.\n"
@@ -2843,10 +2843,10 @@ UniValue getreceivedbyaddress(const UniValue& params, bool fHelp)
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
-    // Navcoin address
-    CNavcoinAddress address = CNavcoinAddress(params[0].get_str());
+    // Stock address
+    CStockAddress address = CStockAddress(params[0].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Navcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Stock address");
     CScript scriptPubKey = GetScriptForDestination(address.Get());
     if (!IsMine(*pwalletMain, scriptPubKey))
         return ValueFromAmount(0);
@@ -3078,12 +3078,12 @@ UniValue sendfrom(const UniValue& params, bool fHelp)
 
     if (fHelp || params.size() < 3 || params.size() > 6)
         throw std::runtime_error(
-                "sendfrom \"fromaccount\" \"tonavcoinaddress\" amount ( minconf \"comment\" \"comment-to\" )\n"
-                "\nDEPRECATED (use sendtoaddress). Sent an amount from an account to a navcoin address."
+                "sendfrom \"fromaccount\" \"tostockaddress\" amount ( minconf \"comment\" \"comment-to\" )\n"
+                "\nDEPRECATED (use sendtoaddress). Sent an amount from an account to a stock address."
                 + HelpRequiringPassphrase() + "\n"
                                               "\nArguments:\n"
                                               "1. \"fromaccount\"       (string, required) The name of the account to send funds from. May be the default account using \"\".\n"
-                                              "2. \"tonavcoinaddress\"  (string, required) The navcoin address to send funds to.\n"
+                                              "2. \"tostockaddress\"  (string, required) The stock address to send funds to.\n"
                                               "3. amount                (numeric or string, required) The amount in " + CURRENCY_UNIT + " (transaction fee is added on top).\n"
                                                                                                                                         "4. minconf               (numeric, optional, default=1) Only use funds with at least this many confirmations.\n"
                                                                                                                                         "5. \"comment\"           (string, optional) A comment used to store what the transaction is for. \n"
@@ -3105,9 +3105,9 @@ UniValue sendfrom(const UniValue& params, bool fHelp)
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
     std::string strAccount = AccountFromValue(params[0]);
-    CNavcoinAddress address(params[1].get_str());
+    CStockAddress address(params[1].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Navcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Stock address");
     CAmount nAmount = AmountFromValue(params[2]);
     if (nAmount <= 0)
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount for send");
@@ -3149,14 +3149,14 @@ UniValue sendmany(const UniValue& params, bool fHelp)
                                               "1. \"fromaccount\"         (string, required) DEPRECATED. The account to send the funds from. Should be \"\" for the default account\n"
                                               "2. \"amounts\"             (string, required) A json object with addresses and amounts\n"
                                               "    {\n"
-                                              "      \"address\":amount   (numeric or string) The navcoin address is the key, the numeric amount (can be string) in " + CURRENCY_UNIT + " is the value\n"
+                                              "      \"address\":amount   (numeric or string) The stock address is the key, the numeric amount (can be string) in " + CURRENCY_UNIT + " is the value\n"
                                                                                                                                                                                         "      ,...\n"
                                                                                                                                                                                         "    }\n"
                                                                                                                                                                                         "3. minconf                 (numeric, optional, default=1) Only use the balance confirmed at least this many times.\n"
                                                                                                                                                                                         "4. \"comment\"             (string, optional) A comment\n"
                                                                                                                                                                                         "5. subtractfeefromamount   (string, optional) A json array with addresses.\n"
                                                                                                                                                                                         "                           The fee will be equally deducted from the amount of each selected address.\n"
-                                                                                                                                                                                        "                           Those recipients will receive less navcoins than you enter in their corresponding amount field.\n"
+                                                                                                                                                                                        "                           Those recipients will receive less stocks than you enter in their corresponding amount field.\n"
                                                                                                                                                                                         "                           If no addresses are specified here, the sender pays the fee.\n"
                                                                                                                                                                                         "    [\n"
                                                                                                                                                                                         "      \"address\"            (string) Subtract fee from this address\n"
@@ -3193,7 +3193,7 @@ UniValue sendmany(const UniValue& params, bool fHelp)
     if (params.size() > 4)
         subtractFeeFromAmount = params[4].get_array();
 
-    std::set<CNavcoinAddress> setAddress;
+    std::set<CStockAddress> setAddress;
     std::vector<CRecipient> vecSend;
 
     CAmount totalAmount = 0;
@@ -3204,9 +3204,9 @@ UniValue sendmany(const UniValue& params, bool fHelp)
 
     for(const std::string& name_: keys)
     {
-        CNavcoinAddress address(name_);
+        CStockAddress address(name_);
         if (!address.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Navcoin address: ")+name_);
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Stock address: ")+name_);
 
         if (setAddress.count(address))
             throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid parameter, duplicated address: ")+name_);
@@ -3285,13 +3285,13 @@ UniValue getnewprivateaddress(const UniValue& params, bool fHelp)
     if (fHelp || params.size() > 1)
         throw std::runtime_error(
                 "getnewprivateaddress ( account_id )\n"
-                "\nReturns a new Navcoin private address for receiving payments.\n"
+                "\nReturns a new Stock private address for receiving payments.\n"
                 "If 'account_id' is specified, it is associated with the account \n"
                 "with the given index.\n"
                 "\nArguments:\n"
                 "1. \"account_id\"     (int, optional, default=0) The account id for the address to be linked to. If not provided, the default account 0 is used. It can also be set to 0 to represent the default account. The account does not need to exist before, it will be created if there is no account by the given id.\n"
                 "\nResult:\n"
-                "\"navcoinaddress\"    (string) The new navcoin address\n"
+                "\"stockaddress\"    (string) The new stock address\n"
                 "\nExamples:\n"
                 + HelpExampleCli("getnewprivateaddress", "")
                 + HelpExampleRpc("getnewprivateaddress", "")
@@ -3322,9 +3322,9 @@ UniValue getnewprivateaddress(const UniValue& params, bool fHelp)
     if (!pwalletMain->GetBLSCTSubAddressIndex(keyID, index))
         throw JSONRPCError(RPC_WALLET_ERROR, "Error: Could not get subaddress index");
 
-    pwalletMain->SetPrivateAddressBook(CNavcoinAddress(k).ToString(), "blsct receive", std::to_string(index.first) + "/" + std::to_string(index.second));
+    pwalletMain->SetPrivateAddressBook(CStockAddress(k).ToString(), "blsct receive", std::to_string(index.first) + "/" + std::to_string(index.second));
 
-    return CNavcoinAddress(k).ToString();
+    return CStockAddress(k).ToString();
 }
 
 // Defined in rpc/misc.cpp
@@ -3339,20 +3339,20 @@ UniValue addmultisigaddress(const UniValue& params, bool fHelp)
     {
         std::string msg = "addmultisigaddress nrequired [\"key\",...] ( \"account\" )\n"
                      "\nAdd a nrequired-to-sign multisignature address to the wallet.\n"
-                     "Each key is a Navcoin address or hex-encoded public key.\n"
+                     "Each key is a Stock address or hex-encoded public key.\n"
                      "If 'account' is specified (DEPRECATED), assign address to that account.\n"
 
                      "\nArguments:\n"
                      "1. nrequired        (numeric, required) The number of required signatures out of the n keys or addresses.\n"
-                     "2. \"keysobject\"   (string, required) A json array of navcoin addresses or hex-encoded public keys\n"
+                     "2. \"keysobject\"   (string, required) A json array of stock addresses or hex-encoded public keys\n"
                      "     [\n"
-                     "       \"address\"  (string) navcoin address or hex-encoded public key\n"
+                     "       \"address\"  (string) stock address or hex-encoded public key\n"
                      "       ...,\n"
                      "     ]\n"
                      "3. \"account\"      (string, optional) DEPRECATED. An account to assign the addresses to.\n"
 
                      "\nResult:\n"
-                     "\"navcoinaddress\"  (string) A navcoin address associated with the keys.\n"
+                     "\"stockaddress\"  (string) A stock address associated with the keys.\n"
 
                      "\nExamples:\n"
                      "\nAdd a multisig address from 2 addresses\n"
@@ -3375,7 +3375,7 @@ UniValue addmultisigaddress(const UniValue& params, bool fHelp)
     pwalletMain->AddCScript(inner);
 
     pwalletMain->SetAddressBook(innerID, strAccount, "send");
-    return CNavcoinAddress(innerID).ToString();
+    return CStockAddress(innerID).ToString();
 }
 
 class Witnessifier : public boost::static_visitor<bool>
@@ -3450,9 +3450,9 @@ UniValue addwitnessaddress(const UniValue& params, bool fHelp)
         }
     }
 
-    CNavcoinAddress address(params[0].get_str());
+    CStockAddress address(params[0].get_str());
     if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Navcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Stock address");
 
     Witnessifier w;
     CTxDestination dest = address.Get();
@@ -3461,7 +3461,7 @@ UniValue addwitnessaddress(const UniValue& params, bool fHelp)
         throw JSONRPCError(RPC_WALLET_ERROR, "Public key or redeemscript not known to wallet");
     }
 
-    return CNavcoinAddress(w.result).ToString();
+    return CStockAddress(w.result).ToString();
 }
 
 struct tallyitem
@@ -3496,7 +3496,7 @@ UniValue ListReceived(const UniValue& params, bool fByAccounts)
             filter = filter | ISMINE_WATCH_ONLY;
 
     // Tally
-    std::map<CNavcoinAddress, tallyitem> mapTally;
+    std::map<CStockAddress, tallyitem> mapTally;
     for (std::map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); ++it)
     {
         const CWalletTx& wtx = (*it).second;
@@ -3534,11 +3534,11 @@ UniValue ListReceived(const UniValue& params, bool fByAccounts)
     // Reply
     UniValue ret(UniValue::VARR);
     std::map<std::string, tallyitem> mapAccountTally;
-    for(const std::pair<CNavcoinAddress, CAddressBookData>& item: pwalletMain->mapAddressBook)
+    for(const std::pair<CStockAddress, CAddressBookData>& item: pwalletMain->mapAddressBook)
     {
-        const CNavcoinAddress& address = item.first;
+        const CStockAddress& address = item.first;
         const std::string& strAccount = item.second.name;
-        std::map<CNavcoinAddress, tallyitem>::iterator it = mapTally.find(address);
+        std::map<CStockAddress, tallyitem>::iterator it = mapTally.find(address);
         if (it == mapTally.end() && !fIncludeEmpty)
             continue;
 
@@ -3682,7 +3682,7 @@ UniValue listreceivedbyaccount(const UniValue& params, bool fHelp)
 
 static void MaybePushAddress(UniValue & entry, const CTxDestination &dest)
 {
-    CNavcoinAddress addr;
+    CStockAddress addr;
     if (addr.Set(dest)) {
         entry.pushKV("address", addr.ToString());
     }
@@ -3717,8 +3717,8 @@ void GetReceived(const COutputEntry& r, const CWalletTx& wtx, const std::string&
 
         entry.pushKV("canStake", (::IsMine(*pwalletMain, r.destination) & ISMINE_STAKABLE ||
                                   (::IsMine(*pwalletMain, r.destination) & ISMINE_SPENDABLE &&
-                                   !CNavcoinAddress(r.destination).IsColdStakingAddress(Params()) &&
-                                   !CNavcoinAddress(r.destination).IsColdStakingv2Address(Params()))) ? true : false);
+                                   !CStockAddress(r.destination).IsColdStakingAddress(Params()) &&
+                                   !CStockAddress(r.destination).IsColdStakingv2Address(Params()))) ? true : false);
         entry.pushKV("canSpend", ((::IsMine(*pwalletMain, r.destination) & ISMINE_SPENDABLE) || (pwalletMain->IsMine(wtx.vout[r.vout]) & ISMINE_SPENDABLE_PRIVATE)) ? true : false);
         if (pwalletMain->mapAddressBook.count(r.destination))
             entry.pushKV("label", account);
@@ -3819,7 +3819,7 @@ UniValue listtransactions(const UniValue& params, bool fHelp)
                 "  {\n"
                 "    \"account\":\"accountname\",       (string) DEPRECATED. The account name associated with the transaction. \n"
                 "                                                It will be \"\" for the default account.\n"
-                "    \"address\":\"navcoinaddress\",    (string) The navcoin address of the transaction. Not present for \n"
+                "    \"address\":\"stockaddress\",    (string) The stock address of the transaction. Not present for \n"
                 "                                                move transactions (category = move).\n"
                 "    \"category\":\"send|receive|move\", (string) The transaction category. 'move' is a local (off blockchain)\n"
                 "                                                transaction between accounts, and not associated with an address,\n"
@@ -4026,7 +4026,7 @@ UniValue listsinceblock(const UniValue& params, bool fHelp)
                 "{\n"
                 "  \"transactions\": [\n"
                 "    \"account\":\"accountname\",       (string) DEPRECATED. The account name associated with the transaction. Will be \"\" for the default account.\n"
-                "    \"address\":\"navcoinaddress\",    (string) The navcoin address of the transaction. Not present for move transactions (category = move).\n"
+                "    \"address\":\"stockaddress\",    (string) The stock address of the transaction. Not present for move transactions (category = move).\n"
                 "    \"category\":\"send|receive\",     (string) The transaction category. 'send' has negative amounts, 'receive' has positive amounts.\n"
                 "    \"amount\": x.xxx,          (numeric) The amount in " + CURRENCY_UNIT + ". This is negative for the 'send' category, and for the 'move' category for moves \n"
                                                                                              "                                          outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds.\n"
@@ -4128,7 +4128,7 @@ UniValue gettransaction(const UniValue& params, bool fHelp)
                 "  \"details\" : [\n"
                 "    {\n"
                 "      \"account\" : \"accountname\",  (string) DEPRECATED. The account name involved in the transaction, can be \"\" for the default account.\n"
-                "      \"address\" : \"navcoinaddress\",   (string) The navcoin address involved in the transaction\n"
+                "      \"address\" : \"stockaddress\",   (string) The stock address involved in the transaction\n"
                 "      \"category\" : \"send|receive\",    (string) The category, either 'send' or 'receive'\n"
                 "      \"amount\" : x.xxx,                 (numeric) The amount in " + CURRENCY_UNIT + "\n"
                 "      \"label\" : \"label\",              (string) A comment for the address/transaction, if any\n"
@@ -4301,7 +4301,7 @@ UniValue walletpassphrase(const UniValue& params, bool fHelp)
         throw std::runtime_error(
                 "walletpassphrase \"passphrase\" timeout [stakingonly]\n"
                 "\nStores the wallet decryption key in memory for 'timeout' seconds.\n"
-                "This is needed prior to performing transactions related to private keys such as sending navcoins\n"
+                "This is needed prior to performing transactions related to private keys such as sending stocks\n"
                 "\nArguments:\n"
                 "1. \"passphrase\"     (string, required) The wallet passphrase\n"
                 "2. timeout            (numeric, required) The time to keep the decryption key in seconds.\n"
@@ -4465,10 +4465,10 @@ UniValue encryptwallet(const UniValue& params, bool fHelp)
                 "\nExamples:\n"
                 "\nEncrypt you wallet\n"
                 + HelpExampleCli("encryptwallet", "\"my pass phrase\"") +
-                "\nNow set the passphrase to use the wallet, such as for signing or sending navcoin\n"
+                "\nNow set the passphrase to use the wallet, such as for signing or sending stock\n"
                 + HelpExampleCli("walletpassphrase", "\"my pass phrase\"") +
                 "\nNow we can so something like sign\n"
-                + HelpExampleCli("signmessage", "\"navcoinaddress\" \"test message\"") +
+                + HelpExampleCli("signmessage", "\"stockaddress\" \"test message\"") +
                 "\nNow lock the wallet again by removing the passphrase\n"
                 + HelpExampleCli("walletlock", "") +
                 "\nAs a json rpc call\n"
@@ -4500,7 +4500,7 @@ UniValue encryptwallet(const UniValue& params, bool fHelp)
     // slack space in .dat files; that is bad if the old data is
     // unencrypted private keys. So:
     StartShutdown();
-    return _("wallet encrypted; Navcoin server stopping, restart to run with encrypted wallet.");
+    return _("wallet encrypted; Stock server stopping, restart to run with encrypted wallet.");
 }
 
 UniValue encrypttxdata(const UniValue& params, bool fHelp)
@@ -4546,7 +4546,7 @@ UniValue encrypttxdata(const UniValue& params, bool fHelp)
     // Shutdown the wallet so we don't accidentally write unencrypted data
     // to the wallet.dat file...
     StartShutdown();
-    return _("txdata encrypted; Navcoin server stopping, restart to run with encrypted txdata.");
+    return _("txdata encrypted; Stock server stopping, restart to run with encrypted txdata.");
 }
 
 UniValue lockunspent(const UniValue& params, bool fHelp)
@@ -4560,7 +4560,7 @@ UniValue lockunspent(const UniValue& params, bool fHelp)
                 "\nUpdates list of temporarily unspendable outputs.\n"
                 "Temporarily lock (unlock=false) or unlock (unlock=true) specified transaction outputs.\n"
                 "If no transaction outputs are specified when unlocking then all current locked transaction outputs are unlocked.\n"
-                "A locked transaction output will not be chosen by automatic coin selection, when spending navcoins.\n"
+                "A locked transaction output will not be chosen by automatic coin selection, when spending stocks.\n"
                 "Locks are stored in memory only. Nodes start with zero locked outputs, and the locked output list\n"
                 "is always cleared (by virtue of process exit) when a node stops or fails.\n"
                 "Also see the listunspent call\n"
@@ -4806,9 +4806,9 @@ UniValue listunspent(const UniValue& params, bool fHelp)
                 "\nArguments:\n"
                 "1. minconf          (numeric, optional, default=1) The minimum confirmations to filter\n"
                 "2. maxconf          (numeric, optional, default=9999999) The maximum confirmations to filter\n"
-                "3. \"addresses\"    (string) A json array of navcoin addresses to filter\n"
+                "3. \"addresses\"    (string) A json array of stock addresses to filter\n"
                 "    [\n"
-                "      \"address\"   (string) navcoin address\n"
+                "      \"address\"   (string) stock address\n"
                 "      ,...\n"
                 "    ]\n"
                 "\nResult\n"
@@ -4816,7 +4816,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
                 "  {\n"
                 "    \"txid\" : \"txid\",          (string) the transaction id \n"
                 "    \"vout\" : n,               (numeric) the vout value\n"
-                "    \"address\" : \"address\",    (string) the navcoin address\n"
+                "    \"address\" : \"address\",    (string) the stock address\n"
                 "    \"account\" : \"account\",    (string) DEPRECATED. The associated account, or \"\" for the default account\n"
                 "    \"scriptPubKey\" : \"key\",   (string) the script key\n"
                 "    \"amount\" : x.xxx,         (numeric) the transaction amount in " + CURRENCY_UNIT + "\n"
@@ -4844,14 +4844,14 @@ UniValue listunspent(const UniValue& params, bool fHelp)
     if (params.size() > 1)
         nMaxDepth = params[1].get_int();
 
-    std::set<CNavcoinAddress> setAddress;
+    std::set<CStockAddress> setAddress;
     if (params.size() > 2) {
         UniValue inputs = params[2].get_array();
         for (unsigned int idx = 0; idx < inputs.size(); idx++) {
             const UniValue& input = inputs[idx];
-            CNavcoinAddress address(input.get_str());
+            CStockAddress address(input.get_str());
             if (!address.IsValid())
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Navcoin address: ")+input.get_str());
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Stock address: ")+input.get_str());
             if (setAddress.count(address))
                 throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid parameter, duplicated address: ")+input.get_str());
             setAddress.insert(address);
@@ -4879,7 +4879,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
         entry.pushKV("vout", out.i);
 
         if (fValidAddress) {
-            entry.pushKV("address", CNavcoinAddress(address).ToString());
+            entry.pushKV("address", CStockAddress(address).ToString());
 
             if (pwalletMain->mapAddressBook.count(address))
                 entry.pushKV("account", pwalletMain->mapAddressBook[address].name);
@@ -4924,7 +4924,7 @@ UniValue fundrawtransaction(const UniValue& params, bool fHelp)
                 "1. \"hexstring\"           (string, required) The hex string of the raw transaction\n"
                 "2. options               (object, optional)\n"
                 "   {\n"
-                "     \"changeAddress\"     (string, optional, default pool address) The navcoin address to receive the change\n"
+                "     \"changeAddress\"     (string, optional, default pool address) The stock address to receive the change\n"
                 "     \"changePosition\"    (numeric, optional, default random) The index of the change output\n"
                 "     \"private\"           (boolean, optional, default false) Try to spend private coin outputs\n"
                 "     \"includeWatching\"   (boolean, optional, default false) Also select inputs which are watch only\n"
@@ -4982,10 +4982,10 @@ UniValue fundrawtransaction(const UniValue& params, bool fHelp)
                             true, true);
 
             if (options.exists("changeAddress")) {
-                CNavcoinAddress address(options["changeAddress"].get_str());
+                CStockAddress address(options["changeAddress"].get_str());
 
                 if (!address.IsValid())
-                    throw JSONRPCError(RPC_INVALID_PARAMETER, "changeAddress must be a valid navcoin address");
+                    throw JSONRPCError(RPC_INVALID_PARAMETER, "changeAddress must be a valid stock address");
 
                 changeAddress = address.Get();
             }
@@ -5304,12 +5304,12 @@ UniValue resolveopenalias(const UniValue& params, bool fHelp)
     if ((fHelp || params.size() != 1))
         throw std::runtime_error(
                 "resolveopenallias \"openAlias\"\n"
-                "\nResolves the given OpenAlias address to a Navcoin address.\n"
+                "\nResolves the given OpenAlias address to a Stock address.\n"
                 "\nArguments:\n"
                 "1. \"address\"    (string) The OpenAlias address.\n"
                 "\nExamples:\n"
                 "\nGet information about an OpenAlias address\n"
-                + HelpExampleCli("resolveopenalias", "\"donate@navcoin.org\"")
+                + HelpExampleCli("resolveopenalias", "\"donate@stock.org\"")
                 );
 
     std::string address = params[0].get_str();
@@ -5960,7 +5960,7 @@ UniValue listproposals(const UniValue& params, bool fHelp)
 
             if (showMine)
             {
-                CTxDestination address(CNavcoinAddress(proposal.GetOwnerAddress()).Get());
+                CTxDestination address(CStockAddress(proposal.GetOwnerAddress()).Get());
                 isminefilter mine = IsMine(*pwalletMain, address);
                 if(mine & ISMINE_SPENDABLE)
                     fIsMine = true;
@@ -6389,11 +6389,11 @@ static const CRPCCommand commands[] =
   { "wallet",             "walletpassphrase",         &walletpassphrase,         true  },
   { "wallet",             "removeprunedfunds",        &removeprunedfunds,        true  },
   { "wallet",             "resolveopenalias",         &resolveopenalias,         true  },
-  { "dotnav",             "registername",             &registername,             true  },
-  { "dotnav",             "renewname",                &renewname,                true  },
-  { "dotnav",             "updatename",               &updatename,               true  },
-  { "dotnav",             "resolvename",              &resolvename,              true  },
-  { "dotnav",             "genkeyname",               &genkeyname,               true  },
+  { "dotstock",             "registername",             &registername,             true  },
+  { "dotstock",             "renewname",                &renewname,                true  },
+  { "dotstock",             "updatename",               &updatename,               true  },
+  { "dotstock",             "resolvename",              &resolvename,              true  },
+  { "dotstock",             "genkeyname",               &genkeyname,               true  },
 };
 
 void RegisterWalletRPCCommands(CRPCTable &tableRPC)

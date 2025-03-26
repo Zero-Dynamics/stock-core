@@ -5,7 +5,7 @@
 
 # Exercise the listtransactions API
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 from test_framework.mininode import CTransaction, COIN
 from io import BytesIO
@@ -16,7 +16,7 @@ def txFromHex(hexstring):
     tx.deserialize(f)
     return tx
 
-class ListTransactionsTest(NavcoinTestFramework):
+class ListTransactionsTest(StockTestFramework):
     def __init__(self):
         super().__init__()
         self.num_nodes = 4

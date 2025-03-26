@@ -1,0 +1,6 @@
+usr/local/bin/stock-qt usr/bin
+share/pixmaps/stock32.xpm usr/share/pixmaps
+share/pixmaps/stock16.xpm usr/share/pixmaps
+share/pixmaps/stock128.png usr/share/pixmaps
+debian/stock-qt.desktop usr/share/applications
+debian/stock-qt.protocol usr/share/kde4/services/

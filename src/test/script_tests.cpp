@@ -12,11 +12,11 @@
 #include <script/sign.h>
 #include <util.h>
 #include <utilstrencodings.h>
-#include <test/test_navcoin.h>
+#include <test/test_stock.h>
 #include <rpc/server.h>
 
 #if defined(HAVE_CONSENSUS_LIB)
-#include <script/navcoinconsensus.h>
+#include <script/stockconsensus.h>
 #endif
 
 #include <fstream>
@@ -167,11 +167,11 @@ void DoTest(const CScript& scriptPubKey, const CScript& scriptSig, const CScript
 #if defined(HAVE_CONSENSUS_LIB)
     CDataStream stream(SER_NETWORK, PROTOCOL_VERSION);
     stream << tx2;
-    if (flags & navcoinconsensus_SCRIPT_FLAGS_VERIFY_WITNESS) {
-        BOOST_CHECK_MESSAGE(navcoinconsensus_verify_script_with_amount(begin_ptr(scriptPubKey), scriptPubKey.size(), txCredit.vout[0].nValue, (const unsigned char*)&stream[0], stream.size(), 0, flags, nullptr) == expect, message);
+    if (flags & stockconsensus_SCRIPT_FLAGS_VERIFY_WITNESS) {
+        BOOST_CHECK_MESSAGE(stockconsensus_verify_script_with_amount(begin_ptr(scriptPubKey), scriptPubKey.size(), txCredit.vout[0].nValue, (const unsigned char*)&stream[0], stream.size(), 0, flags, nullptr) == expect, message);
     } else {
-        BOOST_CHECK_MESSAGE(navcoinconsensus_verify_script_with_amount(begin_ptr(scriptPubKey), scriptPubKey.size(), 0, (const unsigned char*)&stream[0], stream.size(), 0, flags, nullptr) == expect, message);
-        BOOST_CHECK_MESSAGE(navcoinconsensus_verify_script(begin_ptr(scriptPubKey), scriptPubKey.size(), (const unsigned char*)&stream[0], stream.size(), 0, flags, nullptr) == expect,message);
+        BOOST_CHECK_MESSAGE(stockconsensus_verify_script_with_amount(begin_ptr(scriptPubKey), scriptPubKey.size(), 0, (const unsigned char*)&stream[0], stream.size(), 0, flags, nullptr) == expect, message);
+        BOOST_CHECK_MESSAGE(stockconsensus_verify_script(begin_ptr(scriptPubKey), scriptPubKey.size(), (const unsigned char*)&stream[0], stream.size(), 0, flags, nullptr) == expect,message);
     }
 #endif
 }

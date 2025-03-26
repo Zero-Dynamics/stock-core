@@ -7,7 +7,7 @@
 # Test BIP68 implementation
 #
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 from test_framework.script import *
 from test_framework.mininode import *
@@ -21,7 +21,7 @@ SEQUENCE_LOCKTIME_MASK = 0x0000ffff
 # RPC error for non-BIP68 final transactions
 NOT_FINAL_ERROR = "64: non-BIP68-final"
 
-class BIP68Test(NavcoinTestFramework):
+class BIP68Test(StockTestFramework):
     def __init__(self):
         super().__init__()
         self.num_nodes = 2
@@ -67,7 +67,7 @@ class BIP68Test(NavcoinTestFramework):
     def test_disable_flag(self):
         # Create some unconfirmed inputs
         new_addr = self.nodes[0].getnewaddress()
-        self.nodes[0].sendtoaddress(new_addr, 2) # send 2 NAV
+        self.nodes[0].sendtoaddress(new_addr, 2) # send 2 0DYNS
 
         utxos = self.nodes[0].listunspent(0, 0)
         assert(len(utxos) > 0)

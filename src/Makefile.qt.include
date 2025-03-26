@@ -1,93 +1,93 @@
-bin_PROGRAMS += qt/navcoin-qt
-EXTRA_LIBRARIES += qt/libnavcoinqt.a
+bin_PROGRAMS += qt/stock-qt
+EXTRA_LIBRARIES += qt/libstockqt.a
 
-# navcoin qt core #
+# stock qt core #
 QT_TS = \
-	qt/locale/navcoin_af.ts \
-	qt/locale/navcoin_af_ZA.ts \
-	qt/locale/navcoin_ar.ts \
-	qt/locale/navcoin_be_BY.ts \
-	qt/locale/navcoin_bg.ts \
-	qt/locale/navcoin_bg_BG.ts \
-	qt/locale/navcoin_ca.ts \
-	qt/locale/navcoin_ca@valencia.ts \
-	qt/locale/navcoin_ca_ES.ts \
-	qt/locale/navcoin_cs.ts \
-	qt/locale/navcoin_cs_CZ.ts \
-	qt/locale/navcoin_cy.ts \
-	qt/locale/navcoin_da.ts \
-	qt/locale/navcoin_de.ts \
-	qt/locale/navcoin_el.ts \
-	qt/locale/navcoin_el_GR.ts \
-	qt/locale/navcoin_en.ts \
-	qt/locale/navcoin_en_GB.ts \
-	qt/locale/navcoin_eo.ts \
-	qt/locale/navcoin_es.ts \
-	qt/locale/navcoin_es_AR.ts \
-	qt/locale/navcoin_es_CL.ts \
-	qt/locale/navcoin_es_CO.ts \
-	qt/locale/navcoin_es_DO.ts \
-	qt/locale/navcoin_es_ES.ts \
-	qt/locale/navcoin_es_MX.ts \
-	qt/locale/navcoin_es_UY.ts \
-	qt/locale/navcoin_es_VE.ts \
-	qt/locale/navcoin_et.ts \
-	qt/locale/navcoin_eu_ES.ts \
-	qt/locale/navcoin_fa.ts \
-	qt/locale/navcoin_fa_IR.ts \
-	qt/locale/navcoin_fi.ts \
-	qt/locale/navcoin_fr.ts \
-	qt/locale/navcoin_fr_CA.ts \
-	qt/locale/navcoin_fr_FR.ts \
-	qt/locale/navcoin_gl.ts \
-	qt/locale/navcoin_he.ts \
-	qt/locale/navcoin_hi_IN.ts \
-	qt/locale/navcoin_hr.ts \
-	qt/locale/navcoin_hu.ts \
-	qt/locale/navcoin_id_ID.ts \
-	qt/locale/navcoin_it.ts \
-	qt/locale/navcoin_it_IT.ts \
-	qt/locale/navcoin_ja.ts \
-	qt/locale/navcoin_ka.ts \
-	qt/locale/navcoin_kk_KZ.ts \
-	qt/locale/navcoin_ko_KR.ts \
-	qt/locale/navcoin_ku_IQ.ts \
-	qt/locale/navcoin_ky.ts \
-	qt/locale/navcoin_la.ts \
-	qt/locale/navcoin_lt.ts \
-	qt/locale/navcoin_lv_LV.ts \
-	qt/locale/navcoin_mk_MK.ts \
-	qt/locale/navcoin_mn.ts \
-	qt/locale/navcoin_ms_MY.ts \
-	qt/locale/navcoin_nb.ts \
-	qt/locale/navcoin_nl.ts \
-	qt/locale/navcoin_pam.ts \
-	qt/locale/navcoin_pl.ts \
-	qt/locale/navcoin_pt_BR.ts \
-	qt/locale/navcoin_pt_PT.ts \
-	qt/locale/navcoin_ro.ts \
-	qt/locale/navcoin_ro_RO.ts \
-	qt/locale/navcoin_ru.ts \
-	qt/locale/navcoin_ru_RU.ts \
-	qt/locale/navcoin_sk.ts \
-	qt/locale/navcoin_sl_SI.ts \
-	qt/locale/navcoin_sq.ts \
-	qt/locale/navcoin_sr.ts \
-	qt/locale/navcoin_sr@latin.ts \
-	qt/locale/navcoin_sv.ts \
-	qt/locale/navcoin_ta.ts \
-	qt/locale/navcoin_th_TH.ts \
-	qt/locale/navcoin_tr.ts \
-	qt/locale/navcoin_tr_TR.ts \
-	qt/locale/navcoin_uk.ts \
-	qt/locale/navcoin_ur_PK.ts \
-	qt/locale/navcoin_uz@Cyrl.ts \
-	qt/locale/navcoin_vi.ts \
-	qt/locale/navcoin_vi_VN.ts \
-	qt/locale/navcoin_zh.ts \
-	qt/locale/navcoin_zh_CN.ts \
-	qt/locale/navcoin_zh_HK.ts \
-	qt/locale/navcoin_zh_TW.ts
+	qt/locale/stock_af.ts \
+	qt/locale/stock_af_ZA.ts \
+	qt/locale/stock_ar.ts \
+	qt/locale/stock_be_BY.ts \
+	qt/locale/stock_bg.ts \
+	qt/locale/stock_bg_BG.ts \
+	qt/locale/stock_ca.ts \
+	qt/locale/stock_ca@valencia.ts \
+	qt/locale/stock_ca_ES.ts \
+	qt/locale/stock_cs.ts \
+	qt/locale/stock_cs_CZ.ts \
+	qt/locale/stock_cy.ts \
+	qt/locale/stock_da.ts \
+	qt/locale/stock_de.ts \
+	qt/locale/stock_el.ts \
+	qt/locale/stock_el_GR.ts \
+	qt/locale/stock_en.ts \
+	qt/locale/stock_en_GB.ts \
+	qt/locale/stock_eo.ts \
+	qt/locale/stock_es.ts \
+	qt/locale/stock_es_AR.ts \
+	qt/locale/stock_es_CL.ts \
+	qt/locale/stock_es_CO.ts \
+	qt/locale/stock_es_DO.ts \
+	qt/locale/stock_es_ES.ts \
+	qt/locale/stock_es_MX.ts \
+	qt/locale/stock_es_UY.ts \
+	qt/locale/stock_es_VE.ts \
+	qt/locale/stock_et.ts \
+	qt/locale/stock_eu_ES.ts \
+	qt/locale/stock_fa.ts \
+	qt/locale/stock_fa_IR.ts \
+	qt/locale/stock_fi.ts \
+	qt/locale/stock_fr.ts \
+	qt/locale/stock_fr_CA.ts \
+	qt/locale/stock_fr_FR.ts \
+	qt/locale/stock_gl.ts \
+	qt/locale/stock_he.ts \
+	qt/locale/stock_hi_IN.ts \
+	qt/locale/stock_hr.ts \
+	qt/locale/stock_hu.ts \
+	qt/locale/stock_id_ID.ts \
+	qt/locale/stock_it.ts \
+	qt/locale/stock_it_IT.ts \
+	qt/locale/stock_ja.ts \
+	qt/locale/stock_ka.ts \
+	qt/locale/stock_kk_KZ.ts \
+	qt/locale/stock_ko_KR.ts \
+	qt/locale/stock_ku_IQ.ts \
+	qt/locale/stock_ky.ts \
+	qt/locale/stock_la.ts \
+	qt/locale/stock_lt.ts \
+	qt/locale/stock_lv_LV.ts \
+	qt/locale/stock_mk_MK.ts \
+	qt/locale/stock_mn.ts \
+	qt/locale/stock_ms_MY.ts \
+	qt/locale/stock_nb.ts \
+	qt/locale/stock_nl.ts \
+	qt/locale/stock_pam.ts \
+	qt/locale/stock_pl.ts \
+	qt/locale/stock_pt_BR.ts \
+	qt/locale/stock_pt_PT.ts \
+	qt/locale/stock_ro.ts \
+	qt/locale/stock_ro_RO.ts \
+	qt/locale/stock_ru.ts \
+	qt/locale/stock_ru_RU.ts \
+	qt/locale/stock_sk.ts \
+	qt/locale/stock_sl_SI.ts \
+	qt/locale/stock_sq.ts \
+	qt/locale/stock_sr.ts \
+	qt/locale/stock_sr@latin.ts \
+	qt/locale/stock_sv.ts \
+	qt/locale/stock_ta.ts \
+	qt/locale/stock_th_TH.ts \
+	qt/locale/stock_tr.ts \
+	qt/locale/stock_tr_TR.ts \
+	qt/locale/stock_uk.ts \
+	qt/locale/stock_ur_PK.ts \
+	qt/locale/stock_uz@Cyrl.ts \
+	qt/locale/stock_vi.ts \
+	qt/locale/stock_vi_VN.ts \
+	qt/locale/stock_zh.ts \
+	qt/locale/stock_zh_CN.ts \
+	qt/locale/stock_zh_HK.ts \
+	qt/locale/stock_zh_TW.ts
 
 QT_FORMS_UI = \
 	qt/forms/addressbookpage.ui \
@@ -157,10 +157,10 @@ QT_MOC_CPP = \
 	qt/moc_macnotificationhandler.cpp \
 	qt/moc_aggregationsession.cpp \
 	qt/moc_modaloverlay.cpp \
-	qt/moc_navcoinaddressvalidator.cpp \
-	qt/moc_navcoinamountfield.cpp \
-	qt/moc_navcoingui.cpp \
-	qt/moc_navcoinunits.cpp \
+	qt/moc_stockaddressvalidator.cpp \
+	qt/moc_stockamountfield.cpp \
+	qt/moc_stockgui.cpp \
+	qt/moc_stockunits.cpp \
 	qt/moc_notificator.cpp \
 	qt/moc_openuridialog.cpp \
 	qt/moc_optionsdialog.cpp \
@@ -203,15 +203,15 @@ QT_MOC_CPP = \
   qt/moc_daopage.cpp \
   qt/moc_daoconsultationvote.cpp \
   qt/moc_daoconsultationcreate.cpp \
-  qt/moc_swapxnav.cpp \
-  qt/moc_navcoinlistwidget.cpp \
-  qt/moc_navcoinpushbutton.cpp \
+  qt/moc_swapx0dyns.cpp \
+  qt/moc_stocklistwidget.cpp \
+  qt/moc_stockpushbutton.cpp \
   qt/moc_daoproposeanswer.cpp \
   qt/moc_daosupport.cpp \
 	qt/styles/moc_dark.cpp \
 	qt/styles/moc_light.cpp
 
-NAVCOIN_MM = \
+STOCK_MM = \
 	qt/macappnapinhibitor.mm \
 	qt/macdockiconhandler.mm \
 	qt/macnotificationhandler.mm
@@ -227,17 +227,17 @@ QT_MOC = \
 	qt/communityfundcreateproposaldialog.moc \
   qt/communityfundcreatepaymentrequestdialog.moc \
 	qt/communityfundpage.moc \
-	qt/navcoin.moc \
-	qt/navcoinamountfield.moc \
+	qt/stock.moc \
+	qt/stockamountfield.moc \
 	qt/overviewpage.moc \
 	qt/rpcconsole.moc
 
-QT_QRC_CPP = qt/qrc_navcoin.cpp
-QT_QRC = qt/navcoin.qrc
-QT_QRC_LOCALE_CPP = qt/qrc_navcoin_locale.cpp
-QT_QRC_LOCALE = qt/navcoin_locale.qrc
+QT_QRC_CPP = qt/qrc_stock.cpp
+QT_QRC = qt/stock.qrc
+QT_QRC_LOCALE_CPP = qt/qrc_stock_locale.cpp
+QT_QRC_LOCALE = qt/stock_locale.qrc
 
-NAVCOIN_QT_H = \
+STOCK_QT_H = \
 	qt/addressbookpage.h \
 	qt/addresstablemodel.h \
 	qt/askpassphrasedialog.h \
@@ -272,10 +272,10 @@ NAVCOIN_QT_H = \
 	qt/macnotificationhandler.h \
 	qt/aggregationsession.h \
 	qt/modaloverlay.h \
-	qt/navcoinaddressvalidator.h \
-	qt/navcoinamountfield.h \
-	qt/navcoingui.h \
-	qt/navcoinunits.h \
+	qt/stockaddressvalidator.h \
+	qt/stockamountfield.h \
+	qt/stockgui.h \
+	qt/stockunits.h \
 	qt/networkstyle.h \
 	qt/notificator.h \
 	qt/openuridialog.h \
@@ -316,24 +316,24 @@ NAVCOIN_QT_H = \
 	qt/walletview.h \
   qt/winshutdownmonitor.h \
   qt/daopage.h \
-  qt/swapxnav.h \
+  qt/swapx0dyns.h \
   qt/daoconsultationvote.h \
   qt/daoconsultationcreate.h \
-  qt/navcoinlistwidget.h \
-  qt/navcoinpushbutton.h \
+  qt/stocklistwidget.h \
+  qt/stockpushbutton.h \
   qt/daoproposeanswer.h \
   qt/daosupport.h
 
 # Icons
 RES_ICONS = \
 	qt/res/icons/logo_n.png \
-	qt/res/icons/navcoin.icns \
-	qt/res/icons/navcoin.ico \
-	qt/res/icons/navcoin.png \
-	qt/res/icons/mininav.svg \
+	qt/res/icons/stock.icns \
+	qt/res/icons/stock.ico \
+	qt/res/icons/stock.png \
+	qt/res/icons/mini0dyns.svg \
 	qt/res/icons/swap.png \
-	qt/res/icons/minixnav.svg \
-	qt/res/icons/navcoin_full.png
+	qt/res/icons/minix0dyns.svg \
+	qt/res/icons/stock_full.png
 
 # Vector Icons
 RES_ICONS += \
@@ -464,16 +464,16 @@ RES_ICONS += \
 	qt/res/themes/light/icons/icon_undock.png \
 	qt/res/themes/light/icons/icon_vline.png
 
-NAVCOIN_QT_CPP = \
+STOCK_QT_CPP = \
 	qt/bantablemodel.cpp \
 	qt/clientmodel.cpp \
 	qt/csvmodelwriter.cpp \
 	qt/getaddresstoreceive.cpp \
 	qt/guiutil.cpp \
-	qt/navcoinaddressvalidator.cpp \
-	qt/navcoinamountfield.cpp \
-	qt/navcoingui.cpp \
-	qt/navcoinunits.cpp \
+	qt/stockaddressvalidator.cpp \
+	qt/stockamountfield.cpp \
+	qt/stockgui.cpp \
+	qt/stockunits.cpp \
 	qt/networkstyle.cpp \
 	qt/notificator.cpp \
 	qt/optionsdialog.cpp \
@@ -490,8 +490,8 @@ NAVCOIN_QT_CPP = \
 	qt/styles/light.cpp \
 	qt/trafficgraphwidget.cpp \
         qt/utilitydialog.cpp \
-        qt/navcoinlistwidget.cpp \
-        qt/navcoinpushbutton.cpp \
+        qt/stocklistwidget.cpp \
+        qt/stockpushbutton.cpp \
         qt/startoptionsdialog.cpp \
         qt/startoptions.cpp \
         qt/startoptionspassword.cpp \
@@ -502,11 +502,11 @@ NAVCOIN_QT_CPP = \
 	qt/utilitydialog.cpp
 
 if TARGET_WINDOWS
-NAVCOIN_QT_CPP += qt/winshutdownmonitor.cpp
+STOCK_QT_CPP += qt/winshutdownmonitor.cpp
 endif
 
 if ENABLE_WALLET
-NAVCOIN_QT_CPP += \
+STOCK_QT_CPP += \
 	qt/addressbookpage.cpp \
 	qt/addresstablemodel.cpp \
 	qt/askpassphrasedialog.cpp \
@@ -556,7 +556,7 @@ NAVCOIN_QT_CPP += \
 	qt/walletmodeltransaction.cpp \
   qt/walletview.cpp \
   qt/daopage.cpp \
-  qt/swapxnav.cpp \
+  qt/swapx0dyns.cpp \
   qt/daoconsultationvote.cpp \
   qt/daoconsultationcreate.cpp \
   qt/daoproposeanswer.cpp \
@@ -567,20 +567,20 @@ RES_IMAGES =
 
 RES_MOVIES = $(wildcard qt/res/movies/spinner-*.png)
 
-NAVCOIN_RC = qt/res/navcoin-qt-res.rc
+STOCK_RC = qt/res/stock-qt-res.rc
 
-NAVCOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
+STOCK_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
 	-I$(builddir)/qt/forms -DQT_NO_KEYWORDS
 
-qt_libnavcoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(NAVCOIN_INCLUDES) $(NAVCOIN_QT_INCLUDES) \
+qt_libstockqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(STOCK_INCLUDES) $(STOCK_QT_INCLUDES) \
   $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(QR_CFLAGS) $(CHARTS_CFLAGS)
-qt_libnavcoinqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
-qt_libnavcoinqt_a_OBJCXXFLAGS = $(AM_OBJCXXFLAGS) $(QT_PIE_FLAGS)
+qt_libstockqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+qt_libstockqt_a_OBJCXXFLAGS = $(AM_OBJCXXFLAGS) $(QT_PIE_FLAGS)
 
-qt_libnavcoinqt_a_SOURCES = $(NAVCOIN_QT_CPP) $(NAVCOIN_QT_H) $(QT_FORMS_UI) \
+qt_libstockqt_a_SOURCES = $(STOCK_QT_CPP) $(STOCK_QT_H) $(QT_FORMS_UI) \
 	$(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES) $(RES_STYLESHEETS)
 
-nodist_qt_libnavcoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) \
+nodist_qt_libstockqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) \
 	$(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
 
 # forms/foo.h -> forms/ui_foo.h
@@ -589,39 +589,39 @@ QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:
 # Most files will depend on the forms and moc files as includes. Generate them
 # before anything else.
 $(QT_MOC): $(QT_FORMS_H)
-$(qt_libnavcoinqt_a_OBJECTS) $(qt_navcoin_qt_OBJECTS) : | $(QT_MOC)
+$(qt_libstockqt_a_OBJECTS) $(qt_stock_qt_OBJECTS) : | $(QT_MOC)
 
-# navcoin-qt binary #
-qt_navcoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(NAVCOIN_INCLUDES) $(CURL_INCLUDES) $(NAVCOIN_QT_INCLUDES) \
+# stock-qt binary #
+qt_stock_qt_CPPFLAGS = $(AM_CPPFLAGS) $(STOCK_INCLUDES) $(CURL_INCLUDES) $(STOCK_QT_INCLUDES) \
   $(QT_INCLUDES) $(QR_CFLAGS) $(CHARTS_CFLAGS)
-qt_navcoin_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+qt_stock_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
-qt_navcoin_qt_SOURCES = qt/navcoin.cpp
+qt_stock_qt_SOURCES = qt/stock.cpp
 
 if TARGET_DARWIN
-  qt_navcoin_qt_SOURCES += $(NAVCOIN_MM)
+  qt_stock_qt_SOURCES += $(STOCK_MM)
 endif
 
 if TARGET_WINDOWS
-  qt_navcoin_qt_SOURCES += $(NAVCOIN_RC)
+  qt_stock_qt_SOURCES += $(STOCK_RC)
 endif
 
-qt_navcoin_qt_LDADD = qt/libnavcoinqt.a $(LIBNAVCOIN_SERVER)
+qt_stock_qt_LDADD = qt/libstockqt.a $(LIBSTOCK_SERVER)
 
 if ENABLE_WALLET
-qt_navcoin_qt_LDADD += $(LIBNAVCOIN_UTIL) $(LIBNAVCOIN_WALLET)
+qt_stock_qt_LDADD += $(LIBSTOCK_UTIL) $(LIBSTOCK_WALLET)
 endif
 
 if ENABLE_ZMQ
-qt_navcoin_qt_LDADD += $(LIBNAVCOIN_ZMQ) $(ZMQ_LIBS)
+qt_stock_qt_LDADD += $(LIBSTOCK_ZMQ) $(ZMQ_LIBS)
 endif
 
-qt_navcoin_qt_LDADD += \
-                       $(LIBNAVCOIN_CLI) \
-                       $(LIBNAVCOIN_COMMON) \
-                       $(LIBNAVCOIN_UTIL) \
-                       $(LIBNAVCOIN_CONSENSUS) \
-                       $(LIBNAVCOIN_CRYPTO) \
+qt_stock_qt_LDADD += \
+                       $(LIBSTOCK_CLI) \
+                       $(LIBSTOCK_COMMON) \
+                       $(LIBSTOCK_UTIL) \
+                       $(LIBSTOCK_CONSENSUS) \
+                       $(LIBSTOCK_CRYPTO) \
                        $(LIBUNIVALUE) \
                        $(LIBLEVELDB) \
                        $(LIBMEMENV) \
@@ -649,42 +649,42 @@ qt_navcoin_qt_LDADD += \
                        $(LIBCAP_LIBS) \
                        $(ZLIB_LIBS)
 
-qt_navcoin_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
-qt_navcoin_qt_LIBTOOLFLAGS = $(AM_LIBTOOLFLAGS) --tag CXX
+qt_stock_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+qt_stock_qt_LIBTOOLFLAGS = $(AM_LIBTOOLFLAGS) --tag CXX
 
 #locale/foo.ts -> locale/foo.qm
 QT_QM=$(QT_TS:.ts=.qm)
 
 SECONDARY: $(QT_QM)
 
-$(srcdir)/qt/navcoinstrings.cpp: $(libnavcoin_server_a_SOURCES) $(libnavcoin_wallet_a_SOURCES) $(libnavcoin_common_a_SOURCES) $(libnavcoin_zmq_a_SOURCES) $(libnavcoin_consensus_a_SOURCES) $(libnavcoin_util_a_SOURCES)
+$(srcdir)/qt/stockstrings.cpp: $(libstock_server_a_SOURCES) $(libstock_wallet_a_SOURCES) $(libstock_common_a_SOURCES) $(libstock_zmq_a_SOURCES) $(libstock_consensus_a_SOURCES) $(libstock_util_a_SOURCES)
 	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
 	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) PACKAGE_NAME="$(PACKAGE_NAME)" COPYRIGHT_HOLDERS="$(COPYRIGHT_HOLDERS)" COPYRIGHT_HOLDERS_SUBSTITUTION="$(COPYRIGHT_HOLDERS_SUBSTITUTION)" $(PYTHON) ../share/qt/extract_strings_qt.py $^
 
-translate: $(srcdir)/qt/navcoinstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(NAVCOIN_QT_BASE_CPP) qt/navcoin.cpp $(NAVCOIN_QT_WINDOWS_CPP) $(NAVCOIN_QT_WALLET_CPP) $(NAVCOIN_QT_H) $(NAVCOIN_MM)
+translate: $(srcdir)/qt/stockstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(STOCK_QT_BASE_CPP) qt/stock.cpp $(STOCK_QT_WINDOWS_CPP) $(STOCK_QT_WALLET_CPP) $(STOCK_QT_H) $(STOCK_MM)
 	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts $(srcdir)/qt/locale/navcoin_en.ts
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts $(srcdir)/qt/locale/stock_en.ts
 
 $(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
 	@test -f $(RCC)
 	@cp -f $< $(@D)/temp_$(<F)
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name navcoin_locale $(@D)/temp_$(<F) | \
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name stock_locale $(@D)/temp_$(<F) | \
 		$(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 	@rm $(@D)/temp_$(<F)
 
 $(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES) $(RES_STYLESHEETS)
 	@test -f $(RCC)
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name navcoin $< | \
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name stock $< | \
 		$(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
-CLEAN_QT = $(nodist_qt_libnavcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno qt/temp_navcoin_locale.qrc
+CLEAN_QT = $(nodist_qt_libstockqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno qt/temp_stock_locale.qrc
 
 CLEANFILES += $(CLEAN_QT)
 
-navcoin_qt_clean: FORCE
-	rm -f $(CLEAN_QT) $(qt_libnavcoinqt_a_OBJECTS) $(qt_navcoin_qt_OBJECTS) qt/navcoin-qt$(EXEEXT) $(LIBNAVCOINQT)
+stock_qt_clean: FORCE
+	rm -f $(CLEAN_QT) $(qt_libstockqt_a_OBJECTS) $(qt_stock_qt_OBJECTS) qt/stock-qt$(EXEEXT) $(LIBSTOCKQT)
 
-navcoin_qt : qt/navcoin-qt$(EXEEXT)
+stock_qt : qt/stock-qt$(EXEEXT)
 
 ui_%.h: %.ui
 	@test -f $(UIC)

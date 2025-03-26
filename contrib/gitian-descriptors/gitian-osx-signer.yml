@@ -1,5 +1,5 @@
 ---
-name: "navcoin-dmg-signer"
+name: "stock-dmg-signer"
 suites:
 - "bionic"
 architectures:
@@ -7,10 +7,10 @@ architectures:
 packages:
 - "faketime"
 remotes:
-- "url": "https://github.com/navcoin-core/navcoin-detached-sigs.git"
+- "url": "https://github.com/stock-core/stock-detached-sigs.git"
   "dir": "signature"
 files:
-- "navcoin-osx-unsigned.tar.gz"
+- "stock-osx-unsigned.tar.gz"
 - "signature-osx.tar.gz"
 script: |
   WRAP_DIR=$HOME/wrapped
@@ -28,8 +28,8 @@ script: |
     chmod +x ${WRAP_DIR}/${prog}
   done
 
-  UNSIGNED=navcoin-osx-unsigned.tar.gz
-  SIGNED=navcoin-osx-signed.dmg
+  UNSIGNED=stock-osx-unsigned.tar.gz
+  SIGNED=stock-osx-signed.dmg
 
   # use local signatures if present
   if [ -f signature-osx.tar.gz ]

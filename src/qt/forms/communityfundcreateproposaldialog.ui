@@ -37,7 +37,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelNavcoinAddressTitle">
+      <widget class="QLabel" name="labelStockAddressTitle">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
          <horstretch>0</horstretch>
@@ -51,12 +51,12 @@
         </font>
        </property>
        <property name="text">
-        <string>Navcoin Address:</string>
+        <string>Stock Address:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QValidatedLineEdit" name="lineEditNavcoinAddress"/>
+      <widget class="QValidatedLineEdit" name="lineEditStockAddress"/>
      </item>
      <item>
       <widget class="QLabel" name="labelRequestedAmountTitle">
@@ -73,12 +73,12 @@
         </font>
        </property>
        <property name="text">
-        <string>Requested Amount (NAV):</string>
+        <string>Requested Amount (0DYNS):</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="NavcoinAmountField" name="lineEditRequestedAmount"/>
+      <widget class="StockAmountField" name="lineEditRequestedAmount"/>
      </item>
      <item>
       <widget class="QLabel" name="labelDescriptionTitle">
@@ -205,7 +205,7 @@
           </font>
          </property>
          <property name="text">
-          <string>By submitting the proposal a X NAV deduction will occur from your wallet </string>
+          <string>By submitting the proposal a X 0DYNS deduction will occur from your wallet </string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -220,9 +220,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>NavcoinAmountField</class>
+   <class>StockAmountField</class>
    <extends>QLineEdit</extends>
-   <header>navcoinamountfield.h</header>
+   <header>stockamountfield.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2020 The Navcoin Core developers
+// Copyright (c) 2019-2020 The Stock Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -40,11 +40,11 @@ DaoPage::DaoPage(const PlatformStyle *platformStyle, QWidget *parent) :
     bottomBox->setLayout(bottomBoxLayout);
 
     viewLbl = new QLabel(tr("View:"));
-    proposalsBtn = new NavcoinPushButton(tr("Fund Proposals"));
-    paymentRequestsBtn = new NavcoinPushButton(tr("Payment Requests"));
-    consultationsBtn = new NavcoinPushButton(tr("Consultations"));
-    deploymentsBtn = new NavcoinPushButton(tr("Deployments"));
-    consensusBtn = new NavcoinPushButton(tr("Consensus Parameters"));
+    proposalsBtn = new StockPushButton(tr("Fund Proposals"));
+    paymentRequestsBtn = new StockPushButton(tr("Payment Requests"));
+    consultationsBtn = new StockPushButton(tr("Consultations"));
+    deploymentsBtn = new StockPushButton(tr("Deployments"));
+    consensusBtn = new StockPushButton(tr("Consensus Parameters"));
     filterLbl = new QLabel(tr("Filter:"));
     filterCmb = new QComboBox();
     filter2Cmb = new QComboBox();
@@ -565,8 +565,8 @@ void DaoPage::initialize(CProposalMap proposalMap, CPaymentRequestMap paymentReq
             it.first,
             "#6666ff",
             (proposal.nVersion & CProposal::SUPER_VERSION ? "SUPER PROPOSAL: ": "" ) + QString::fromStdString(proposal.strDZeel).left(150) + (proposal.strDZeel.size() > 150 ? "..." : ""),
-            NavcoinUnits::formatWithUnit(unit, proposal.nAmount, false, NavcoinUnits::separatorAlways),
-            NavcoinUnits::formatWithUnit(unit, proposal.nAmount - proposal.GetAvailable(coins), false, NavcoinUnits::separatorAlways),
+            StockUnits::formatWithUnit(unit, proposal.nAmount, false, StockUnits::separatorAlways),
+            StockUnits::formatWithUnit(unit, proposal.nAmount - proposal.GetAvailable(coins), false, StockUnits::separatorAlways),
             QString::fromStdString(s_deadline),
             proposal.nVotesYes ? proposal.nVotesYes : 0,
             proposal.nVotesNo ? proposal.nVotesNo : 0,
@@ -673,7 +673,7 @@ void DaoPage::initialize(CProposalMap proposalMap, CPaymentRequestMap paymentReq
             QString::fromStdString(prequest.strDZeel).left(150) + (prequest.strDZeel.size() > 150 ? "..." : ""),
             (proposal.nVersion & CProposal::SUPER_VERSION ? "SUPER PROPOSAL: ": "" ) + QString::fromStdString(proposal.strDZeel).left(150) + (proposal.strDZeel.size() > 150 ? "..." : ""),
             "#6666ff",
-            NavcoinUnits::formatWithUnit(unit, prequest.nAmount, false, NavcoinUnits::separatorAlways),
+            StockUnits::formatWithUnit(unit, prequest.nAmount, false, StockUnits::separatorAlways),
             prequest.nVotesYes ? prequest.nVotesYes : 0,
             prequest.nVotesNo ? prequest.nVotesNo : 0,
             prequest.nVotesAbs ? prequest.nVotesAbs : 0,
@@ -1759,7 +1759,7 @@ void DaoPage::onDetails() {
             type = "payment-request";
         else if (nCurrentView == VIEW_CONSULTATIONS)
             type = "consultation";
-        QString link = "https://www.navexplorer.com/dao/" + type + "/" + contextHash;
+        QString link = "https://www.stockexplorer.com/dao/" + type + "/" + contextHash;
         QDesktopServices::openUrl(QUrl(link));
     }
 }

@@ -7,10 +7,10 @@
 # Test the CHECKLOCKTIMEVERIFY (BIP65) soft-fork logic
 #
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
-class BIP65Test(NavcoinTestFramework):
+class BIP65Test(StockTestFramework):
     def __init__(self):
         super().__init__()
         self.num_nodes = 3

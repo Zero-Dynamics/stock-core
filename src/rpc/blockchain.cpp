@@ -173,9 +173,9 @@ UniValue blockToDeltasJSON(const CBlock& block, const CBlockIndex* blockindex)
 
                 if (GetSpentIndex(spentKey, spentInfo)) {
                     if (spentInfo.addressType == 1) {
-                        delta.pushKV("address", CNavcoinAddress(CKeyID(spentInfo.addressHash)).ToString());
+                        delta.pushKV("address", CStockAddress(CKeyID(spentInfo.addressHash)).ToString());
                     } else if (spentInfo.addressType == 2)  {
-                        delta.pushKV("address", CNavcoinAddress(CScriptID(spentInfo.addressHash)).ToString());
+                        delta.pushKV("address", CStockAddress(CScriptID(spentInfo.addressHash)).ToString());
                     } else {
                         continue;
                     }
@@ -203,11 +203,11 @@ UniValue blockToDeltasJSON(const CBlock& block, const CBlockIndex* blockindex)
 
             if (out.scriptPubKey.IsPayToScriptHash()) {
                 vector<unsigned char> hashBytes(out.scriptPubKey.begin()+2, out.scriptPubKey.begin()+22);
-                delta.pushKV("address", CNavcoinAddress(CScriptID(uint160(hashBytes))).ToString());
+                delta.pushKV("address", CStockAddress(CScriptID(uint160(hashBytes))).ToString());
 
             } else if (out.scriptPubKey.IsPayToPublicKeyHash()) {
                 vector<unsigned char> hashBytes(out.scriptPubKey.begin()+3, out.scriptPubKey.begin()+23);
-                delta.pushKV("address", CNavcoinAddress(CKeyID(uint160(hashBytes))).ToString());
+                delta.pushKV("address", CStockAddress(CKeyID(uint160(hashBytes))).ToString());
             } else {
                 continue;
             }
@@ -1334,8 +1334,8 @@ UniValue gettxout(const UniValue& params, bool fHelp)
                                                                                                        "     \"hex\" : \"hex\",        (string) \n"
                                                                                                        "     \"reqSigs\" : n,          (numeric) Number of required signatures\n"
                                                                                                        "     \"type\" : \"pubkeyhash\", (string) The type, eg pubkeyhash\n"
-                                                                                                       "     \"addresses\" : [          (array of string) array of navcoin addresses\n"
-                                                                                                       "        \"navcoinaddress\"     (string) navcoin address\n"
+                                                                                                       "     \"addresses\" : [          (array of string) array of stock addresses\n"
+                                                                                                       "        \"stockaddress\"     (string) stock address\n"
                                                                                                        "        ,...\n"
                                                                                                        "     ]\n"
                                                                                                        "  },\n"
@@ -1568,8 +1568,8 @@ UniValue getblockchaininfo(const UniValue& params, bool fHelp)
     BIP9SoftForkDescPushBack(bip9_softforks, "coldstaking_v2", consensusParams, Consensus::DEPLOYMENT_COLDSTAKING_V2);
     BIP9SoftForkDescPushBack(bip9_softforks, "dao_super", consensusParams, Consensus::DEPLOYMENT_DAO_SUPER);
     BIP9SoftForkDescPushBack(bip9_softforks, "exclude", consensusParams, Consensus::DEPLOYMENT_EXCLUDE);
-    BIP9SoftForkDescPushBack(bip9_softforks, "xnav_ser", consensusParams, Consensus::DEPLOYMENT_XNAV_SER);
-    BIP9SoftForkDescPushBack(bip9_softforks, "dot_nav", consensusParams, Consensus::DEPLOYMENT_DOT_NAV);
+    BIP9SoftForkDescPushBack(bip9_softforks, "xstock_ser", consensusParams, Consensus::DEPLOYMENT_XSTOCK_SER);
+    BIP9SoftForkDescPushBack(bip9_softforks, "dot_stock", consensusParams, Consensus::DEPLOYMENT_DOT_STOCK);
     obj.pushKV("softforks",      softforks);
     obj.pushKV("bip9_softforks", bip9_softforks);
 

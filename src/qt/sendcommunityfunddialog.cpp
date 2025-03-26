@@ -36,7 +36,7 @@ SendCommunityFundDialog::SendCommunityFundDialog(QWidget *parent, CProposal* pro
 
     // Amount label
     QSettings settings;
-    ui->labelRequestedAmount->setText(QString("%1 NAV / ").arg(proposal->nAmount/COIN).append("%1 EUR / ").arg(proposal->nAmount / settings.value("eurFactor", 0).toFloat()).append("%2 USD / ").arg(proposal->nAmount / settings.value("usdFactor", 0).toFloat()).append("%3 BTC").arg(proposal->nAmount / settings.value("btcFactor", 0).toFloat()));
+    ui->labelRequestedAmount->setText(QString("%1 0DYNS / ").arg(proposal->nAmount/COIN).append("%1 EUR / ").arg(proposal->nAmount / settings.value("eurFactor", 0).toFloat()).append("%2 USD / ").arg(proposal->nAmount / settings.value("usdFactor", 0).toFloat()).append("%3 BTC").arg(proposal->nAmount / settings.value("btcFactor", 0).toFloat()));
 
     // Format long descriptions
     std::string description = proposal->strDZeel.c_str();
@@ -59,7 +59,7 @@ SendCommunityFundDialog::SendCommunityFundDialog(QWidget *parent, CProposal* pro
     ui->labelDuration->setText(GUIUtil::formatDurationStr(int(proposal->nDeadline)));
 
     std::string fee = FormatMoney(GetConsensusParameter(Consensus::CONSENSUS_PARAM_PROPOSAL_MIN_FEE, view));
-    std::string warning = tr("By submitting the payment request a contribution of %1 NAV to the Community Fund will occur from your wallet.").arg(QString::fromStdString(fee)).toStdString();
+    std::string warning = tr("By submitting the payment request a contribution of %1 0DYNS to the Community Fund will occur from your wallet.").arg(QString::fromStdString(fee)).toStdString();
     ui->labelWarning->setText(QString::fromStdString(warning));
 }
 
@@ -93,7 +93,7 @@ SendCommunityFundDialog::SendCommunityFundDialog(QWidget *parent, CPaymentReques
 
     // Amount label
     QSettings settings;
-    ui->labelRequestedAmount->setText(QString("%1 NAV / ").arg(prequest->nAmount/COIN).append("%1 EUR / ").arg(prequest->nAmount / settings.value("eurFactor", 0).toFloat()).append("%2 USD / ").arg(prequest->nAmount / settings.value("usdFactor", 0).toFloat()).append("%3 BTC").arg(prequest->nAmount / settings.value("btcFactor", 0).toFloat()));
+    ui->labelRequestedAmount->setText(QString("%1 0DYNS / ").arg(prequest->nAmount/COIN).append("%1 EUR / ").arg(prequest->nAmount / settings.value("eurFactor", 0).toFloat()).append("%2 USD / ").arg(prequest->nAmount / settings.value("usdFactor", 0).toFloat()).append("%3 BTC").arg(prequest->nAmount / settings.value("btcFactor", 0).toFloat()));
 
     // Format long descriptions
     std::string description = prequest->strDZeel.c_str();

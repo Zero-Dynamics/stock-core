@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-# Copyright (c) 2018 The Navcoin Core developers
+# Copyright (c) 2018 The Stock Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.hardfork_util import *
 from test_framework.cfund_util import *
 
-class PaymentRequest452(NavcoinTestFramework):
+class PaymentRequest452(StockTestFramework):
     """Tests whether payment requests can be double paid before and after the hardfork."""
 
     def __init__(self):

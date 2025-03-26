@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/navcoin-config.h>
+#include <config/stock-config.h>
 #endif
 
 #include <qt/askpassphrasedialog.h>
@@ -132,7 +132,7 @@ void AskPassphraseDialog::accept()
             QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm wallet encryption"),
                     tr("Warning: If you encrypt your wallet and lose your passphrase, you will not be able to access this wallet anymore. Please be sure you keep a backup of your seed words (mnemonic). This is the only way to recover access to your coins in case of forgetting your pin.") +
                     "<br><br>" +
-                    tr("Forgetting your passphrase and not having your mnemonic will make you <b>LOSE ACCESS TO ALL OF YOUR NAVCOINS!!!</b>") +
+                    tr("Forgetting your passphrase and not having your mnemonic will make you <b>LOSE ACCESS TO ALL OF YOUR STOCKS!!!</b>") +
                     "<br><br>" +
                     tr("Are you sure you wish to encrypt your wallet txdata?"),
                     QMessageBox::Yes|QMessageBox::Cancel,
@@ -147,7 +147,7 @@ void AskPassphraseDialog::accept()
                                 "<qt>" +
                                 tr("%1 will close now to finish the encryption process. "
                                     "Remember that encrypting your wallet cannot fully protect "
-                                    "your navcoins from being stolen by malware infecting your computer.").arg(tr(PACKAGE_NAME)) +
+                                    "your stocks from being stolen by malware infecting your computer.").arg(tr(PACKAGE_NAME)) +
                                 "</qt>");
                         QApplication::quit();
                     }
@@ -180,7 +180,7 @@ void AskPassphraseDialog::accept()
             QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm wallet txdata encryption"),
                     tr("Warning: If you encrypt your wallet txdata and lose your pin, you will not be able to access this wallet anymore. Please be sure you keep a backup of your seed words (mnemonic). This is the only way to recover access to your coins in case of forgetting your pin.") +
                     "<br><br>" +
-                    tr("Forgetting your pin and not having your mnemonic will make you <b>LOSE ACCESS TO ALL OF YOUR NAVCOINS!!!</b>") +
+                    tr("Forgetting your pin and not having your mnemonic will make you <b>LOSE ACCESS TO ALL OF YOUR STOCKS!!!</b>") +
                     "<br><br>" +
                     tr("Are you sure you wish to encrypt your wallet txdata?"),
                     QMessageBox::Yes|QMessageBox::Cancel,
@@ -195,7 +195,7 @@ void AskPassphraseDialog::accept()
                                 "<qt>" +
                                 tr("%1 will close now to finish the encryption process. "
                                     "Remember that encrypting your wallet cannot fully protect "
-                                    "your navcoins from being stolen by malware infecting your computer.").arg(tr(PACKAGE_NAME)) +
+                                    "your stocks from being stolen by malware infecting your computer.").arg(tr(PACKAGE_NAME)) +
                                 "</qt>");
                         QApplication::quit();
                     }

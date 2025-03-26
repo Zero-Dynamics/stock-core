@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_ZMQ_ZMQPUBLISHNOTIFIER_H
-#define NAVCOIN_ZMQ_ZMQPUBLISHNOTIFIER_H
+#ifndef STOCK_ZMQ_ZMQPUBLISHNOTIFIER_H
+#define STOCK_ZMQ_ZMQPUBLISHNOTIFIER_H
 
 #include <zmq/zmqabstractnotifier.h>
 
@@ -52,4 +52,4 @@ public:
     bool NotifyTransaction(const CTransaction &transaction);
 };
 
-#endif // NAVCOIN_ZMQ_ZMQPUBLISHNOTIFIER_H
+#endif // STOCK_ZMQ_ZMQPUBLISHNOTIFIER_H

@@ -619,10 +619,10 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     }
 
     int64_t blockValue = nCredit;
-    std::map<CNavcoinAddress, double> splitMap;
+    std::map<CStockAddress, double> splitMap;
     double nAccumulatedFee = 0.0;
 
-    CNavcoinAddress poolFeeAddress(GetArg("-pooladdress", ""));
+    CStockAddress poolFeeAddress(GetArg("-pooladdress", ""));
     double nPoolFee = GetArg("-poolfee", 0) / 100.0;
     bool fRedirectedToblsCT = false;
     Scalar gammaIns = 0;
@@ -636,7 +636,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     }
     else if (GetArg("-stakingaddress", "") != "")
     {
-        CNavcoinAddress address;
+        CStockAddress address;
         UniValue stakingAddress;
         UniValue addressMap(UniValue::VOBJ);
         std::map<std::string, UniValue> splitObject;
@@ -651,19 +651,19 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
 
                 std::string lookForKey = "all";
 
-                if (find_value(addressMap, CNavcoinAddress(key.GetPubKey().GetID()).ToString()).isStr())
-                    lookForKey = CNavcoinAddress(key.GetPubKey().GetID()).ToString();
+                if (find_value(addressMap, CStockAddress(key.GetPubKey().GetID()).ToString()).isStr())
+                    lookForKey = CStockAddress(key.GetPubKey().GetID()).ToString();
 
-                if (find_value(addressMap, CNavcoinAddress(key.GetPubKey().GetID()).ToString()).isObject())
+                if (find_value(addressMap, CStockAddress(key.GetPubKey().GetID()).ToString()).isObject())
                 {
-                    find_value(addressMap, CNavcoinAddress(key.GetPubKey().GetID()).ToString()).getObjMap(splitObject);
+                    find_value(addressMap, CStockAddress(key.GetPubKey().GetID()).ToString()).getObjMap(splitObject);
                     if (splitObject.size() > 0)
-                        lookForKey = CNavcoinAddress(key.GetPubKey().GetID()).ToString();
+                        lookForKey = CStockAddress(key.GetPubKey().GetID()).ToString();
                 }
 
                 if(find_value(addressMap, lookForKey).isStr())
                 {
-                    address = CNavcoinAddress(find_value(addressMap, lookForKey).get_str());
+                    address = CStockAddress(find_value(addressMap, lookForKey).get_str());
 
                     if (address.IsValid())
                     {
@@ -681,7 +681,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
                     find_value(addressMap, lookForKey).getObjMap(splitObject);
 
                     for ( const auto &pair : splitObject ) {
-                        address = CNavcoinAddress(pair.first);
+                        address = CStockAddress(pair.first);
                         if (!address.IsValid() || pair.second.get_real() <= 0)
                             continue;
                         if (nAccumulatedFee+pair.second.get_real() > 100.0)
@@ -704,7 +704,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
         }
         else
         {
-            address = CNavcoinAddress(GetArg("-stakingaddress", ""));
+            address = CStockAddress(GetArg("-stakingaddress", ""));
             if (address.IsValid()) {
                 splitMap[address] = 100;
                 if (address.IsPrivateAddress(Params()))
@@ -735,7 +735,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
 
                 if (!CreateBLSCTOutput(ephemeralKey, nonce, blsctOut, dk, thisOut, "Staking reward", gammaOuts, strFailReason, false, vBLSSignatures))
                 {
-                    return error("%s: Could not redirect stakes to xNAV: %s\n", __func__, strFailReason);
+                    return error("%s: Could not redirect stakes to x0DYNS: %s\n", __func__, strFailReason);
                 }
 
                 txNew.vout.push_back(blsctOut);
@@ -1008,7 +1008,7 @@ bool CWallet::LoadCScript(const CScript& redeemScript)
      * these. Do not add them to the wallet and warn. */
     if (redeemScript.size() > MAX_SCRIPT_ELEMENT_SIZE)
     {
-        std::string strAddr = CNavcoinAddress(CScriptID(redeemScript)).ToString();
+        std::string strAddr = CStockAddress(CScriptID(redeemScript)).ToString();
         LogPrintf("%s: Warning: This wallet contains a redeemScript of size %i which exceeds maximum size %i thus can never be redeemed. Do not use address %s.\n",
             __func__, redeemScript.size(), MAX_SCRIPT_ELEMENT_SIZE, strAddr);
         return true;
@@ -3295,7 +3295,7 @@ void CWallet::AvailablePrivateCoins(vector<COutput>& vCoins, bool fOnlyConfirmed
                     std::string sAddress = "";
 
                     if (pwalletMain->GetBLSCTSubAddressPublicKeys(pcoin->vout[i].outputKey, pcoin->vout[i].spendingKey, k))
-                        sAddress = CNavcoinAddress(k).ToString();
+                        sAddress = CStockAddress(k).ToString();
 
                     vCoins.push_back(COutput(pcoin, i, nDepth,
                                              ((mine & ISMINE_SPENDABLE_PRIVATE) != ISMINE_NO),
@@ -3869,7 +3869,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                             return false;
                         }
 
-                        blsctKey ns = s.PrivateChildHash(SerializeHash("name/"+DotNav::GetHashName(program.sParameters[0]).ToString()));
+                        blsctKey ns = s.PrivateChildHash(SerializeHash("name/"+DotStock::GetHashName(program.sParameters[0]).ToString()));
 
                         if (ns.GetG1Element() != program.kParameters[0])
                             strFailReason = strprintf("Can't get name private key");
@@ -3887,18 +3887,18 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                             return false;
                         }
 
-                        blsctKey ns = s.PrivateChildHash(SerializeHash("name/"+DotNav::GetHashName(program.sParameters[0]).ToString()));
+                        blsctKey ns = s.PrivateChildHash(SerializeHash("name/"+DotStock::GetHashName(program.sParameters[0]).ToString()));
 
                         {
                             CStateViewCache inputs(pcoinsTip);
 
                             NameDataValues data;
-                            if (!inputs.GetNameData(DotNav::GetHashName(program.sParameters[0]), data))
+                            if (!inputs.GetNameData(DotStock::GetHashName(program.sParameters[0]), data))
                             {
                                 strFailReason = strprintf("Could not find the name");
                                 return false;
                             }
-                            auto mapData = DotNav::Consolidate(data, chainActive.Tip()->nHeight);
+                            auto mapData = DotStock::Consolidate(data, chainActive.Tip()->nHeight);
                             if (!mapData.count("_key"))
                             {
                                 strFailReason = strprintf("Name has not an associated key");
@@ -4065,7 +4065,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 {
                     // Fill a vout to ourself
                     // TODO: pass in scriptChange instead of reservekey so
-                    // change transaction isn't always pay-to-navcoin-address
+                    // change transaction isn't always pay-to-stock-address
                     CScript scriptChange;
 
                     // coin control: send change to custom address
@@ -4601,9 +4601,9 @@ bool CWallet::SetAddressBook(const CTxDestination& address, const std::string& s
                              strPurpose, (fUpdated ? CT_UPDATED : CT_NEW) );
     if (!fFileBacked)
         return false;
-    if (!strPurpose.empty() && !CWalletDB(strWalletFile).WritePurpose(CNavcoinAddress(address).ToString(), strPurpose))
+    if (!strPurpose.empty() && !CWalletDB(strWalletFile).WritePurpose(CStockAddress(address).ToString(), strPurpose))
         return false;
-    return CWalletDB(strWalletFile).WriteName(CNavcoinAddress(address).ToString(), strName);
+    return CWalletDB(strWalletFile).WriteName(CStockAddress(address).ToString(), strName);
 }
 
 bool CWallet::DelAddressBook(const CTxDestination& address)
@@ -4614,7 +4614,7 @@ bool CWallet::DelAddressBook(const CTxDestination& address)
         if(fFileBacked)
         {
             // Delete destdata tuples associated with address
-            std::string strAddress = CNavcoinAddress(address).ToString();
+            std::string strAddress = CStockAddress(address).ToString();
             for(const std::pair<std::string, std::string> &item: mapAddressBook[address].destdata)
             {
                 CWalletDB(strWalletFile).EraseDestData(strAddress, item.first);
@@ -4627,8 +4627,8 @@ bool CWallet::DelAddressBook(const CTxDestination& address)
 
     if (!fFileBacked)
         return false;
-    CWalletDB(strWalletFile).ErasePurpose(CNavcoinAddress(address).ToString());
-    return CWalletDB(strWalletFile).EraseName(CNavcoinAddress(address).ToString());
+    CWalletDB(strWalletFile).ErasePurpose(CStockAddress(address).ToString());
+    return CWalletDB(strWalletFile).EraseName(CStockAddress(address).ToString());
 }
 
 bool CWallet::SetPrivateAddressBook(const std::string& address, const std::string& strName, const std::string& strPurpose)
@@ -5582,7 +5582,7 @@ bool CWallet::AddDestData(const CTxDestination &dest, const std::string &key, co
     mapAddressBook[dest].destdata.insert(std::make_pair(key, value));
     if (!fFileBacked)
         return true;
-    return CWalletDB(strWalletFile).WriteDestData(CNavcoinAddress(dest).ToString(), key, value);
+    return CWalletDB(strWalletFile).WriteDestData(CStockAddress(dest).ToString(), key, value);
 }
 
 bool CWallet::EraseDestData(const CTxDestination &dest, const std::string &key)
@@ -5591,7 +5591,7 @@ bool CWallet::EraseDestData(const CTxDestination &dest, const std::string &key)
         return false;
     if (!fFileBacked)
         return true;
-    return CWalletDB(strWalletFile).EraseDestData(CNavcoinAddress(dest).ToString(), key);
+    return CWalletDB(strWalletFile).EraseDestData(CStockAddress(dest).ToString(), key);
 }
 
 bool CWallet::LoadDestData(const CTxDestination &dest, const std::string &key, const std::string &value)
@@ -5634,7 +5634,7 @@ std::string CWallet::GetWalletHelpString(bool showDebug)
     if (showDebug)
         strUsage += HelpMessageOpt("-sendfreetransactions", strprintf(_("Send transactions as zero-fee transactions if possible (default: %u)"), DEFAULT_SEND_FREE_TRANSACTIONS));
     strUsage += HelpMessageOpt("-spendzeroconfchange", strprintf(_("Spend unconfirmed change when sending transactions (default: %u)"), DEFAULT_SPEND_ZEROCONF_CHANGE));
-    strUsage += HelpMessageOpt("-stakingaddress", strprintf(_("Specify a customised navcoin address to accumulate the staking rewards.")));
+    strUsage += HelpMessageOpt("-stakingaddress", strprintf(_("Specify a customised stock address to accumulate the staking rewards.")));
     strUsage += HelpMessageOpt("-suppressblsctwarning", _("Disables the warning when wallet can't configure BLSCT") + " " + strprintf(_("(default: %u)"), DEFAULT_SUPPRESS_BLSCT_WARNING));
     strUsage += HelpMessageOpt("-txconfirmtarget=<n>", strprintf(_("If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)"), DEFAULT_TX_CONFIRM_TARGET));
     strUsage += HelpMessageOpt("-upgradewallet", _("Upgrade wallet to latest format on startup"));
@@ -6040,13 +6040,13 @@ std::string CWallet::formatDisplayAmount(CAmount amount) {
     std::stringstream n;
     n.imbue(std::locale(""));
     n << std::fixed << std::setprecision(8) << amount/COIN;
-    std::string nav_amount = n.str();
-    if(nav_amount.at(nav_amount.length()-1) == '.') {
-        nav_amount = nav_amount.substr(0, nav_amount.size()-1);
+    std::string stock_amount = n.str();
+    if(stock_amount.at(stock_amount.length()-1) == '.') {
+        stock_amount = stock_amount.substr(0, stock_amount.size()-1);
     }
-    nav_amount.append(" NAV");
+    stock_amount.append(" 0DYNS");
 
-    return nav_amount;
+    return stock_amount;
 }
 
 CKeyPool::CKeyPool()

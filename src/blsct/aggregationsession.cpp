@@ -1,4 +1,4 @@
-// Copyright (c) 2020 The Navcoin developers
+// Copyright (c) 2020 The Stock developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -572,7 +572,7 @@ bool AggregationSession::JoinSingleV3(int index, std::vector<unsigned char>& vPu
     try {
         UniValue msg(UniValue::VOBJ);
         msg.pushKV("reply", 1);
-        EncryptedCandidateTransaction encryptedTx(publicKey, msg, IsXNavSerEnabled(chainActive.Tip(), Params().GetConsensus()));
+        EncryptedCandidateTransaction encryptedTx(publicKey, msg, IsXStockSerEnabled(chainActive.Tip(), Params().GetConsensus()));
 
         encryptedTx.nTime = GetTimeMillis();
 
@@ -620,7 +620,7 @@ bool AggregationSession::JoinSingleV2(int index, std::vector<unsigned char>& vPu
     bls::G1Element publicKey = bls::G1Element::FromByteVector(vPublicKey);
 
     try {
-        EncryptedCandidateTransaction encryptedTx(publicKey, tx, IsXNavSerEnabled(chainActive.Tip(), Params().GetConsensus()));
+        EncryptedCandidateTransaction encryptedTx(publicKey, tx, IsXStockSerEnabled(chainActive.Tip(), Params().GetConsensus()));
 
         encryptedTx.nTime = GetTimeMillis();
 
@@ -958,9 +958,9 @@ CAmount AggregationSession::GetMaxFee()
 
 void AggregationSessionThread()
 {
-    LogPrintf("NavcoinCandidateCoinsThread started\n");
+    LogPrintf("StockCandidateCoinsThread started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("navcoin-candidate-coins");
+    RenameThread("stock-candidate-coins");
 
     int aggSleep = GetArg("-blsctsleepagg", BLSCT_THREAD_SLEEP_AGG);
 
@@ -1003,19 +1003,19 @@ void AggregationSessionThread()
             MilliSleep(GetRand(aggSleep, 180000));
         }
     } catch (const boost::thread_interrupted&) {
-        LogPrintf("NavcoinCandidateCoinsThread terminated\n");
+        LogPrintf("StockCandidateCoinsThread terminated\n");
         throw;
     } catch (const std::runtime_error& e) {
-        LogPrintf("NavcoinCandidateCoinsThread runtime error: %s\n", e.what());
+        LogPrintf("StockCandidateCoinsThread runtime error: %s\n", e.what());
         return;
     }
 }
 
 void CandidateVerificationThread()
 {
-    LogPrintf("NavcoinCandidateVerificationThread started\n");
+    LogPrintf("StockCandidateVerificationThread started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("navcoin-candidate-coins-verification");
+    RenameThread("stock-candidate-coins-verification");
 
     int verSleep = GetArg("-blsctsleepver", BLSCT_THREAD_SLEEP_VER);
 
@@ -1128,10 +1128,10 @@ void CandidateVerificationThread()
             MilliSleep(GetRand(verSleep, verSleep + 100));
         }
     } catch (const boost::thread_interrupted&) {
-        LogPrintf("NavcoinCandidateVerificationThread terminated\n");
+        LogPrintf("StockCandidateVerificationThread terminated\n");
         throw;
     } catch (const std::runtime_error& e) {
-        LogPrintf("NavcoinCandidateVerificationThread runtime error: %s\n", e.what());
+        LogPrintf("StockCandidateVerificationThread runtime error: %s\n", e.what());
         return;
     }
 }

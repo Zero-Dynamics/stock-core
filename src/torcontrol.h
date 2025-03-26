@@ -5,8 +5,8 @@
 /**
  * Functionality for communicating with Tor.
  */
-#ifndef NAVCOIN_TORCONTROL_H
-#define NAVCOIN_TORCONTROL_H
+#ifndef STOCK_TORCONTROL_H
+#define STOCK_TORCONTROL_H
 
 #include <scheduler.h>
 
@@ -33,4 +33,4 @@ private:
     hidden_service_cb ready_cb;
 };
 
-#endif /* NAVCOIN_TORCONTROL_H */
+#endif /* STOCK_TORCONTROL_H */

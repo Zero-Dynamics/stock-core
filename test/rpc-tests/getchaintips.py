@@ -7,10 +7,10 @@
 # on chains of different lengths, and join the network together again.
 # This gives us two tips, verify that it works.
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import assert_equal, slow_gen
 
-class GetChainTipsTest (NavcoinTestFramework):
+class GetChainTipsTest (StockTestFramework):
     def __init__(self):
         super().__init__()
         self.num_nodes = 4

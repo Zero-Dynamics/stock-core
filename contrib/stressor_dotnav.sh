@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 
 # This file serves the purpose of testing the network behavior under extreme load of
@@ -26,7 +26,7 @@
 ### Need to configure this!!
 
 ### Path to binaries
-navpath=../src
+stockpath=../src
 
 ### How many voting cycles to run the stresser
 cycles=40
@@ -136,8 +136,8 @@ function copy_array {
 }
 
 
-function nav_cli {
-	$navpath/navcoin-cli -datadir=${array_data[$1]} -rpcport=${array_rpc_port[$1]} -devnet $2 $3 $4 $5 $6 2> /dev/null
+function stock_cli {
+	$stockpath/stock-cli -datadir=${array_data[$1]} -rpcport=${array_rpc_port[$1]} -devnet $2 $3 $4 $5 $6 2> /dev/null
 }
 
 function terminate {
@@ -148,8 +148,8 @@ function terminate {
 		for i in $(seq 0 1 $( bc <<< "$node_count-1") );
 		do
 			folder_name=$(echo "${array_data[$i]}" | cut -c 10-)
-			nav_cli $i listproposals > ${array_data[$i]}/devnet/listproposals.out
-			nav_cli $i listconsultations > ${array_data[$i]}/devnet/listconsultations.out
+			stock_cli $i listproposals > ${array_data[$i]}/devnet/listproposals.out
+			stock_cli $i listconsultations > ${array_data[$i]}/devnet/listconsultations.out
 			cp ${array_data[$i]}/devnet/debug.log $fail_logs_D/debug-out-node$i-$folder_name
 			cp ${array_data[$i]}/devnet/listproposals.out $fail_logs_D/listproposals.out-node$i-$folder_name
 			cp ${array_data[$i]}/devnet/listconsultations.out $fail_logs_D/listconsultations.out-node$i-$folder_name
@@ -158,23 +158,23 @@ function terminate {
 	fi
 	for i in ${array_active_nodes[@]};
 	do
-		nav_cli $i stop
+		stock_cli $i stop
 	done
 	echo "Stopping all nodes..."
 	sleep 30
 	echo Done
-	killall -9 navcoind
+	killall -9 stockd
 	exit $1
 }
 
 function connect_nodes {
-	nav_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) add"
-	nav_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) onetry"
+	stock_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) add"
+	stock_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) onetry"
 }
 
 function disconnect_nodes {
-	nav_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) remove"
-	nav_cli "$1" "disconnectnode 127.0.0.1:$( bc <<< 10000+$2 )"
+	stock_cli "$1" "addnode 127.0.0.1:$( bc <<< 10000+$2 ) remove"
+	stock_cli "$1" "disconnectnode 127.0.0.1:$( bc <<< 10000+$2 )"
 }
 
 
@@ -226,7 +226,7 @@ function check_connection {
 	for i in ${!array[@]};
 	do
 		local connection_pair=(${array[$i]})
-		check=$(nav_cli ${connection_pair[0]} getpeerinfo | grep "\"addr\": \"127.0.0.1:$( bc <<< "10000+${connection_pair[1]}" )\"")
+		check=$(stock_cli ${connection_pair[0]} getpeerinfo | grep "\"addr\": \"127.0.0.1:$( bc <<< "10000+${connection_pair[1]}" )\"")
 		if [ -z "$check" ];
 		then
 			echo "Node ${connection_pair[0]} failed to connect to node ${connection_pair[1]}"
@@ -429,12 +429,12 @@ function start_random_stopped_nodes {
 				echo skipping starting node $i
 			fi
 		done
-		echo Waiting 30 seconds for navcoind...
+		echo Waiting 30 seconds for stockd...
 		sleep 30
 		for j in ${!local_array[@]};
 		do
 			connect_node_to_network $j
-			echo "Nodes $j balance: $(nav_cli $j getbalance) tNAV"
+			echo "Nodes $j balance: $(stock_cli $j getbalance) t0DYNS"
 		done
 	fi
 	echo Currently active nodes are: ${array_active_nodes[@]} inactive ones are: ${array_stopped_nodes[@]}
@@ -484,9 +484,9 @@ function wait_until_sync {
 	wait_until_sync_done=0
 	for i in ${local_array[@]};
 	do
-		local_array_best_hash[$i]=$(nav_cli $i getbestblockhash)
+		local_array_best_hash[$i]=$(stock_cli $i getbestblockhash)
 		echo best block hash of node $i:
-		echo "$(nav_cli $i getbestblockhash)"
+		echo "$(stock_cli $i getbestblockhash)"
 	done
 	if [ $(printf "%s\n" "${local_array_best_hash[@]}" | LC_CTYPE=C sort -z -u | uniq | grep -n -c .) -gt 1 ];
 	then
@@ -496,8 +496,8 @@ function wait_until_sync {
 		sleep 1
 		shuffle_array "${local_array[@]}"
 		node=${shuffled_array[0]}
-		$(nav_cli $node "generate 1")
-		echo now on blcok $(nav_cli $node "getblockcount")
+		$(stock_cli $node "generate 1")
+		echo now on blcok $(stock_cli $node "getblockcount")
 		if [ "$network_split_started" == 1 ];
 		then
 			for wusi in $(seq 0 1 $( bc <<< "$network_count-1" ));
@@ -528,9 +528,9 @@ function random_transactions {
 		node_receive=${shuffled_array[1]}
 		if [ $dice -lt 30 ];
 		then
-			out=$(nav_cli ${array_stressing_nodes[$node_send]} sendtoaddress ${array_address[$node_receive]} $transaction_amount)
+			out=$(stock_cli ${array_stressing_nodes[$node_send]} sendtoaddress ${array_address[$node_receive]} $transaction_amount)
 		else
-			out=$(nav_cli ${array_stressing_nodes[$node_send]} privatesendtoaddress ${array_address[$node_receive]} $transaction_amount)
+			out=$(stock_cli ${array_stressing_nodes[$node_send]} privatesendtoaddress ${array_address[$node_receive]} $transaction_amount)
 		fi
 	fi
 }
@@ -546,12 +546,12 @@ function dice_register_name {
                 node=${shuffled_array[0]}
 		random_name=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-\." < /dev/urandom | head -c $namelength)
 #		random_symbol=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-_\$\?" < /dev/urandom | head -c 3)
-		out=$(nav_cli $node registername $random_name.nav)
+		out=$(stock_cli $node registername $random_name.0dyns)
 		if [ ! -z $out ]
 		then
 			echo 'create name success!'
-			array_dotnavnames+=("$random_name.nav")
-			echo 'dotnavnames= ' ${array_dotnavnames[@]}
+			array_dotstocknames+=("$random_name.0dyns")
+			echo 'dotstocknames= ' ${array_dotstocknames[@]}
 		fi
 	fi
 }
@@ -564,25 +564,25 @@ function dice_update_name {
                 shuffle_array "${array_stressing_nodes[@]}"
                 node=${shuffled_array[0]}
 		subdomainlength=$(bc <<< "$RANDOM % 20 + 1")
-		for name in ${array_dotnavnames[@]}
+		for name in ${array_dotstocknames[@]}
 		do
 			random_key=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-\." < /dev/urandom | head -c $(bc <<< "$RANDOM % 10 + 1"))
 			random_value=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-\." < /dev/urandom | head -c $(bc<<< "$RANDOM % 20+ 1"))
 			random_subdomain=$(env LC_CTYPE=C tr -dc "a-zA-Z0-9-\." < /dev/urandom | head -c $(bc<<< "$RANDOM % $subdomainlength + 1"))
 			if [ $(bc <<< "$RANDOM % 3") -lt 2 ];
 			then
-				out=$(nav_cli $node updatename $name $random_key $random_value)
+				out=$(stock_cli $node updatename $name $random_key $random_value)
 				if [ ! -z $out ]
 				then
 					echo 'update name success!'
 				fi
 			else
-				out=$(nav_cli $node updatename $random_subdomain.$name $random_key $random_value)
+				out=$(stock_cli $node updatename $random_subdomain.$name $random_key $random_value)
 				if [ ! -z $out ]
 				then
 					echo 'update subdomain name success!'
-					array_dotnavnames+=("$random_subdomain.$name")
-					echo 'dotnavnames= ' ${array_dotnavnames[@]}
+					array_dotstocknames+=("$random_subdomain.$name")
+					echo 'dotstocknames= ' ${array_dotstocknames[@]}
 				fi
 			fi
 		done
@@ -595,9 +595,9 @@ function dice_renew_name {
         then
 		shuffle_array "${array_stressing_nodes[@]}"
 		nodee=${shuffled_array[0]}
-		shuffle_array "${array_dotnavnames[@]}"
+		shuffle_array "${array_dotstocknames[@]}"
 		name=${shuffled_array[0]}
-	        out=$(nav_cli $node renewname $name)
+	        out=$(stock_cli $node renewname $name)
 		if [ ! -z $out ]
 		then
 			echo 'renew name success!'
@@ -606,7 +606,7 @@ function dice_renew_name {
 
 }
 
-function check_dotnav_hash {
+function check_dotstock_hash {
         sleep 1
         local local_array=("$@")
         local local_array_tokenhash=()
@@ -614,43 +614,43 @@ function check_dotnav_hash {
         do
 		echo 'Node ' $i ' resolving names'
 		local local_array_namehash=()
-		for name in ${array_dotnavnames[@]}
+		for name in ${array_dotstocknames[@]}
 		do
 			echo 'resolving name' $name
-			echo $(nav_cli $i resolvename $name)
-			local_array_namehash+=($(nav_cli $i resolvename $name | jq -c |shasum|awk '{print $1}'))
+			echo $(stock_cli $i resolvename $name)
+			local_array_namehash+=($(stock_cli $i resolvename $name | jq -c |shasum|awk '{print $1}'))
 		done
 		local_array_tokenhash[i]=$(echo ${local_array_namehash[@]} | shasum|awk '{print $1}')
 		echo best block hash of node $i:
-		echo "$(nav_cli $i getbestblockhash)"
+		echo "$(stock_cli $i getbestblockhash)"
         done
-	echo 'all registered names=' ${array_dotnavnames[@]}
-	echo 'dot nav hashes = ' ${local_array_tokenhash[@]}
+	echo 'all registered names=' ${array_dotstocknames[@]}
+	echo 'dot 0dyns hashes = ' ${local_array_tokenhash[@]}
 
         if [ $(printf "%s\n" "${local_array_tokenhash[@]}" | LC_CTYPE=C sort -z -u | uniq | grep -n -c .) -gt 1  ];
         then
                 if [ "$bool_assert_state_mismatch" != 1 ];
                 then
-                        echo DOTNAV HASH MISMATCH! Syncing again to make sure best block hashes match.
+                        echo DOTSTOCK HASH MISMATCH! Syncing again to make sure best block hashes match.
                         bool_assert_state_mismatch=1
                         wait_until_sync "${local_array[@]}"
-                        check_dotnav_hash "${local_array[@]}"
+                        check_dotstock_hash "${local_array[@]}"
                 else
-                        echo DOTNAV HASH MISMATCH!
+                        echo DOTSTOCK HASH MISMATCH!
                         for i in ${!local_array_tokenhash[@]};
                         do
-                                echo the dotnav hashes of nodes $i are ${local_array_tokenhash[$i]}
+                                echo the dotstock hashes of nodes $i are ${local_array_tokenhash[$i]}
                         done
                         terminate 1
                 fi
         fi
-        echo Dotnav hash check OK!
+        echo DotStock hash check OK!
         bool_assert_state_mismatch=0
 }
 
 
 function check_consensus_parameters {
-	consensusparameter_tmp=($(nav_cli $1 getconsensusparameters | tr -d "[],\n"))
+	consensusparameter_tmp=($(stock_cli $1 getconsensusparameters | tr -d "[],\n"))
 	if [ "${#consensusparameter_tmp[@]}" -gt 10 ];
 	then
 		copy_array consensusparameter_tmp consensusparameter_new
@@ -669,7 +669,7 @@ function stress {
 
 	for i in ${array_stressing_nodes[@]};
 	do
-		out=$(nav_cli $i "staking true")
+		out=$(stock_cli $i "staking true")
 	done
 	time=$(bc <<< $(date +%s)+$1)
 	while [ $time -gt $(date +%s) ]
@@ -687,11 +687,11 @@ function stress {
 }
 
 function check_node {
-	blocks=`nav_cli $2 getinfo|jq .blocks`
+	blocks=`stock_cli $2 getinfo|jq .blocks`
 	block_increment=${#array_verifychain_nodes[@]}
 	for i in $(seq $1 $block_increment $blocks);
 	do
-		verifyoutput=`nav_cli $2 verifychain 4 $i`
+		verifyoutput=`stock_cli $2 verifychain 4 $i`
 		if [[ "$verifyoutput" == "false" ]];
 		then
 			verifyoutput+=`echo ' - ' && echo failed at $(grep 'ERROR: VerifyDB()' ${array_data[$2]}/devnet/debug.log |tail -1|sed 's/.*block at \(\d*\)/\1/')`
@@ -702,7 +702,7 @@ function check_node {
 		- reconnecting up to $blocks \
 		- verifychain 4 $i -\> $verifyoutput;
 	done
-	verifyoutput=`nav_cli $2 verifychain 4 0`
+	verifyoutput=`stock_cli $2 verifychain 4 0`
 	echo "Node $2 - Doing verifychain 4 0 -> $verifyoutput"
 	echo "node $2 finished"
 }
@@ -710,7 +710,7 @@ function check_node {
 function check_cycle {
 	shuffle_array "${array_stressing_nodes[@]}"
 	node=${shuffled_array[0]}
-	blocks=$(nav_cli $node getinfo|jq .blocks)
+	blocks=$(stock_cli $node getinfo|jq .blocks)
 	if [ "$( bc <<< "$blocks - $last_cycle_end_block_height" )" -gt  "$voting_cycle_length" ];
 	then
 		last_cycle_end_block_height=$(echo "$last_cycle_end_block_height+$voting_cycle_length" | bc )
@@ -751,12 +751,12 @@ function random_verifychain_check {
 }
 
 function start_node {
-        $(echo $navpath)/navcoind -datadir=${array_data[$1]} -port=${array_p2p_port[$1]} -rpcport=${array_rpc_port[$1]} -devnet -daemon -debug=dao -debug=statehash -ntpminmeasures=-1 -dandelion=0 -disablesafemode -staking=0 2> /dev/null
-#       gdb -batch -ex "run" -ex "bt" --args $(echo $navpath)/navcoind -datadir=${array_data[$1]} -port=${array_p2p_port[$1]} -rpcport=${array_rpc_port[$1]} -devnet -debug=dao -debug=statehash -ntpminmeasures=0 -dandelion=0 -disablesafemode -staking=0 > out.gdb &
+        $(echo $stockpath)/stockd -datadir=${array_data[$1]} -port=${array_p2p_port[$1]} -rpcport=${array_rpc_port[$1]} -devnet -daemon -debug=dao -debug=statehash -ntpminmeasures=-1 -dandelion=0 -disablesafemode -staking=0 2> /dev/null
+#       gdb -batch -ex "run" -ex "bt" --args $(echo $stockpath)/stockd -datadir=${array_data[$1]} -port=${array_p2p_port[$1]} -rpcport=${array_rpc_port[$1]} -devnet -debug=dao -debug=statehash -ntpminmeasures=0 -dandelion=0 -disablesafemode -staking=0 > out.gdb &
 }
 
 function stop_node {
-	out=$(nav_cli $1 stop)
+	out=$(stock_cli $1 stop)
 }
 
 ##########################################################Script body
@@ -769,9 +769,9 @@ do
 done
 
 echo ''
-echo Waiting 30 seconds for navcoind...
+echo Waiting 30 seconds for stockd...
 
-#Sleep to let navoind boot up, on slower systems the value may need to be much higher
+#Sleep to let stockd boot up, on slower systems the value may need to be much higher
 sleep 30
 
 if [ "$node_count" == 1 ];
@@ -825,82 +825,82 @@ else
 	connect_network "${array_topology_node_pairs[@]}"
 fi
 
-out=$(nav_cli 0 "generate 10")
+out=$(stock_cli 0 "generate 10")
 
 #Distribute funds to stressing nodes
 array_address=()
 for n in ${!array_stressing_nodes[@]};
 do
-        array_address[$n]=$(nav_cli ${array_stressing_nodes[$n]} getnewaddress)
+        array_address[$n]=$(stock_cli ${array_stressing_nodes[$n]} getnewaddress)
 done
 for i in {1..10};
 do
 	for j in ${array_address[@]};
 	do
-		out=$(nav_cli 0 "sendtoaddress $j 10000")
+		out=$(stock_cli 0 "sendtoaddress $j 10000")
 	done
-	out=$(nav_cli 0 "generate 1")
+	out=$(stock_cli 0 "generate 1")
 done
 sleep 1
 for n in ${array_stressing_nodes[@]};
 do
-	echo "Node $n balance: $(nav_cli $n getbalance) NAV"
+	echo "Node $n balance: $(stock_cli $n getbalance) 0DYNS"
 done
 
 
 #Create blocks to make block count greater than 300
-blocks=$(nav_cli 0 getblockcount)
+blocks=$(stock_cli 0 getblockcount)
 echo 'blocks=' $blocks
 while [ $blocks -lt 300 ];
 do
-	out=$(nav_cli 0 "generate 10")
-	blocks=$(nav_cli 0 getblockcount)
+	out=$(stock_cli 0 "generate 10")
+	blocks=$(stock_cli 0 getblockcount)
 done
 
-echo 'Distributing xNAV to nodes...'
+echo 'Distributing x0DYNS to nodes...'
 
 array_private_address=()
 for n in ${!array_stressing_nodes[@]};
 do
-        array_private_address[$n]=$(nav_cli ${array_stressing_nodes[$n]} getnewprivateaddress)
+        array_private_address[$n]=$(stock_cli ${array_stressing_nodes[$n]} getnewprivateaddress)
 done
 for i in {1..10};
 do
 	for j in ${array_private_address[@]};
 	do
-		out=$(nav_cli 0 "sendtoaddress $j 10000")
+		out=$(stock_cli 0 "sendtoaddress $j 10000")
 	done
-	out=$(nav_cli 0 "generate 1")
+	out=$(stock_cli 0 "generate 1")
 done
 sleep 30
 for n in ${array_stressing_nodes[@]};
 do
-	echo "Node $n balance: $(nav_cli $n getwalletinfo | jq '.private_balance') xNAV"
+	echo "Node $n balance: $(stock_cli $n getwalletinfo | jq '.private_balance') x0DYNS"
 done
 
-out=$(nav_cli 0 "generate 10")
+out=$(stock_cli 0 "generate 10")
 donation=$(bc <<< "$RANDOM % 10000")
-out=$(nav_cli 0 "donatefund $donation")
+out=$(stock_cli 0 "donatefund $donation")
 
 echo ''
 echo Waiting until all nodes are synced
 
 wait_until_sync "${array_active_nodes[@]}"
 
-consensus_parameter_count=$(nav_cli 0 getconsensusparameters | jq length)
+consensus_parameter_count=$(stock_cli 0 getconsensusparameters | jq length)
 echo 'consensus parameter count =' $consensus_parameter_count
 for i in $(seq 0 1 $( bc <<< "$consensus_parameter_count - 1" ));
 do
-	eval "consensus_parameter_name[\$i]=\$(nav_cli 0 \"getconsensusparameters true\" | jq -r '.[] | select(.id==$i) | .desc')"
+	eval "consensus_parameter_name[\$i]=\$(stock_cli 0 \"getconsensusparameters true\" | jq -r '.[] | select(.id==$i) | .desc')"
 done
-consensusparameter_old=($(nav_cli 0 getconsensusparameters | tr -d "[],\n"))
+consensusparameter_old=($(stock_cli 0 getconsensusparameters | tr -d "[],\n"))
 consensusparameter_original=("${consensusparameter_old[@]}")
 voting_cycle_length=${consensusparameter_old[0]}
-blocks=$(nav_cli 0 getinfo|jq .blocks)
+blocks=$(stock_cli 0 getinfo|jq .blocks)
 initial_cycle=$(bc <<< $blocks/$voting_cycle_length)
 wait_until_cycle=$(bc <<< "$initial_cycle + $cycles")
 this_cycle=$(bc <<< $blocks/$voting_cycle_length)
-current_block=$(nav_cli 0 getinfo|jq .blocks)
+current_block=$(stock_cli 0 getinfo|jq .blocks)
 last_cycle_end_block_height=$( bc <<< "$blocks - $blocks % $voting_cycle_length" )
 shuffle_array "${array_stressing_nodes[@]}"
 node=${shuffled_array[0]}
@@ -922,20 +922,20 @@ while [ $wait_until_cycle -gt $this_cycle ]; do
 
 	for i in ${array_stressing_nodes[@]};
 	do
-		out=$(nav_cli $i "staking false")
-		echo "Node $i balance: $(nav_cli $i getwalletinfo | jq '.private_balance') xNAV"
+		out=$(stock_cli $i "staking false")
+		echo "Node $i balance: $(stock_cli $i getwalletinfo | jq '.private_balance') x0DYNS"
 	done
 
 	echo Checking token hashes match...
 
-	check_dotnav_hash "${array_active_nodes[@]}"
+	check_dotstock_hash "${array_active_nodes[@]}"
 	shuffle_array "${array_stressing_nodes[@]}"
 	node=${shuffled_array[0]}
 	check_consensus_parameters $node
 
 	if [ "$node_count" == 1 ];
 	then
-		out=$(nav_cli 0 "generate 5")
+		out=$(stock_cli 0 "generate 5")
 	fi
 
 	if [ "$bool_random_verifychain_check" == 1 ];
@@ -1009,12 +1009,12 @@ while [ $wait_until_cycle -gt $this_cycle ]; do
 			array_topology_node_pairs+=("$node_count $node")
 			#echo "array topology node pairs is now ${array_topology_node_pairs[@]}"
 			initialize_node $node_count
-			echo Waiting 30 sec for navcoind...
+			echo Waiting 30 sec for stockd...
 			sleep 30
 			connect_network "${array_topology_node_pairs[@]}"
 			sleep 30
 			wait_until_sync "${array_active_nodes[@]}"
-			check_dotnav_hash "${array_active_nodes[@]}"
+			check_dotstock_hash "${array_active_nodes[@]}"
 			echo Removing test sync node...
 			stop_node $node_count
 			sleep 30
@@ -1037,7 +1037,7 @@ while [ $wait_until_cycle -gt $this_cycle ]; do
 	shuffle_array "${array_stressing_nodes[@]}"
 	node=${shuffled_array[0]}
 	echo Current block: $current_block Current cycle: $this_cycle - $cycles_left cycle\(s\) left to finish.
-	echo Tokens and NFTs created: $(nav_cli $node listtokens  | jq ".[].name" |  wc -l)
+	echo Tokens and NFTs created: $(stock_cli $node listtokens  | jq ".[].name" |  wc -l)
 	echo Active nodes: ${array_active_nodes[@]} Inactive nodes: ${array_stopped_nodes[@]}
 #	for j in $(seq 0 1 $( bc <<< "$node_count-1"));
 #	do
@@ -1060,7 +1060,7 @@ then
 		echo Starting node $i...
 		start_node $i
 	done
-	echo Waiting 30 sec for navcoind...
+	echo Waiting 30 sec for stockd...
 	sleep 30
 	echo Splitting the network into $network_count sub networks...
 	network_split_started=1
@@ -1116,12 +1116,12 @@ then
 			echo Waiting until nodes are synced...
 			eval "wait_until_sync \"\${array_all_nodes_network$nc[@]}\""
 			echo Checking token hashes match...
-			eval "check_dotnav_hash \"\${array_all_nodes_network$nc[@]}\""
+			eval "check_dotstock_hash \"\${array_all_nodes_network$nc[@]}\""
 			eval "shuffle_array \"\${array_all_nodes_network$nc[@]}\""
 			node=${shuffled_array[0]}
 			check_consensus_parameters $node
-			blocks=$(nav_cli $node getinfo|jq .blocks)
-			echo Tokens and NFTs created: $(nav_cli $node listtokens  | jq ".[].name" |  wc -l)
+			blocks=$(stock_cli $node getinfo|jq .blocks)
+			echo Tokens and NFTs created: $(stock_cli $node listtokens  | jq ".[].name" |  wc -l)
 		done
 		cycles_left=$(bc <<< "$wait_until_cycle - $this_cycle")
 		previous_block=$current_block
@@ -1132,43 +1132,43 @@ then
 		echo Current cycle: $this_cycle - $cycles_left cycle\(s\) left to finish.
 		for i in ${array_stressing_nodes[@]};
 		do
-			out=$(nav_cli $i "staking false")
-			echo "Node $i balance: $(nav_cli $i getwalletinfo | jq '.private_balance') xNAV"
+			out=$(stock_cli $i "staking false")
+			echo "Node $i balance: $(stock_cli $i getwalletinfo | jq '.private_balance') x0DYNS"
 		done
 		done
 
 	create_random_network_topology "${array_all_nodes[@]}"
 	connect_network "${array_topology_node_pairs[@]}"
 	wait_until_sync "${array_all_nodes[@]}"
-	check_dotnav_hash "${array_all_nodes[@]}"
+	check_dotstock_hash "${array_all_nodes[@]}"
 fi
 #############################
 
 
 extra_blocks=$(bc <<< "($RANDOM%$extra_blocks_to_stake_randomness)+$extra_blocks_to_stake")
-blocks=$(nav_cli $node getinfo|jq .blocks)
+blocks=$(stock_cli $node getinfo|jq .blocks)
 wait_until=$(bc <<< "$blocks+$extra_blocks")
 echo ''
 echo Stopping stresser. Waiting until $extra_blocks blocks are staked
 for i in ${array_stressing_nodes[@]};
 do
-	out=$(nav_cli $i "staking true")
+	out=$(stock_cli $i "staking true")
 done
 while [ $blocks -lt $wait_until ];
 do
 	sleep 30
-	blocks=$(nav_cli $node getinfo|jq .blocks)
+	blocks=$(stock_cli $node getinfo|jq .blocks)
 	echo $(bc <<< "$wait_until-$blocks") blocks left...
 done
 for i in ${array_stressing_nodes[@]};
 do
-        out=$(nav_cli $i "staking false")
+        out=$(stock_cli $i "staking false")
 done
 echo ''
 echo Waiting until all nodes are synced
 wait_until_sync "${array_active_nodes[@]}"
-echo Ok! Block: $(nav_cli $node getinfo|jq .blocks) Cycle: $(bc <<< $(nav_cli $node getinfo|jq .blocks)/$voting_cycle_length).
-echo Tokens and NFTs created: $(nav_cli $node listtokens  | jq ".[].name" |  wc -l)
+echo Ok! Block: $(stock_cli $node getinfo|jq .blocks) Cycle: $(bc <<< $(stock_cli $node getinfo|jq .blocks)/$voting_cycle_length).
+echo Tokens and NFTs created: $(stock_cli $node listtokens  | jq ".[].name" |  wc -l)
 
 echo ''
 echo Running verifychain test with node ${verifychain_nodes[@]}...
@@ -1185,7 +1185,7 @@ wait
 
 for n in ${array_stressing_nodes[@]};
 do
-        echo "Node $n balance: $(nav_cli $n getbalance) tNAV"
+        echo "Node $n balance: $(stock_cli $n getbalance) t0DYNS"
 done
 
 

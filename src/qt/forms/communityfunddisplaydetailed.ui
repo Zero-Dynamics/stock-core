@@ -130,7 +130,7 @@
            </font>
           </property>
           <property name="text">
-           <string>100 NAV</string>
+           <string>100 0DYNS</string>
           </property>
           <property name="textInteractionFlags">
            <set>Qt::TextSelectableByMouse</set>
@@ -178,7 +178,7 @@
            </font>
           </property>
           <property name="text">
-           <string>100 NAV</string>
+           <string>100 0DYNS</string>
           </property>
           <property name="textInteractionFlags">
            <set>Qt::TextSelectableByMouse</set>
@@ -755,7 +755,7 @@
         <item>
          <widget class="QLabel" name="labelLinkToProposal">
           <property name="text">
-           <string>https://navcommunity.net/view-proposal/95dbb71cfa4b67b258b34c1489e11e96955e1a9f26dd58a19f63417a37bce5d4</string>
+           <string>https://stockcommunity.net/view-proposal/95dbb71cfa4b67b258b34c1489e11e96955e1a9f26dd58a19f63417a37bce5d4</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>

@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_WALLET_CRYPTER_H
-#define NAVCOIN_WALLET_CRYPTER_H
+#ifndef STOCK_WALLET_CRYPTER_H
+#define STOCK_WALLET_CRYPTER_H
 
 #include <keystore.h>
 #include <serialize.h>
@@ -218,4 +218,4 @@ public:
 bool EncryptSecret(const CKeyingMaterial& vMasterKey, const CKeyingMaterial &vchPlaintext, const uint256& nIV, std::vector<unsigned char> &vchCiphertext);
 bool DecryptSecret(const CKeyingMaterial& vMasterKey, const std::vector<unsigned char>& vchCiphertext, const uint256& nIV, CKeyingMaterial& vchPlaintext);
 
-#endif // NAVCOIN_WALLET_CRYPTER_H
+#endif // STOCK_WALLET_CRYPTER_H

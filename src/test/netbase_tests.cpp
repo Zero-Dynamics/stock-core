@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <netbase.h>
-#include <test/test_navcoin.h>
+#include <test/test_stock.h>
 
 #include <string>
 
@@ -55,10 +55,10 @@ bool static TestSplitHost(std::string test, std::string host, int port)
 
 BOOST_AUTO_TEST_CASE(netbase_splithost)
 {
-    BOOST_CHECK(TestSplitHost("www.navcoin.org", "www.navcoin.org", -1));
-    BOOST_CHECK(TestSplitHost("[www.navcoin.org]", "www.navcoin.org", -1));
-    BOOST_CHECK(TestSplitHost("www.navcoin.org:80", "www.navcoin.org", 80));
-    BOOST_CHECK(TestSplitHost("[www.navcoin.org]:80", "www.navcoin.org", 80));
+    BOOST_CHECK(TestSplitHost("www.stock.org", "www.stock.org", -1));
+    BOOST_CHECK(TestSplitHost("[www.stock.org]", "www.stock.org", -1));
+    BOOST_CHECK(TestSplitHost("www.stock.org:80", "www.stock.org", 80));
+    BOOST_CHECK(TestSplitHost("[www.stock.org]:80", "www.stock.org", 80));
     BOOST_CHECK(TestSplitHost("127.0.0.1", "127.0.0.1", -1));
     BOOST_CHECK(TestSplitHost("127.0.0.1:5556", "127.0.0.1", 5556));
     BOOST_CHECK(TestSplitHost("[127.0.0.1]", "127.0.0.1", -1));

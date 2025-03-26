@@ -20,10 +20,10 @@ StartOptions::StartOptions(QWidget *parent)
     QSize iconSize(400 * GUIUtil::scale(), 95 * GUIUtil::scale());
 
     // Load the icon
-    QPixmap icon = QPixmap(":icons/navcoin_full").scaled(iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QPixmap icon = QPixmap(":icons/stock_full").scaled(iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // Add alt text
-    ui->welcomeIcon->setToolTip(tr("Welcome to Navcoin!"));
+    ui->welcomeIcon->setToolTip(tr("Welcome to Stock!"));
 
     // Add the icon
     ui->welcomeIcon->setPixmap(icon);

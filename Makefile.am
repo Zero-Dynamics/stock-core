@@ -13,20 +13,20 @@ SUBDIRS = src/bls/build src/mcl/build src
 # GZIP_ENV="-9n" # Disabled cause it was giving out a warning
 export PYTHONPATH
 
-if BUILD_NAVCOIN_LIBS
+if BUILD_STOCK_LIBS
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libnavcoinconsensus.pc
+pkgconfig_DATA = libstockconsensus.pc
 endif
 
-NAVCOIND_BIN=$(top_builddir)/src/$(NAVCOIN_DAEMON_NAME)$(EXEEXT)
-NAVCOIN_QT_BIN=$(top_builddir)/src/qt/$(NAVCOIN_GUI_NAME)$(EXEEXT)
-NAVCOIN_CLI_BIN=$(top_builddir)/src/$(NAVCOIN_CLI_NAME)$(EXEEXT)
-NAVCOIN_WIN_INSTALLER=$(PACKAGE)-$(PACKAGE_VERSION)-win64-setup$(EXEEXT)
+STOCKD_BIN=$(top_builddir)/src/$(STOCK_DAEMON_NAME)$(EXEEXT)
+STOCK_QT_BIN=$(top_builddir)/src/qt/$(STOCK_GUI_NAME)$(EXEEXT)
+STOCK_CLI_BIN=$(top_builddir)/src/$(STOCK_CLI_NAME)$(EXEEXT)
+STOCK_WIN_INSTALLER=$(PACKAGE)-$(PACKAGE_VERSION)-win64-setup$(EXEEXT)
 
 empty :=
 space := $(empty) $(empty)
 
-OSX_APP=Navcoin-Qt.app
+OSX_APP=Stock-Qt.app
 OSX_VOLNAME = $(subst $(space),-,$(PACKAGE_NAME))
 OSX_DMG = $(OSX_VOLNAME).dmg
 OSX_BACKGROUND_SVG=background.svg
@@ -35,7 +35,7 @@ OSX_BACKGROUND_IMAGE_DPIS=36 72
 OSX_DSSTORE_GEN=$(top_srcdir)/contrib/macdeploy/custom_dsstore.py
 OSX_DEPLOY_SCRIPT=$(top_srcdir)/contrib/macdeploy/macdeployqtplus
 OSX_FANCY_PLIST=$(top_srcdir)/contrib/macdeploy/fancy.plist
-OSX_INSTALLER_ICONS=$(top_srcdir)/src/qt/res/icons/navcoin.icns
+OSX_INSTALLER_ICONS=$(top_srcdir)/src/qt/res/icons/stock.icns
 OSX_PLIST=$(top_builddir)/share/qt/Info.plist #not installed
 OSX_QT_TRANSLATIONS = da,de,es,hu,ru,uk,zh_CN,zh_TW
 
@@ -44,7 +44,7 @@ DIST_DOCS = $(wildcard doc/*.md) $(wildcard doc/release-notes/*.md)
 BIN_CHECKS=$(top_srcdir)/contrib/devtools/symbol-check.py \
            $(top_srcdir)/contrib/devtools/security-check.py
 
-WINDOWS_PACKAGING = $(top_srcdir)/share/pixmaps/navcoin.ico \
+WINDOWS_PACKAGING = $(top_srcdir)/share/pixmaps/stock.ico \
   $(top_srcdir)/share/pixmaps/nsis-header.bmp \
   $(top_srcdir)/share/pixmaps/nsis-wizard.bmp \
   $(top_srcdir)/doc/README_windows.txt
@@ -56,18 +56,18 @@ OSX_PACKAGING = $(OSX_DEPLOY_SCRIPT) $(OSX_FANCY_PLIST) $(OSX_INSTALLER_ICONS) \
   $(top_srcdir)/contrib/macdeploy/detached-sig-create.sh
 
 COVERAGE_INFO = baseline_filtered_combined.info baseline.info block_test.info \
-  leveldb_baseline.info test_navcoin_filtered.info total_coverage.info \
+  leveldb_baseline.info test_stock_filtered.info total_coverage.info \
   baseline_filtered.info block_test_filtered.info rpc_test.info rpc_test_filtered.info \
-  leveldb_baseline_filtered.info test_navcoin_coverage.info test_navcoin.info
+  leveldb_baseline_filtered.info test_stock_coverage.info test_stock.info
 
 dist-hook:
 	-$(GIT) archive --format=tar HEAD -- src/clientversion.cpp | $(AMTAR) -C $(top_distdir) -xf -
 
-$(NAVCOIN_WIN_INSTALLER): all-recursive
+$(STOCK_WIN_INSTALLER): all-recursive
 	$(MKDIR_P) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(NAVCOIND_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(NAVCOIN_QT_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(NAVCOIN_CLI_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(STOCKD_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(STOCK_QT_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(STOCK_CLI_BIN) $(top_builddir)/release
 	@test -f $(MAKENSIS) && $(MAKENSIS) -V2 $(top_builddir)/share/setup.nsi || \
 	  echo error: could not build $@
 	@echo built $@
@@ -87,11 +87,11 @@ $(OSX_APP)/Contents/Info.plist: $(OSX_PLIST)
 	$(MKDIR_P) $(@D)
 	$(INSTALL_DATA) $< $@
 
-$(OSX_APP)/Contents/Resources/navcoin.icns: $(OSX_INSTALLER_ICONS)
+$(OSX_APP)/Contents/Resources/stock.icns: $(OSX_INSTALLER_ICONS)
 	$(MKDIR_P) $(@D)
 	$(INSTALL_DATA) $< $@
 
-$(OSX_APP)/Contents/MacOS/Navcoin-Qt: $(NAVCOIN_QT_BIN)
+$(OSX_APP)/Contents/MacOS/Stock-Qt: $(STOCK_QT_BIN)
 	$(MKDIR_P) $(@D)
 	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM)  $< $@
 
@@ -100,8 +100,8 @@ $(OSX_APP)/Contents/Resources/Base.lproj/InfoPlist.strings:
 	echo '{	CFBundleDisplayName = "$(PACKAGE_NAME)"; CFBundleName = "$(PACKAGE_NAME)"; }' > $@
 
 OSX_APP_BUILT=$(OSX_APP)/Contents/PkgInfo $(OSX_APP)/Contents/Resources/empty.lproj \
-  $(OSX_APP)/Contents/Resources/navcoin.icns $(OSX_APP)/Contents/Info.plist \
-  $(OSX_APP)/Contents/MacOS/Navcoin-Qt $(OSX_APP)/Contents/Resources/Base.lproj/InfoPlist.strings
+  $(OSX_APP)/Contents/Resources/stock.icns $(OSX_APP)/Contents/Info.plist \
+  $(OSX_APP)/Contents/MacOS/Stock-Qt $(OSX_APP)/Contents/Resources/Base.lproj/InfoPlist.strings
 
 osx_volname:
 	echo $(OSX_VOLNAME) >$@
@@ -126,7 +126,7 @@ $(APP_DIST_DIR)/Applications:
 	@rm -f $@
 	@cd $(@D); $(LN_S) /Applications $(@F)
 
-$(APP_DIST_EXTRAS): $(APP_DIST_DIR)/$(OSX_APP)/Contents/MacOS/Navcoin-Qt
+$(APP_DIST_EXTRAS): $(APP_DIST_DIR)/$(OSX_APP)/Contents/MacOS/Stock-Qt
 
 $(OSX_DMG): $(APP_DIST_EXTRAS)
 	$(GENISOIMAGE) -no-cache-inodes -D -l -probe -V "$(OSX_VOLNAME)" -no-pad -r -dir-mode 0755 -apple -o $@ dist
@@ -141,7 +141,7 @@ $(APP_DIST_DIR)/.background/$(OSX_BACKGROUND_IMAGE): $(OSX_BACKGROUND_IMAGE_DPIF
 $(APP_DIST_DIR)/.DS_Store: $(OSX_DSSTORE_GEN)
 	$(PYTHON) $< "$@" "$(OSX_VOLNAME)"
 
-$(APP_DIST_DIR)/$(OSX_APP)/Contents/MacOS/Navcoin-Qt: $(OSX_APP_BUILT) $(OSX_PACKAGING)
+$(APP_DIST_DIR)/$(OSX_APP)/Contents/MacOS/Stock-Qt: $(OSX_APP_BUILT) $(OSX_PACKAGING)
 	INSTALLNAMETOOL=$(INSTALLNAMETOOL)  OTOOL=$(OTOOL) STRIP=$(STRIP) $(PYTHON) $(OSX_DEPLOY_SCRIPT) $(OSX_APP) -translations-dir=$(QT_TRANSLATION_DIR) -add-qt-tr $(OSX_QT_TRANSLATIONS) -verbose 2
 
 deploydir: $(APP_DIST_EXTRAS)
@@ -152,16 +152,16 @@ appbundle: $(OSX_APP_BUILT)
 deploy: $(OSX_DMG)
 endif
 if TARGET_WINDOWS
-deploy: $(NAVCOIN_WIN_INSTALLER)
+deploy: $(STOCK_WIN_INSTALLER)
 endif
 
-$(NAVCOIN_QT_BIN): FORCE
+$(STOCK_QT_BIN): FORCE
 	$(MAKE) -C src qt/$(@F)
 
-$(NAVCOIND_BIN): FORCE
+$(STOCKD_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
-$(NAVCOIN_CLI_BIN): FORCE
+$(STOCK_CLI_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
 check-recursive:
@@ -191,26 +191,26 @@ leveldb_baseline_filtered.info: leveldb_baseline.info
 baseline_filtered_combined.info: leveldb_baseline_filtered.info baseline_filtered.info
 	$(LCOV) -a leveldb_baseline_filtered.info -a baseline_filtered.info -o $@
 
-test_navcoin.info: baseline_filtered_combined.info
+test_stock.info: baseline_filtered_combined.info
 	$(MAKE) -C src/ check
-	$(LCOV) -c -d $(abs_builddir)/src -t test_navcoin -o $@
+	$(LCOV) -c -d $(abs_builddir)/src -t test_stock -o $@
 	$(LCOV) -z -d $(abs_builddir)/src
 	$(LCOV) -z -d $(abs_builddir)/src/leveldb
 
-test_navcoin_filtered.info: test_navcoin.info
+test_stock_filtered.info: test_stock.info
 	$(LCOV) -r $< "/usr/include/*" -o $@
 
-block_test.info: test_navcoin_filtered.info
+block_test.info: test_stock_filtered.info
 	$(MKDIR_P) test/tmp
-	-@TIMEOUT=15 test/pull-tester/run-navcoind-for-test.sh $(JAVA) -jar $(JAVA_COMPARISON_TOOL) test/tmp/compTool $(COMPARISON_TOOL_REORG_TESTS)
-	$(LCOV) -c -d $(abs_builddir)/src --t NavcoinJBlockTest -o $@
+	-@TIMEOUT=15 test/pull-tester/run-stockd-for-test.sh $(JAVA) -jar $(JAVA_COMPARISON_TOOL) test/tmp/compTool $(COMPARISON_TOOL_REORG_TESTS)
+	$(LCOV) -c -d $(abs_builddir)/src --t StockJBlockTest -o $@
 	$(LCOV) -z -d $(abs_builddir)/src
 	$(LCOV) -z -d $(abs_builddir)/src/leveldb
 
 block_test_filtered.info: block_test.info
 	$(LCOV) -r $< "/usr/include/*" -o $@
 
-rpc_test.info: test_navcoin_filtered.info
+rpc_test.info: test_stock_filtered.info
 	-@TIMEOUT=15 python test/pull-tester/rpc-tests.py $(EXTENDED_RPC_TESTS)
 	$(LCOV) -c -d $(abs_builddir)/src --t rpc-tests -o $@
 	$(LCOV) -z -d $(abs_builddir)/src
@@ -219,13 +219,13 @@ rpc_test.info: test_navcoin_filtered.info
 rpc_test_filtered.info: rpc_test.info
 	$(LCOV) -r $< "/usr/include/*" -o $@
 
-test_navcoin_coverage.info: baseline_filtered_combined.info test_navcoin_filtered.info
-	$(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_navcoin_filtered.info -o $@
+test_stock_coverage.info: baseline_filtered_combined.info test_stock_filtered.info
+	$(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_stock_filtered.info -o $@
 
-total_coverage.info: baseline_filtered_combined.info test_navcoin_filtered.info block_test_filtered.info rpc_test_filtered.info
-	$(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_navcoin_filtered.info -a block_test_filtered.info -a rpc_test_filtered.info -o $@ | $(GREP) "\%" | $(AWK) '{ print substr($$3,2,50) "/" $$5 }' > coverage_percent.txt
+total_coverage.info: baseline_filtered_combined.info test_stock_filtered.info block_test_filtered.info rpc_test_filtered.info
+	$(LCOV) -a baseline_filtered.info -a leveldb_baseline_filtered.info -a test_stock_filtered.info -a block_test_filtered.info -a rpc_test_filtered.info -o $@ | $(GREP) "\%" | $(AWK) '{ print substr($$3,2,50) "/" $$5 }' > coverage_percent.txt
 
-test_navcoin.coverage/.dirstamp:  test_navcoin_coverage.info
+test_stock.coverage/.dirstamp:  test_stock_coverage.info
 	$(GENHTML) -s $< -o $(@D)
 	@touch $@
 
@@ -233,7 +233,7 @@ total.coverage/.dirstamp: total_coverage.info
 	$(GENHTML) -s $< -o $(@D)
 	@touch $@
 
-cov: test_navcoin.coverage/.dirstamp total.coverage/.dirstamp
+cov: test_stock.coverage/.dirstamp total.coverage/.dirstamp
 
 endif
 
@@ -241,7 +241,7 @@ dist_noinst_SCRIPTS = autogen.sh
 
 EXTRA_DIST = $(top_srcdir)/share/genbuild.sh test/pull-tester/rpc-tests.py test/rpc-tests $(DIST_DOCS) $(WINDOWS_PACKAGING) $(OSX_PACKAGING) $(BIN_CHECKS) src/bls src/mcl
 
-CLEANFILES = $(OSX_DMG) $(NAVCOIN_WIN_INSTALLER)
+CLEANFILES = $(OSX_DMG) $(STOCK_WIN_INSTALLER)
 
 # This file is problematic for out-of-tree builds if it exists.
 DISTCLEANFILES = test/pull-tester/tests_config.pyc
@@ -249,5 +249,5 @@ DISTCLEANFILES = test/pull-tester/tests_config.pyc
 .INTERMEDIATE: $(COVERAGE_INFO)
 
 clean-local:
-	rm -rf coverage_percent.txt test_navcoin.coverage/ total.coverage/ test/tmp/ cache/ $(OSX_APP)
+	rm -rf coverage_percent.txt test_stock.coverage/ total.coverage/ test/tmp/ cache/ $(OSX_APP)
 	rm -rf test/pull-tester/__pycache__

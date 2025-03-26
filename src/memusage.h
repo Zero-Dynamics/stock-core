@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_MEMUSAGE_H
-#define NAVCOIN_MEMUSAGE_H
+#ifndef STOCK_MEMUSAGE_H
+#define STOCK_MEMUSAGE_H
 
 #include <indirectmap.h>
 
@@ -168,4 +168,4 @@ static inline size_t DynamicUsage(const boost::unordered_map<X, Y, Z>& m)
 
 }
 
-#endif // NAVCOIN_MEMUSAGE_H
+#endif // STOCK_MEMUSAGE_H

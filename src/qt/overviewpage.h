@@ -2,12 +2,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_QT_OVERVIEWPAGE_H
-#define NAVCOIN_QT_OVERVIEWPAGE_H
+#ifndef STOCK_QT_OVERVIEWPAGE_H
+#define STOCK_QT_OVERVIEWPAGE_H
 
 #include <amount.h>
 #include <splitrewards.h>
-#include <swapxnav.h>
+#include <swapx0dyns.h>
 
 #include <QWidget>
 #include <QPushButton>
@@ -98,7 +98,7 @@ private:
     TxViewDelegate *txdelegate;
     TransactionFilterProxy *filter;
 
-    SwapXNAVDialog* swapDialog;
+    SwapX0DYNSDialog* swapDialog;
 
 private Q_SLOTS:
     void updateDisplayUnit();
@@ -107,4 +107,4 @@ private Q_SLOTS:
     void ShowSwapDialog();
 };
 
-#endif // NAVCOIN_QT_OVERVIEWPAGE_H
+#endif // STOCK_QT_OVERVIEWPAGE_H

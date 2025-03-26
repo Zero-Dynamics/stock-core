@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019 The Navcoin Core developers
+# Copyright (c) 2019 The Stock Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.cfund_util import *
 
 import time
 import urllib.parse
 
 
-class CFundPaymentRequestStateReorg(NavcoinTestFramework):
+class CFundPaymentRequestStateReorg(StockTestFramework):
     """Tests consistency of Community Fund Payment Requests state through reorgs."""
 
     def __init__(self):

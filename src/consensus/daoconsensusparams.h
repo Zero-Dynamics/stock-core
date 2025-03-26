@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2020 The Navcoin Core developers
+// Copyright (c) 2018-2020 The Stock Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,7 +11,7 @@ enum ConsensusParamType
 {
     TYPE_NUMBER,
     TYPE_PERCENT,
-    TYPE_NAV,
+    TYPE_STOCK,
     TYPE_BOOL,
     TYPE_BLOCK,
     TYPE_CYCLE
@@ -48,12 +48,12 @@ enum ConsensusParamsPos
     CONSENSUS_PARAM_FUND_PERCENT_PER_BLOCK,
 
     CONSENSUS_PARAM_GENERATION_PER_BLOCK,
-    CONSENSUS_PARAM_NAVNS_FEE,
+    CONSENSUS_PARAM_STOCKNS_FEE,
     CONSENSUS_PARAMS_DAO_VOTE_LIGHT_MIN_FEE,
     CONSENSUS_PARAMS_CONFIDENTIAL_TOKENS_ENABLED,
-    CONSENSUS_PARAMS_DOTNAV_LENGTH,
-    CONSENSUS_PARAMS_DOTNAV_MAXDATA,
-    CONSENSUS_PARAMS_DOTNAV_FEE_EXTRADATA,
+    CONSENSUS_PARAMS_DOTSTOCK_LENGTH,
+    CONSENSUS_PARAMS_DOTSTOCK_MAXDATA,
+    CONSENSUS_PARAMS_DOTSTOCK_FEE_EXTRADATA,
     MAX_CONSENSUS_PARAMS
 };
 
@@ -84,14 +84,14 @@ static std::string sConsensusParamsDesc[Consensus::MAX_CONSENSUS_PARAMS] = {
     "Maximum of voting cycles for payment request votings",
 
     "Frequency of the fund accumulation transaction",
-    "Percentage of generated NAV going to the Fund",
+    "Percentage of generated 0DYNS going to the Fund",
 
-    "Amount of NAV generated per block",
-    "Fee for registering a name in DotNAV",
+    "Amount of 0DYNS generated per block",
+    "Fee for registering a name in DotSTOCK",
     "Minimum fee as a fund contribution to submit a DAO vote using a light wallet",
     "Confidential tokens enabled",
-    "Length in blocks of a dotNAV registration",
-    "Max data in bytes attached to a dotNAV name without cost",
+    "Length in blocks of a dotSTOCK registration",
+    "Max data in bytes attached to a dotSTOCK name without cost",
     "Fee for attaching extra data to a name"
 };
 
@@ -106,32 +106,32 @@ static ConsensusParamType vConsensusParamsType[MAX_CONSENSUS_PARAMS] =
     TYPE_CYCLE,
     TYPE_CYCLE,
     TYPE_CYCLE,
-    TYPE_NAV,
+    TYPE_STOCK,
 
-    TYPE_NAV,
+    TYPE_STOCK,
 
     TYPE_PERCENT,
     TYPE_PERCENT,
     TYPE_PERCENT,
-    TYPE_NAV,
+    TYPE_STOCK,
     TYPE_CYCLE,
 
     TYPE_PERCENT,
     TYPE_PERCENT,
     TYPE_PERCENT,
-    TYPE_NAV,
+    TYPE_STOCK,
     TYPE_CYCLE,
 
     TYPE_NUMBER,
     TYPE_PERCENT,
 
-    TYPE_NAV,
-    TYPE_NAV,
-    TYPE_NAV,
+    TYPE_STOCK,
+    TYPE_STOCK,
+    TYPE_STOCK,
     TYPE_BOOL,
     TYPE_NUMBER,
     TYPE_NUMBER,
-    TYPE_NAV
+    TYPE_STOCK
 };
 }
 

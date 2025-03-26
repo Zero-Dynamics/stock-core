@@ -3,12 +3,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/navcoin-config.h>
+#include <config/stock-config.h>
 #endif
 
 #include <qt/optionsmodel.h>
 
-#include <qt/navcoinunits.h>
+#include <qt/stockunits.h>
 #include <qt/guiutil.h>
 
 #include <amount.h>
@@ -67,12 +67,12 @@ void OptionsModel::Init(bool resetSettings)
 
     // Display
     if (!settings.contains("nDisplayUnit"))
-        settings.setValue("nDisplayUnit", NavcoinUnits::NAV);
+        settings.setValue("nDisplayUnit", StockUnits::ODYNS);
     nDisplayUnit = settings.value("nDisplayUnit").toInt();
 
     if (!settings.contains("strThirdPartyTxUrls"))
-        settings.setValue("strThirdPartyTxUrls", "https://www.navexplorer.com/tx/%s");
-    strThirdPartyTxUrls = settings.value("strThirdPartyTxUrls", "https://www.navexplorer.com/tx/%s").toString();
+        settings.setValue("strThirdPartyTxUrls", "https://www.stockexplorer.com/tx/%s");
+    strThirdPartyTxUrls = settings.value("strThirdPartyTxUrls", "https://www.stockexplorer.com/tx/%s").toString();
 
     // These are shared with the core or have a command-line parameter
     // and we want command-line parameters to overwrite the GUI settings.
@@ -452,7 +452,7 @@ void OptionsModel::checkAndMigrate()
     if (settingsVersion < CLIENT_VERSION)
     {
         // -dbcache was bumped from 100 to 300 in 0.13
-        // see https://github.com/navcoin/navcoin/pull/8273
+        // see https://github.com/stock/stock/pull/8273
         // force people to upgrade to the new value if they are using 100MB
         if (settingsVersion < 130000 && settings.contains("nDatabaseCache") && settings.value("nDatabaseCache").toLongLong() == 100)
             settings.setValue("nDatabaseCache", (qint64)nDefaultDbCache);

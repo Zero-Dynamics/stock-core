@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_WALLET_DB_H
-#define NAVCOIN_WALLET_DB_H
+#ifndef STOCK_WALLET_DB_H
+#define STOCK_WALLET_DB_H
 
 #include <fs.h>
 #include <clientversion.h>
@@ -314,4 +314,4 @@ public:
     bool static Rewrite(const std::string& strFile, const char* pszSkip = nullptr, std::string newPin = "");
 };
 
-#endif // NAVCOIN_WALLET_DB_H
+#endif // STOCK_WALLET_DB_H

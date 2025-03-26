@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
-// Copyright (c) 2018-2020 The Navcoin developers
+// Copyright (c) 2018-2020 The Stock developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -381,7 +381,7 @@ CBlockTemplate* BlockAssembler::CreateNewBlock(const CScript& scriptPubKeyIn, bo
                         pindexPrev->nHeight - pblockindex->nHeight > Params().GetConsensus().nCommunityFundMinAge) {
                     CProposal proposal;
                     if(view.GetProposal(prequest.proposalhash, proposal)) {
-                        CNavcoinAddress addr(proposal.GetPaymentAddress());
+                        CStockAddress addr(proposal.GetPaymentAddress());
 
                         if (!addr.IsValid())
                             continue;
@@ -940,12 +940,12 @@ void IncrementExtraNonce(CBlock* pblock, const CBlockIndex* pindexPrev, unsigned
 
 extern unsigned int nMinerSleep;
 
-void NavcoinStaker(const CChainParams& chainparams)
+void StockStaker(const CChainParams& chainparams)
 {
 
-    LogPrintf("NavcoinStaker started\n");
+    LogPrintf("StockStaker started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("navcoin-staker");
+    RenameThread("stock-staker");
 
     boost::shared_ptr<CReserveScript> coinbaseScript;
     GetMainSignals().ScriptForMining(coinbaseScript);
@@ -1017,12 +1017,12 @@ void NavcoinStaker(const CChainParams& chainparams)
             std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript, true, &nFees, sLog));
             if (!pblocktemplate.get())
             {
-                LogPrintf("Error in NavcoinStaker: Keypool ran out, please call keypoolrefill before restarting the staking thread\n");
+                LogPrintf("Error in StockStaker: Keypool ran out, please call keypoolrefill before restarting the staking thread\n");
                 return;
             }
             CBlock *pblock = &pblocktemplate->block;
 
-            //LogPrint("coinstake","Running NavcoinStaker with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
+            //LogPrint("coinstake","Running StockStaker with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
             //     ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
             //Trying to sign a block
@@ -1041,12 +1041,12 @@ void NavcoinStaker(const CChainParams& chainparams)
     }
     catch (const boost::thread_interrupted&)
     {
-        LogPrintf("NavcoinStaker terminated\n");
+        LogPrintf("StockStaker terminated\n");
         throw;
     }
     catch (const std::runtime_error &e)
     {
-        LogPrintf("NavcoinStaker runtime error: %s\n", e.what());
+        LogPrintf("StockStaker runtime error: %s\n", e.what());
         return;
     }
 }
@@ -1506,7 +1506,7 @@ bool CheckStake(CBlock* pblock, CWallet& wallet, const CChainParams& chainparams
         CValidationState state;
         if (!ProcessNewBlock(state, chainparams, nullptr, pblock, true, nullptr))
         {
-            return error("NavcoinStaker: ProcessNewBlock, block not accepted");
+            return error("StockStaker: ProcessNewBlock, block not accepted");
         }
         else
         {

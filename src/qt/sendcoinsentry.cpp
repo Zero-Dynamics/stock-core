@@ -38,17 +38,17 @@ SendCoinsEntry::SendCoinsEntry(const PlatformStyle *platformStyle, QWidget *pare
 
     ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book"));
 
-    // normal navcoin address field
+    // normal stock address field
     GUIUtil::setupAddressWidget(ui->payTo, this);
     GUIUtil::setupAddressWidget(ui->customChange, this);
-    // just a label for displaying navcoin address(es)
+    // just a label for displaying stock address(es)
     ui->payTo_is->setFont(GUIUtil::fixedPitchFont());
 
-    QPixmap p1(":/icons/mininav");
-    QPixmap p2(":/icons/minixnav");
+    QPixmap p1(":/icons/mini0dyns");
+    QPixmap p2(":/icons/minix0dyns");
 
-    ui->fromBox->insertItem(0,"Public NAV");
-    ui->fromBox->insertItem(1,"Private xNAV");
+    ui->fromBox->insertItem(0,"Public 0DYNS");
+    ui->fromBox->insertItem(1,"Private x0DYNS");
     ui->fromBox->setItemData(0,p1,Qt::DecorationRole);
     ui->fromBox->setItemData(1,p2,Qt::DecorationRole);
     ui->fromBox->setIconSize(QSize(32,32));
@@ -75,7 +75,7 @@ SendCoinsEntry::SendCoinsEntry(const PlatformStyle *platformStyle, QWidget *pare
     bool fDefaultPrivate = settings.value("defaultprivate", false).toBool();
 
     ui->fromBox->setCurrentIndex(fDefaultPrivate);
-    ui->amountLabel->setText(fDefaultPrivate ? "A&mount (xNAV):" : "A&mount (NAV):");
+    ui->amountLabel->setText(fDefaultPrivate ? "A&mount (x0DYNS):" : "A&mount (0DYNS):");
     ui->memo->setVisible(false);
     ui->memoLabel->setVisible(false);
     fPrivate = fDefaultPrivate;
@@ -104,7 +104,7 @@ void SendCoinsEntry::fromChanged(int index)
     fPrivate = index;
     QSettings settings;
     settings.setValue("defaultprivate", index);
-    ui->amountLabel->setText(fPrivate ? "A&mount (xNAV):" : "A&mount (NAV):");
+    ui->amountLabel->setText(fPrivate ? "A&mount (x0DYNS):" : "A&mount (0DYNS):");
     ui->checkBoxCoinControlChange->setEnabled(!fPrivate);
     ui->customChange->setVisible(ui->checkBoxCoinControlChange->isChecked() && ui->checkBoxCoinControlChange->isEnabled());
     ui->customChangeLbl->setVisible(ui->checkBoxCoinControlChange->isChecked() && ui->checkBoxCoinControlChange->isEnabled());
@@ -115,14 +115,14 @@ void SendCoinsEntry::setTotalPrivateAmount(const CAmount& amount)
 {
     totalPrivateAmount = amount;
     if (fPrivate)
-        ui->availableLabel->setText(tr("Available: %1").arg(NavcoinUnits::formatWithUnit(unit, amount, false, NavcoinUnits::separatorAlways, fPrivate)));
+        ui->availableLabel->setText(tr("Available: %1").arg(StockUnits::formatWithUnit(unit, amount, false, StockUnits::separatorAlways, fPrivate)));
 }
 
 void SendCoinsEntry::setTotalAmount(const CAmount& amount)
 {
     totalAmount = amount;
     if (!fPrivate)
-        ui->availableLabel->setText(tr("Available: %1").arg(NavcoinUnits::formatWithUnit(unit, amount, false, NavcoinUnits::separatorAlways, fPrivate)));
+        ui->availableLabel->setText(tr("Available: %1").arg(StockUnits::formatWithUnit(unit, amount, false, StockUnits::separatorAlways, fPrivate)));
 }
 
 void SendCoinsEntry::useFullAmount()
@@ -151,7 +151,7 @@ void SendCoinsEntry::on_addressBookButton_clicked()
 
 void SendCoinsEntry::on_payTo_textChanged(const QString &address)
 {
-    CNavcoinAddress a(address.toStdString());
+    CStockAddress a(address.toStdString());
 
     bool fShowmemo = (a.IsPrivateAddress(Params()));
 
@@ -195,7 +195,7 @@ void SendCoinsEntry::clear()
     ui->memoTextLabel_s->clear();
     ui->payAmount_s->clear();
 
-    // update the display unit, to not use the default ("NAV")
+    // update the display unit, to not use the default ("0DYNS")
     updateDisplayUnit();
 }
 

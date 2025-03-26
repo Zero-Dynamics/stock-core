@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.staticr_util import *
 import logging
 
@@ -14,7 +14,7 @@ SENDING_FEE= 0.003393
 BLOCK_REWARD = 50
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO, stream=sys.stdout)
-class StakeImmatureBalance(NavcoinTestFramework):
+class StakeImmatureBalance(StockTestFramework):
 
     def __init__(self):
         super().__init__()

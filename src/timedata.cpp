@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/navcoin-config.h>
+#include <config/stock-config.h>
 #endif
 
 #include <timedata.h>
@@ -40,5 +40,5 @@ int64_t abs64(int64_t n)
     return (n >= 0 ? n : -n);
 }
 
-#define NAVCOIN_TIMEDATA_MAX_SAMPLES 200
+#define STOCK_TIMEDATA_MAX_SAMPLES 200
 

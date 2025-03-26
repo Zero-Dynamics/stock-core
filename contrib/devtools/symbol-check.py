@@ -47,7 +47,7 @@ MAX_VERSIONS = {
     LIEF_ELF_ARCH_RISCV:  (2,27),
 },
 'LIBATOMIC': (1,0),
-'V':         (0,5,0),  # xkb (navcoin-qt only)
+'V':         (0,5,0),  # xkb (stock-qt only)
 }
 # See here for a description of _IO_stdin_used:
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=634261#109
@@ -85,7 +85,7 @@ ELF_INTERPRETER_NAMES: Dict[lief.ELF.ARCH, Dict[lief.ENDIANNESS, str]] = {
 
 # Allowed NEEDED libraries
 ELF_ALLOWED_LIBRARIES = {
-# navcoind and navcoin-qt
+# stockd and stock-qt
 'ld-linux-aarch64.so.1', # 64-bit ARM dynamic linker
 'ld-linux-armhf.so.3', # 32-bit ARM dynamic linker
 'ld-linux-riscv64-lp64d.so.1', # 64-bit RISC-V dynamic linker
@@ -100,7 +100,7 @@ ELF_ALLOWED_LIBRARIES = {
 'libm.so.6', # math library
 'libpthread.so.0', # threading
 'librt.so.1', # real-time (clock)
-# navcoin-qt only
+# stock-qt only
 'libdl.so.2', # programming interface to dynamic linker
 'libfontconfig.so.1', # font support
 'libfreetype.so.6', # font parsing
@@ -110,10 +110,10 @@ ELF_ALLOWED_LIBRARIES = {
 }
 
 MACHO_ALLOWED_LIBRARIES = {
-# navcoind and navcoin-qt
+# stockd and stock-qt
 'libc++.1.dylib', # C++ Standard Library
 'libSystem.B.dylib', # libc, libm, libpthread, libinfo
-# navcoin-qt only
+# stock-qt only
 'AppKit', # user interface
 'ApplicationServices', # common application tasks.
 'Carbon', # deprecated c back-compat API
@@ -140,7 +140,7 @@ PE_ALLOWED_LIBRARIES = {
 'SHELL32.dll', # shell API
 'USER32.dll', # user interface
 'WS2_32.dll', # sockets
-# navcoin-qt only
+# stock-qt only
 'dwmapi.dll', # desktop window manager
 'GDI32.dll', # graphics device interface
 'IMM32.dll', # input method editor

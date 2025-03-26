@@ -1,14 +1,14 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
-// Copyright (c) 2018-2020 The Navcoin Core developers
+// Copyright (c) 2018-2020 The Stock Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_MAIN_H
-#define NAVCOIN_MAIN_H
+#ifndef STOCK_MAIN_H
+#define STOCK_MAIN_H
 
 #if defined(HAVE_CONFIG_H)
-#include <config/navcoin-config.h>
+#include <config/stock-config.h>
 #endif
 
 #include <amount.h>
@@ -404,7 +404,7 @@ int64_t GetTransactionSigOpCost(const CTransaction& tx, const CStateViewCache& i
  * instead of being performed inline.
  */
 bool CheckInputs(const CTransaction& tx, CValidationState &state, const CStateViewCache &view, bool fScriptChecks,
-                 unsigned int flags, bool cacheStore, std::vector<RangeproofEncodedData>& blsctData, PrecomputedTransactionData& txdata, const bool& fXNavSer, std::vector<CScriptCheck> *pvChecks = NULL, CAmount allowedInPrivate = 0);
+                 unsigned int flags, bool cacheStore, std::vector<RangeproofEncodedData>& blsctData, PrecomputedTransactionData& txdata, const bool& fXStockSer, std::vector<CScriptCheck> *pvChecks = NULL, CAmount allowedInPrivate = 0);
 
 /** Apply the effects of this transaction on the UTXO set represented by view */
 void UpdateCoins(const CTransaction& tx, CStateViewCache& inputs, int nHeight);
@@ -547,8 +547,8 @@ bool IsCommunityFundAmountV2Enabled(const CBlockIndex* pindexPrev, const Consens
 bool IsVoteCacheStateEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params);
 bool IsDAOEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params);
 bool IsDaoConsensusEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params);
-bool IsXNavSerEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params);
-bool IsDotNavEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params);
+bool IsXStockSerEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params);
+bool IsDotStockEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params);
 
 /** Check whether the static reward has been activated **/
 bool IsStaticRewardEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params);
@@ -599,7 +599,7 @@ bool InvalidateBlock(CValidationState& state, const CChainParams& chainparams, C
 /** Remove invalidity status from a block and its descendants. */
 bool ResetBlockFailureFlags(CBlockIndex *pindex);
 
-// NAVCoin
+// Stock
 
 inline unsigned int GetTargetSpacing(int nHeight) { return 30; }
 
@@ -715,4 +715,4 @@ std::vector<std::pair<uint256, int>>* InsertPaymentRequestVotes(const uint256& h
 std::map<uint256, bool>* InsertSupport(const uint256& hash);
 std::map<uint256, uint64_t>* InsertConsultationVotes(const uint256& hash);
 
-#endif // NAVCOIN_MAIN_H
+#endif // STOCK_MAIN_H

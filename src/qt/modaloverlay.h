@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef NAVCOIN_QT_MODALOVERLAY_H
-#define NAVCOIN_QT_MODALOVERLAY_H
+#ifndef STOCK_QT_MODALOVERLAY_H
+#define STOCK_QT_MODALOVERLAY_H
 
 #include <QDateTime>
 #include <QWidget>
@@ -51,4 +51,4 @@ private:
     void UpdateHeaderSyncLabel();
 };
 
-#endif // NAVCOIN_QT_MODALOVERLAY_H
+#endif // STOCK_QT_MODALOVERLAY_H

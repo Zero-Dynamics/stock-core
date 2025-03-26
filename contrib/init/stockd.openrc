@@ -1,0 +1,92 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/stock/.stock" ]; then
+	STOCKD_DEFAULT_DATADIR="/var/lib/stock/.stock"
+else
+	STOCKD_DEFAULT_DATADIR="/var/lib/stockd"
+fi
+
+STOCKD_CONFIGFILE=${STOCKD_CONFIGFILE:-/etc/stock/stock.conf}
+STOCKD_PIDDIR=${STOCKD_PIDDIR:-/var/run/stockd}
+STOCKD_PIDFILE=${STOCKD_PIDFILE:-${STOCKD_PIDDIR}/stockd.pid}
+STOCKD_DATADIR=${STOCKD_DATADIR:-${STOCKD_DEFAULT_DATADIR}}
+STOCKD_USER=${STOCKD_USER:-${STOCK_USER:-stock}}
+STOCKD_GROUP=${STOCKD_GROUP:-stock}
+STOCKD_BIN=${STOCKD_BIN:-/usr/bin/stockd}
+STOCKD_NICE=${STOCKD_NICE:-${NICELEVEL:-0}}
+STOCKD_OPTS="${STOCKD_OPTS:-${STOCK_OPTS}}"
+
+name="Stock Core Daemon"
+description="Stock cryptocurrency P2P network daemon"
+
+command="/usr/bin/stockd"
+command_args="-pid=\"${STOCKD_PIDFILE}\" \
+		-conf=\"${STOCKD_CONFIGFILE}\" \
+		-datadir=\"${STOCKD_DATADIR}\" \
+		-daemon \
+		${STOCKD_OPTS}"
+
+required_files="${STOCKD_CONFIGFILE}"
+start_stop_daemon_args="-u ${STOCKD_USER} \
+			-N ${STOCKD_NICE} -w 2000"
+pidfile="${STOCKD_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${STOCKD_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${STOCKD_USER}:${STOCKD_GROUP}" \
+	"${STOCKD_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${STOCKD_USER}:${STOCKD_GROUP}" \
+	"${STOCKD_PIDDIR}"
+
+	checkpath -f \
+	-o ${STOCKD_USER}:${STOCKD_GROUP} \
+	-m 0660 \
+	${STOCKD_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${STOCKD_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run stockd."
+		eerror "The setting must appear in ${STOCKD_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Stock Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

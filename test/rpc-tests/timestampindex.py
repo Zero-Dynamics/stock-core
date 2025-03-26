@@ -9,11 +9,11 @@
 
 import time
 
-from test_framework.test_framework import NavcoinTestFramework
+from test_framework.test_framework import StockTestFramework
 from test_framework.util import *
 
 
-class TimestampIndexTest(NavcoinTestFramework):
+class TimestampIndexTest(StockTestFramework):
 
     def setup_chain(self):
         print("Initializing test directory "+self.options.tmpdir)

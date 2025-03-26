@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2020 The Navcoin Core developers
+// Copyright (c) 2019-2020 The Stock Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -61,6 +61,6 @@ private Q_SLOTS:
     void onQuit();
 };
 
-CAmount PercentageToNav(int percentage);
+CAmount PercentageToStock(int percentage);
 
 #endif // SPLITREWARDS_H
