@@ -6,6 +6,7 @@
 #ifndef STOCK_VALIDATIONINTERFACE_H
 #define STOCK_VALIDATIONINTERFACE_H
 
+#include <boost/bind/bind.hpp>
 #include <boost/signals2/signal.hpp>
 #include <boost/shared_ptr.hpp>
 
