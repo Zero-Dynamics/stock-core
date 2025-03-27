@@ -1365,7 +1365,7 @@ EOF
 	    # uname -m returns i386 or x86_64
 	    UNAME_PROCESSOR=$UNAME_MACHINE
 	fi
-	echo "$UNAME_PROCESSOR"-apple-darwin"$UNAME_RELEASE"
+	echo "$UNAME_PROCESSOR"-apple-darwin
 	exit ;;
     *:procnto*:*:* | *:QNX:[0123456789]*:*)
 	UNAME_PROCESSOR=`uname -p`
