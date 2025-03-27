@@ -7,6 +7,7 @@ IF(NOT CMAKE_BUILD_TYPE)
 ENDIF()
 
 project(BLS)
+add_compile_options(-fvisibility=hidden) 
 
 # Add path for custom modules
 set(CMAKE_MODULE_PATH
