@@ -23,6 +23,8 @@ else
 LIBUNIVALUE = $(UNIVALUE_LIBS)
 endif
 
+noinst_LIBRARIES =
+
 STOCK_CONFIG_INCLUDES=-I$(builddir)/config
 STOCK_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS) $(SODIUM_CFLAGS)
 
@@ -45,7 +47,7 @@ if ENABLE_ZMQ
 LIBSTOCK_ZMQ=libstock_zmq.a
 endif
 if BUILD_STOCK_LIBS
-LIBSTOCKCONSENSUS=libstockconsensus.la
+LIBSTOCKCONSENSUS=libstockconsensus.a
 endif
 if ENABLE_WALLET
 LIBSTOCK_WALLET=libstock_wallet.a
@@ -68,12 +70,11 @@ EXTRA_LIBRARIES += \
   $(LIBSTOCK_UTIL) \
   $(LIBSTOCK_COMMON) \
   $(LIBSTOCK_CONSENSUS) \
+  $(LIBSTOCKCONSENSUS) \
   $(LIBSTOCK_SERVER) \
   $(LIBSTOCK_CLI) \
   $(LIBSTOCK_WALLET) \
   $(LIBSTOCK_ZMQ)
-
-lib_LTLIBRARIES = $(LIBSTOCKCONSENSUS)
 
 bin_PROGRAMS =
 TESTS =
@@ -475,6 +476,7 @@ stockd_LDADD = \
                  $(LIBSTOCK_WALLET) \
                  $(LIBSTOCK_ZMQ) \
                  $(LIBSTOCK_CONSENSUS) \
+                 $(LIBSTOCKCONSENSUS) \
                  $(LIBSTOCK_CRYPTO) \
                  $(LIBLEVELDB) \
                  $(LIBMEMENV) \
@@ -539,6 +541,7 @@ stock_tx_LDADD = \
   $(LIBSTOCK_COMMON) \
   $(LIBSTOCK_UTIL) \
   $(LIBSTOCK_CONSENSUS) \
+  $(LIBSTOCKCONSENSUS) \
   $(LIBSTOCK_CRYPTO) \
   $(LIBSECP256K1)
 
@@ -548,17 +551,15 @@ stock_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS) $(LIBMCLBN) $(LIBMCL) $(LIBBLS) $
 # stockconsensus library #
 if BUILD_STOCK_LIBS
 include_HEADERS = script/stockconsensus.h
-libstockconsensus_la_SOURCES = $(crypto_libstock_crypto_a_SOURCES) $(libstock_consensus_a_SOURCES)
+noinst_LIBRARIES += libstockconsensus.a
+libstockconsensus_a_SOURCES = $(crypto_libstock_crypto_a_SOURCES) $(libstock_consensus_a_SOURCES)
 
 if GLIBC_BACK_COMPAT
-  libstockconsensus_la_SOURCES += compat/glibc_compat.cpp
+  libstockconsensus_a_SOURCES += compat/glibc_compat.cpp
 endif
 
-libstockconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS) $(BOOST_LIBS) $(SODIUM_LIBS)
-libstockconsensus_la_LIBADD = $(LIBSECP256K1) $(LIBMCLBN) $(LIBMCL) $(LIBBLS) $(SODIUM_LIBS)
-libstockconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -I$(srcdir)/mcl/include -I$(srcdir)/bls/src -I$(srcdir)/bls/build/_deps/relic-build/include -I$(srcdir)/bls/build/_deps/relic-src/include -DBUILD_STOCK_INTERNAL
-libstockconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-
+libstockconsensus_a_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -I$(srcdir)/mcl/include -I$(srcdir)/bls/src -I$(srcdir)/bls/build/_deps/relic-build/include -I$(srcdir)/bls/build/_deps/relic-src/include -DBUILD_STOCK_INTERNAL
+libstockconsensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 endif
 #
 
