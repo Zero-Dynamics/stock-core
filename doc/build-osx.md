@@ -48,7 +48,7 @@ Libunbound needs to be compiled from source. Download last version from http://w
 
     ```bash
     ./autogen.sh
-    ./configure --prefix=`pwd`/depends/x86_64-apple-darwin17.6.0 # This command may be out of date due to OS updates
+    ./configure --prefix=`pwd`/depends/x86_64-apple-darwin
     make
     ```
 
