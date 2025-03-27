@@ -3,6 +3,7 @@ cmake_minimum_required (VERSION 3.8)
 project(mcl
 	VERSION 1.22
 	LANGUAGES CXX C ASM)
+add_compile_options(-fvisibility=hidden)
 
 set(CMAKE_BUILD_TYPE "Release")
 
