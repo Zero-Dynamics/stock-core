@@ -21,8 +21,8 @@ For building the wallet see the markdown files in [doc](doc) folder
 | Block Spacing | `30 seconds` |
 | Stake Minimum Age | `2 hours` |
  | Stake Reward | `2 0DYNS per block` |
-| Port | `44440` |
-| RPC Port | `44444` |
+| Port | `88800` |
+| RPC Port | `88850` |
 
 ## Social Channels
 

@@ -127,13 +127,13 @@ def main():
     g.write(' * IPv4 as well as onion addresses are wrapped inside a IPv6 address accordingly.\n')
     g.write(' */\n')
     with open(os.path.join(indir,'nodes_main.txt'),'r') as f:
-        process_nodes(g, f, 'pnSeed6_main', 44440)
+        process_nodes(g, f, 'pnSeed6_main', 88800)
     g.write('\n')
     with open(os.path.join(indir,'nodes_test.txt'),'r') as f:
-        process_nodes(g, f, 'pnSeed6_test', 15556)
+        process_nodes(g, f, 'pnSeed6_test', 77700)
     g.write('\n')
     with open(os.path.join(indir,'nodes_dev.txt'),'r') as f:
-        process_nodes(g, f, 'pnSeed6_dev', 18886)
+        process_nodes(g, f, 'pnSeed6_dev', 99900)
     g.write('#endif // STOCK_CHAINPARAMSSEEDS_H\n')
             
 if __name__ == '__main__':

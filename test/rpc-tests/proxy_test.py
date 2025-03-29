@@ -114,24 +114,24 @@ class ProxyTest(StockTestFramework):
 
         if test_onion:
             # Test: outgoing onion connection through node
-            node.addnode("stockostk4e4re.onion:5556", "onetry")
+            node.addnode("stockostk4e4re.onion:88800", "onetry")
             cmd = proxies[2].queue.get()
             assert(isinstance(cmd, Socks5Command))
             assert_equal(cmd.atyp, AddressType.DOMAINNAME)
             assert_equal(cmd.addr, b"stockostk4e4re.onion")
-            assert_equal(cmd.port, 5556)
+            assert_equal(cmd.port, 88800)
             if not auth:
                 assert_equal(cmd.username, None)
                 assert_equal(cmd.password, None)
             rv.append(cmd)
 
         # Test: outgoing DNS name connection through node
-        node.addnode("node.noumenon:5556", "onetry")
+        node.addnode("node.noumenon:88800", "onetry")
         cmd = proxies[3].queue.get()
         assert(isinstance(cmd, Socks5Command))
         assert_equal(cmd.atyp, AddressType.DOMAINNAME)
         assert_equal(cmd.addr, b"node.noumenon")
-        assert_equal(cmd.port, 5556)
+        assert_equal(cmd.port, 88800)
         if not auth:
             assert_equal(cmd.username, None)
             assert_equal(cmd.password, None)

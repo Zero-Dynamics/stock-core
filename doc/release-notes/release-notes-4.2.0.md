@@ -22,8 +22,8 @@
 
 
 ## An additional network “devnet” is added.
-  - Default p2p port: 18886
-  - Default rpc port: 44446
+  - Default p2p port: 11100
+  - Default rpc port: 11111
   - Default datadir: OS_DATADIR/devnet
   - Enabled through argument -devnet=1
   

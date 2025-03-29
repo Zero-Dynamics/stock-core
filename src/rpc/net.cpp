@@ -208,8 +208,8 @@ UniValue addnode(const UniValue& params, bool fHelp)
             "1. \"node\"     (string, required) The node (see getpeerinfo for nodes)\n"
             "2. \"command\"  (string, required) 'add' to add a node to the list, 'remove' to remove a node from the list, 'onetry' to try a connection to the node once\n"
             "\nExamples:\n"
-            + HelpExampleCli("addnode", "\"192.168.0.6:5556\" \"onetry\"")
-            + HelpExampleRpc("addnode", "\"192.168.0.6:5556\", \"onetry\"")
+            + HelpExampleCli("addnode", "\"192.168.0.6:88800\" \"onetry\"")
+            + HelpExampleRpc("addnode", "\"192.168.0.6:88800\", \"onetry\"")
         );
 
     std::string strNode = params[0].get_str();
@@ -252,8 +252,8 @@ UniValue disconnectnode(const UniValue& params, bool fHelp)
             "\nArguments:\n"
             "1. \"node\"     (string, required) The node (see getpeerinfo for nodes)\n"
             "\nExamples:\n"
-            + HelpExampleCli("disconnectnode", "\"192.168.0.6:5556\"")
-            + HelpExampleRpc("disconnectnode", "\"192.168.0.6:5556\"")
+            + HelpExampleCli("disconnectnode", "\"192.168.0.6:88800\"")
+            + HelpExampleRpc("disconnectnode", "\"192.168.0.6:88800\"")
         );
 
     CNode* pNode = FindNode(params[0].get_str());
@@ -282,7 +282,7 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
             "    \"connected\" : true|false,          (boolean) If connected\n"
             "    \"addresses\" : [                    (list of objects) Only when connected = true\n"
             "       {\n"
-            "         \"address\" : \"192.168.0.201:5556\",  (string) The stock server IP and port we're connected to\n"
+            "         \"address\" : \"192.168.0.201:88800\",  (string) The stock server IP and port we're connected to\n"
             "         \"connected\" : \"outbound\"           (string) connection, inbound or outbound\n"
             "       }\n"
             "     ]\n"

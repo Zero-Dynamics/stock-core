@@ -283,7 +283,7 @@ public:
         pchMessageStart[1] = 0x50;
         pchMessageStart[2] = 0x34;
         pchMessageStart[3] = 0x20;
-        nDefaultPort = 44440;
+        nDefaultPort = 88800;
         nPruneAfterHeight = 100000;
         bnProofOfWorkLimit = arith_uint256(~arith_uint256() >> 16);
 
@@ -561,7 +561,7 @@ public:
         pchMessageStart[1] = 0x24;
         pchMessageStart[2] = 0xf2;
         pchMessageStart[3] = 0x07;
-        nDefaultPort = 15556;
+        nDefaultPort = 77700;
         nPruneAfterHeight = 1000;
         bnProofOfWorkLimit = arith_uint256(~arith_uint256() >> 16);
 
@@ -818,7 +818,7 @@ public:
         pchMessageStart[1] = 0xb3;
         pchMessageStart[2] = 0x89;
         pchMessageStart[3] = 0xfa;
-        nDefaultPort = 18886;
+        nDefaultPort = 11100;
         nPruneAfterHeight = 1000;
         bnProofOfWorkLimit = arith_uint256(~arith_uint256() >> 16);
 
@@ -1085,7 +1085,7 @@ public:
         pchMessageStart[1] = 0x11;
         pchMessageStart[2] = 0xb7;
         pchMessageStart[3] = 0x89;
-        nDefaultPort = 18886;
+        nDefaultPort = 99900;
         nPruneAfterHeight = 1000;
         bnProofOfWorkLimit = arith_uint256(~arith_uint256() >> 16);
 

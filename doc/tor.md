@@ -42,11 +42,11 @@ reachable from the Tor network. Add these lines to your /etc/tor/torrc (or equiv
 config file):
 
 	HiddenServiceDir /var/lib/tor/stock-service/
-	HiddenServicePort 5556 127.0.0.1:8333
-	HiddenServicePort 15556 127.0.0.1:18333
+	HiddenServicePort 88800 127.0.0.1:8333
+	HiddenServicePort 77700 127.0.0.1:18333
 
 The directory can be different of course, but (both) port numbers should be equal to
-your stockd's P2P listen port (5556 by default).
+your stockd's P2P listen port (88800 by default).
 
 	-externalip=X   You can tell stock about its publicly reachable address using
 	                this option, and this can be a .onion address. Given the above
@@ -81,7 +81,7 @@ as well, use `discover` instead:
 
 	./stockd ... -discover
 
-and open port 5556 on your firewall (or use -upnp).
+and open port 88800 on your firewall (or use -upnp).
 
 If you only want to use Tor to reach onion addresses, but not use it as a proxy
 for normal IPv4/IPv6 communication, use:
