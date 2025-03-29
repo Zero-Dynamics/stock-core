@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(MempoolIndexingTest)
     CMutableTransaction tx2 = CMutableTransaction();
     tx2.vout.resize(1);
     tx2.vout[0].scriptPubKey = CScript() << OP_11 << OP_EQUAL;
-    tx2.vout[0].nValue = 2 * COIN;
+    tx2.vout[0].nValue = 1 * COIN;
     pool.addUnchecked(tx2.GetHash(), entry.Fee(20000LL).Priority(9.0).FromTx(tx2));
 
     /* lowest fee */
@@ -335,7 +335,7 @@ BOOST_AUTO_TEST_CASE(MempoolAncestorIndexingTest)
     CMutableTransaction tx2 = CMutableTransaction();
     tx2.vout.resize(1);
     tx2.vout[0].scriptPubKey = CScript() << OP_11 << OP_EQUAL;
-    tx2.vout[0].nValue = 2 * COIN;
+    tx2.vout[0].nValue = 1 * COIN;
     pool.addUnchecked(tx2.GetHash(), entry.Fee(20000LL).Priority(9.0).FromTx(tx2));
     uint64_t tx2Size = GetVirtualTransactionSize(tx2);
 
