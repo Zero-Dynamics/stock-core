@@ -87,44 +87,44 @@ public:
     CMainParams() {
         strNetworkID = "main";
         consensus.nSubsidyHalvingInterval = 210000;
-        consensus.nMajorityEnforceBlockUpgrade = 750;
-        consensus.nMajorityRejectBlockOutdated = 950;
-        consensus.nMajorityWindow = 1000;
-        consensus.BIP34Height = 900000;
+        consensus.nMajorityEnforceBlockUpgrade = 90;
+        consensus.nMajorityRejectBlockOutdated = 114;
+        consensus.nMajorityWindow = 120;
+        consensus.BIP34Height = 21600;
         consensus.BIP34Hash = uint256S("0xecb7444214d068028ec1fa4561662433452c1cbbd6b0f8eeb6452bcfa1d0a7d6");
         consensus.powLimit = ArithToUint256(~arith_uint256(0) >> 16);
-        consensus.nPowTargetTimespan = 30;
-        consensus.nPowTargetSpacing = 30;
+        consensus.nPowTargetTimespan = 240;
+        consensus.nPowTargetSpacing = 240;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 15120; // 75% of 20160
-        consensus.nMinerConfirmationWindow = 20160;
-        consensus.nStakeMinAge = 60 * 60 * 2;	// minimum for coin age: 2 hours
-        consensus.nTargetSpacing = 30; // Blocktime: 30 secs
+        consensus.nRuleChangeActivationThreshold = 4788; // 95% of 5040
+        consensus.nMinerConfirmationWindow = 5040;
+        consensus.nStakeMinAge = 60 * 60 * 6;	// minimum for coin age: 6 hours
+        consensus.nTargetSpacing = 240; // Blocktime: 240 secs
         consensus.nStakeCombineThreshold = 1000 * COIN;
         consensus.nStakeSplitThreshold = 1 * consensus.nStakeCombineThreshold;
         consensus.nDailyBlockCount =  (24 * 60 * 60) / consensus.nTargetSpacing;
-        consensus.nModifierInterval = 10 * 60; // time to elapse before new modifier is computed
-        consensus.nTargetTimespan = 25 * 30;
-        consensus.nLastPOWBlock = 20000;
+        consensus.nModifierInterval = 20 * 60; // time to elapse before new modifier is computed
+        consensus.nTargetTimespan = 15 * 240;
+        consensus.nLastPOWBlock = 2160;
         consensus.nMinimumQuorumFirstHalf = 0.5;
         consensus.nMinimumQuorumSecondHalf = 0.4;
-        consensus.nCommunityFundMinAge = 50;
+        consensus.nCommunityFundMinAge = 30;
         consensus.sigActivationTime = 1512990000;
-        consensus.nCoinbaseTimeActivationHeight = 20000;
+        consensus.nCoinbaseTimeActivationHeight = 2520;
         consensus.nCommunityFundAmount = 0.25 * COIN;
         consensus.nPaymentRequestMaxVersion = CPaymentRequest::ALL_VERSION;
         consensus.nProposalMaxVersion = CProposal::ALL_VERSION;
         consensus.nConsultationMaxVersion = CConsultation::ALL_VERSION;
         consensus.nConsultationAnswerMaxVersion = CConsultationAnswer::ALL_VERSION;
         consensus.nMaxFutureDrift = 60;
-        consensus.nHeightv451Fork = 2722100;
-        consensus.nHeightv452Fork = 2882875;
+        consensus.nHeightv451Fork = 360;
+        consensus.nHeightv452Fork = 360;
         consensus.fDaoClientActivated = true;
 
         consensus.nConsensusChangeMinAccept = 7500;
 
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_VOTING_CYCLE_LENGTH].value = 2880 * 7; // 7 Days
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_VOTING_CYCLE_LENGTH].value = 7 * 360; // 7 Days
         consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MIN_QUORUM].value = 5000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MIN_QUORUM].value = 5000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_SUPPORT].value = 150;
@@ -139,22 +139,22 @@ public:
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_FEE].value = 800000000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_ANSWER_MIN_FEE].value = 88000000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_FUND_SPREAD_ACCUMULATION].value = 500;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MAX_VOTING_CYCLES].value = 6;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MAX_VOTING_CYCLES].value = 8;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_VOTING_CYCLES].value = 4;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_SUPPORT_CYCLES].value = 4;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_FUND_PERCENT_PER_BLOCK].value = 110000 / 111;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MAX_VOTING_CYCLES].value = 7;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MAX_VOTING_CYCLES].value = 13;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_VOTING_CYCLES].value = 13 / 3;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_SUPPORT_CYCLES].value = 13 / 3;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_REFLECTION_LENGTH].value = 1;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_GENERATION_PER_BLOCK].value = 8.88 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_STOCKNS_FEE].value = 10 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DAO_VOTE_LIGHT_MIN_FEE].value = 0.1 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_CONFIDENTIAL_TOKENS_ENABLED].value = 0;
-        consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_LENGTH].value = 2880 * 400; // 400 days
+        consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_LENGTH].value = 364 * 360; // 52 Weeks
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_MAXDATA].value = 1024; // 1KB
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_FEE_EXTRADATA].value = 5 * COIN;
 
         /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
-        consensus.nCoinbaseMaturity = 50;
+        consensus.nCoinbaseMaturity = 15;
 
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
@@ -374,47 +374,47 @@ public:
     CTestNetParams() {
         strNetworkID = "test";
         consensus.nSubsidyHalvingInterval = 210000;
-        consensus.nMajorityEnforceBlockUpgrade = 750;
-        consensus.nMajorityRejectBlockOutdated = 950;
-        consensus.nMajorityWindow = 1000;
-        consensus.BIP34Height = 900000;
+        consensus.nMajorityEnforceBlockUpgrade = 90;
+        consensus.nMajorityRejectBlockOutdated = 114;
+        consensus.nMajorityWindow = 120;
+        consensus.BIP34Height = 21600;
         consensus.BIP34Hash = uint256S("0xecb7444214d068028ec1fa4561662433452c1cbbd6b0f8eeb6452bcfa1d0a7d6");
         consensus.powLimit = ArithToUint256(~arith_uint256(0) >> 16);
-        consensus.nPowTargetTimespan = 30;
-        consensus.nPowTargetSpacing = 30;
+        consensus.nPowTargetTimespan = 240;
+        consensus.nPowTargetSpacing = 240;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 300; // 75% of 400
-        consensus.nMinerConfirmationWindow = 400;
+        consensus.nRuleChangeActivationThreshold = 4788; // 95% of 5040
+        consensus.nMinerConfirmationWindow = 5040;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
-        consensus.nStakeMinAge = 2;	// minimum for coin age: 2 seconds
-        consensus.nTargetSpacing = 30; // Blocktime: 30 secs
+        consensus.nStakeMinAge = 60 * 60 * 6;	// minimum for coin age: 6 hours
+        consensus.nTargetSpacing = 240; // Blocktime: 240 secs
         consensus.nStakeCombineThreshold = 1000 * COIN;
         consensus.nStakeSplitThreshold = 2 * consensus.nStakeCombineThreshold;
         consensus.nDailyBlockCount =  (24 * 60 * 60) / consensus.nTargetSpacing;
-        consensus.nModifierInterval = 10 * 60; // time to elapse before new modifier is computed
-        consensus.nTargetTimespan = 25 * 30;
-        consensus.nLastPOWBlock = 1000000;
+        consensus.nModifierInterval = 20 * 60; // time to elapse before new modifier is computed
+        consensus.nTargetTimespan = 15 * 240;
+        consensus.nLastPOWBlock = 2160;
         consensus.nMinimumQuorumFirstHalf = 0.5;
         consensus.nMinimumQuorumSecondHalf = 0.4;
-        consensus.nCommunityFundMinAge = 5;
+        consensus.nCommunityFundMinAge = 30;
         consensus.sigActivationTime = 1512826692;
-        consensus.nCoinbaseTimeActivationHeight = 30000;
+        consensus.nCoinbaseTimeActivationHeight = 2520;
         consensus.nCommunityFundAmount = 0.25 * COIN;
         consensus.nPaymentRequestMaxVersion = CPaymentRequest::ALL_VERSION;
         consensus.nProposalMaxVersion = CProposal::ALL_VERSION;
         consensus.nConsultationMaxVersion = CConsultation::ALL_VERSION;
         consensus.nConsultationAnswerMaxVersion = CConsultationAnswer::ALL_VERSION;
         consensus.nMaxFutureDrift = 60;
-        consensus.nHeightv451Fork = 100000;
-        consensus.nHeightv452Fork = 100000;
+        consensus.nHeightv451Fork = 360;
+        consensus.nHeightv452Fork = 360;
         consensus.fDaoClientActivated = true;
 
         consensus.nConsensusChangeMinAccept = 7500;
 
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_VOTING_CYCLE_LENGTH].value = 180;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_VOTING_CYCLE_LENGTH].value = 7 * 360; // 7 Days
         consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MIN_QUORUM].value = 5000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MIN_QUORUM].value = 5000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_SUPPORT].value = 150;
@@ -429,22 +429,22 @@ public:
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_FEE].value = 800000000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_ANSWER_MIN_FEE].value = 88000000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_FUND_SPREAD_ACCUMULATION].value = 500;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MAX_VOTING_CYCLES].value = 6;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MAX_VOTING_CYCLES].value = 8;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_VOTING_CYCLES].value = 4;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_SUPPORT_CYCLES].value = 4;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_FUND_PERCENT_PER_BLOCK].value = 110000 / 111;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MAX_VOTING_CYCLES].value = 7;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MAX_VOTING_CYCLES].value = 13;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_VOTING_CYCLES].value = 13 / 3;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_SUPPORT_CYCLES].value = 13 / 3;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_REFLECTION_LENGTH].value = 1;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_GENERATION_PER_BLOCK].value = 8.88 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_STOCKNS_FEE].value = 10 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DAO_VOTE_LIGHT_MIN_FEE].value = 0.1 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_CONFIDENTIAL_TOKENS_ENABLED].value = 1;
-        consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_LENGTH].value = 2880 * 400; // 400 days
+        consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_LENGTH].value = 364 * 360; // 52 Weeks
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_MAXDATA].value = 1024; // 1KB
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_FEE_EXTRADATA].value = 5 * COIN;
 
         /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
-        consensus.nCoinbaseMaturity = 50;
+        consensus.nCoinbaseMaturity = 15;
 
         // Deployment of BIP68, BIP112, and BIP113.
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
@@ -632,32 +632,32 @@ public:
     CDevNetParams() {
         strNetworkID = "dev";
         consensus.nSubsidyHalvingInterval = 210000;
-        consensus.nMajorityEnforceBlockUpgrade = 750;
-        consensus.nMajorityRejectBlockOutdated = 950;
-        consensus.nMajorityWindow = 1000;
-        consensus.BIP34Height = 900000;
+        consensus.nMajorityEnforceBlockUpgrade = 90;
+        consensus.nMajorityRejectBlockOutdated = 114;
+        consensus.nMajorityWindow = 120;
+        consensus.BIP34Height = 21600;
         consensus.BIP34Hash = uint256S("0x0");
         consensus.powLimit = ArithToUint256(~arith_uint256(0) >> 16);
         consensus.nPowTargetTimespan = 30;
         consensus.nPowTargetSpacing = 30;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 75; // 75% of 400
+        consensus.nRuleChangeActivationThreshold = 75; // 75% of 100
         consensus.nMinerConfirmationWindow = 100;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
-        consensus.nStakeMinAge = 2;	// minimum for coin age: 2 seconds
-        consensus.nTargetSpacing = 5; // Blocktime: 5 secs
+        consensus.nStakeMinAge = 8;	// minimum for coin age: 8 seconds
+        consensus.nTargetSpacing = 30; // Blocktime: 30 secs
         consensus.nStakeCombineThreshold = 1000 * COIN;
         consensus.nStakeSplitThreshold = 2 * consensus.nStakeCombineThreshold;
         consensus.nDailyBlockCount =  (24 * 60 * 60) / consensus.nTargetSpacing;
-        consensus.nModifierInterval = 10 * 60; // time to elapse before new modifier is computed
-        consensus.nTargetTimespan = 25 * 30;
-        consensus.nLastPOWBlock = 100000;
+        consensus.nModifierInterval = 20 * 60; // time to elapse before new modifier is computed
+        consensus.nTargetTimespan = 6 * 60;
+        consensus.nLastPOWBlock = 30 * 60;
         consensus.nMinimumQuorumFirstHalf = 0.5;
         consensus.nMinimumQuorumSecondHalf = 0.4;
-        consensus.nCommunityFundMinAge = 5;
+        consensus.nCommunityFundMinAge = 3;
         consensus.sigActivationTime = 1512826692;
         consensus.nCoinbaseTimeActivationHeight = 0;
         consensus.nCommunityFundAmount = 0.25 * COIN;
@@ -666,13 +666,13 @@ public:
         consensus.nConsultationMaxVersion = CConsultation::ALL_VERSION;
         consensus.nConsultationAnswerMaxVersion = CConsultationAnswer::ALL_VERSION;
         consensus.nMaxFutureDrift = 60000;
-        consensus.nHeightv451Fork = 1000;
-        consensus.nHeightv452Fork = 1000;
+        consensus.nHeightv451Fork = 120;
+        consensus.nHeightv452Fork = 120;
         consensus.fDaoClientActivated = true;
 
         consensus.nConsensusChangeMinAccept = 7500;
 
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_VOTING_CYCLE_LENGTH].value = 10;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_VOTING_CYCLE_LENGTH].value = 120; // 1 hours
         consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MIN_QUORUM].value = 5000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MIN_QUORUM].value = 5000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_SUPPORT].value = 150;
@@ -687,22 +687,22 @@ public:
         consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MIN_FEE].value = 0;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_ANSWER_MIN_FEE].value = 800000000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_FUND_SPREAD_ACCUMULATION].value = 500;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MAX_VOTING_CYCLES].value = 6;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MAX_VOTING_CYCLES].value = 8;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_VOTING_CYCLES].value = 4;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_SUPPORT_CYCLES].value = 4;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_FUND_PERCENT_PER_BLOCK].value = 110000 / 111;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MAX_VOTING_CYCLES].value = 7;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MAX_VOTING_CYCLES].value = 13;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_VOTING_CYCLES].value = 13 / 3;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_SUPPORT_CYCLES].value = 13 / 3;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_REFLECTION_LENGTH].value = 1;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_GENERATION_PER_BLOCK].value = 8.88 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_STOCKNS_FEE].value = 10 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DAO_VOTE_LIGHT_MIN_FEE].value = 0.1 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_CONFIDENTIAL_TOKENS_ENABLED].value = 1;
-        consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_LENGTH].value = 400; // 400 blocks
+        consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_LENGTH].value = 364 * 2880; // 52 Weeks
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_MAXDATA].value = 1024; // 1KB
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_FEE_EXTRADATA].value = 5 * COIN;
 
         /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
-        consensus.nCoinbaseMaturity = 5;
+        consensus.nCoinbaseMaturity = 10;
 
         // Deployment of BIP68, BIP112, and BIP113.
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
@@ -899,10 +899,10 @@ public:
     CRegTestParams() {
         strNetworkID = "regtest";
         consensus.nSubsidyHalvingInterval = 210000;
-        consensus.nMajorityEnforceBlockUpgrade = 750;
-        consensus.nMajorityRejectBlockOutdated = 950;
-        consensus.nMajorityWindow = 1000;
-        consensus.BIP34Height = 900000;
+        consensus.nMajorityEnforceBlockUpgrade = 90;
+        consensus.nMajorityRejectBlockOutdated = 114;
+        consensus.nMajorityWindow = 120;
+        consensus.BIP34Height = 21600;
         consensus.BIP34Hash = uint256S("0xecb7444214d068028ec1fa4561662433452c1cbbd6b0f8eeb6452bcfa1d0a7d6");
         consensus.powLimit = ArithToUint256(~arith_uint256(0) >> 1);
         consensus.nPowTargetTimespan = 30;
@@ -914,17 +914,17 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
-        consensus.nStakeMinAge = 2;	// minimum for coin age: 2 seconds
+        consensus.nStakeMinAge = 8;	// minimum for coin age: 8 seconds
         consensus.nTargetSpacing = 30; // Blocktime: 30 secs
         consensus.nStakeCombineThreshold = 1000 * COIN;
         consensus.nStakeSplitThreshold = 2 * consensus.nStakeCombineThreshold;
         consensus.nDailyBlockCount =  (24 * 60 * 60) / consensus.nTargetSpacing;
-        consensus.nModifierInterval = 10 * 60; // time to elapse before new modifier is computed
-        consensus.nTargetTimespan = 25 * 30;
-        consensus.nLastPOWBlock = 100000;
+        consensus.nModifierInterval = 20 * 60; // time to elapse before new modifier is computed
+        consensus.nTargetTimespan = 6 * 60;
+        consensus.nLastPOWBlock = 30 * 60;
         consensus.nMinimumQuorumFirstHalf = 0.5;
         consensus.nMinimumQuorumSecondHalf = 0.4;
-        consensus.nCommunityFundMinAge = 5;
+        consensus.nCommunityFundMinAge = 3;
         consensus.sigActivationTime = 0;
         consensus.nCoinbaseTimeActivationHeight = 0;
         consensus.nCommunityFundAmount = 0.25 * COIN;
@@ -933,13 +933,13 @@ public:
         consensus.nConsultationMaxVersion = CConsultation::ALL_VERSION;
         consensus.nConsultationAnswerMaxVersion = CConsultationAnswer::ALL_VERSION;
         consensus.nMaxFutureDrift = 60000;
-        consensus.nHeightv451Fork = 1000;
-        consensus.nHeightv452Fork = 1000;
+        consensus.nHeightv451Fork = 120;
+        consensus.nHeightv452Fork = 120;
         consensus.fDaoClientActivated = true;
 
         consensus.nConsensusChangeMinAccept = 7500;
 
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_VOTING_CYCLE_LENGTH].value = 180;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_VOTING_CYCLE_LENGTH].value = 120;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MIN_QUORUM].value = 5000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MIN_QUORUM].value = 5000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_SUPPORT].value = 150;
@@ -954,22 +954,22 @@ public:
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MIN_FEE].value = 88000000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_ANSWER_MIN_FEE].value = 800000000;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_FUND_SPREAD_ACCUMULATION].value = 500;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MAX_VOTING_CYCLES].value = 6;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MAX_VOTING_CYCLES].value = 8;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_VOTING_CYCLES].value = 4;
-        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_SUPPORT_CYCLES].value = 4;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_FUND_PERCENT_PER_BLOCK].value = 110000 / 111;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_PROPOSAL_MAX_VOTING_CYCLES].value = 7;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_PAYMENT_REQUEST_MAX_VOTING_CYCLES].value = 13;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_VOTING_CYCLES].value = 13 / 3;
+        consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_MAX_SUPPORT_CYCLES].value = 13 / 3;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_CONSULTATION_REFLECTION_LENGTH].value = 1;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_GENERATION_PER_BLOCK].value = 8.88 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAM_STOCKNS_FEE].value = 10 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DAO_VOTE_LIGHT_MIN_FEE].value = 0.1 * COIN;
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_CONFIDENTIAL_TOKENS_ENABLED].value = 1;
-        consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_LENGTH].value = 2880 * 400; // 400 days
+        consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_LENGTH].value = 364 * 2880; // 52 Weeks
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_MAXDATA].value = 1024; // 1KB
         consensus.vParameters[Consensus::CONSENSUS_PARAMS_DOTSTOCK_FEE_EXTRADATA].value = 5 * COIN;
 
         /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
-        consensus.nCoinbaseMaturity = 50;
+        consensus.nCoinbaseMaturity = 10;
 
         // Deployment of BIP68, BIP112, and BIP113.
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
